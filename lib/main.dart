@@ -1,7 +1,8 @@
+import 'package:diabetes_app/screens/home_screen.dart';
 import 'package:diabetes_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './service/auth.dart';
+import './providers/auth.dart';
 
 void main() => runApp(MyApp());
 
@@ -29,9 +30,10 @@ class _MyAppState extends State<MyApp> {
             primaryColor: Color(0xFF7f70e7),
             accentColor: Color(0xFF7f70e7),
           ),
-          home: LoginScreen(),
+          home: auth.handleAuth(),
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
+            HomeScreen.routeName: (ctx) => HomeScreen(),
           },
         ),
       ),

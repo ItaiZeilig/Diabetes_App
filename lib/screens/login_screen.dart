@@ -1,4 +1,4 @@
-import 'package:diabetes_app/service/auth.dart';
+import 'package:diabetes_app/providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -58,8 +58,8 @@ class _LoginScreenState extends State<LoginScreen>
             _authData['email'].trim(), _authData['password'].trim());
       } else {
         // Sign user up
-        // await auth.signUp(_authData['email'].trim(),
-        //     _authData['password'].trim(), _authData['name']);
+        auth.signUp(_authData['email'].trim(), _authData['password'].trim(), _authData['name']);
+
       }
     } catch (error) {
       _showErrorDialog(error.message);
@@ -69,6 +69,8 @@ class _LoginScreenState extends State<LoginScreen>
     }
     setState(() {
       _isLoading = false;
+      _formKey.currentState.reset();
+      _switchAuthMode();
     });
   }
 
@@ -98,11 +100,6 @@ class _LoginScreenState extends State<LoginScreen>
               alignment: Alignment.center,
               child: Column(
                 children: <Widget>[
-                  Container(
-                    child: Image.asset('assets/images/logo.png'),
-                    width: 120,
-                    height: 120,
-                  ),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -116,6 +113,7 @@ class _LoginScreenState extends State<LoginScreen>
                             labelText: 'E-Mail',
                           ),
                           keyboardType: TextInputType.emailAddress,
+                          // ignore: missing_return
                           validator: (value) {
                             if (value.isEmpty || !value.contains('@')) {
                               return 'Invalid email!';
@@ -138,6 +136,7 @@ class _LoginScreenState extends State<LoginScreen>
                           onFieldSubmitted: (_) {
                             _submit();
                           },
+                          // ignore: missing_return
                           validator: (value) {
                             if (value.isEmpty || value.length < 5) {
                               return 'Password is too short!';
@@ -160,30 +159,30 @@ class _LoginScreenState extends State<LoginScreen>
                                 obscureText: true,
                                 validator: _authMode == AuthMode.Signup
                                     ? (value) {
-                                        if (value != _passwordController.text) {
-                                          return 'Passwords do not match!';
-                                        }
-                                      }
+                                  if (value != _passwordController.text) {
+                                    return 'Passwords do not match!';
+                                  }
+                                }
                                     : null,
                               ),
-                       TextFormField(
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            labelText: 'Display Name',
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value.isEmpty ) {
-                              return 'Invalid Display Name!';
-                            }
-                          },
-                          onSaved: (value) {
-                            _authData['name'] = value;
-                          },
-                        ),
+                              TextFormField(
+                                cursorColor: Theme.of(context).primaryColor,
+                                decoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  labelText: 'Display Name',
+                                ),
+                                keyboardType: TextInputType.emailAddress,
+                                validator: (value) {
+                                  if (value.isEmpty ) {
+                                    return 'Invalid Display Name!';
+                                  }
+                                },
+                                onSaved: (value) {
+                                  _authData['name'] = value;
+                                },
+                              ),
                             ],
                           ),
                         SizedBox(
@@ -240,10 +239,6 @@ class _LoginScreenState extends State<LoginScreen>
                 ],
               ),
             ),
-            // Container(
-            //   alignment: Alignment.bottomCenter,
-            //   child: BottomWaveWidget(),
-            // ),
           ],
         ),
       ),

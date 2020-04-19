@@ -2,9 +2,50 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>diabetes_app</title>
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="itay_test">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+
+  <title>itay_test</title>
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js');
+      });
+    }
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-storage.js"></script>
+  <script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyCY3CrFGpCdYpX9ruyp_GvYfIN5oazrfkE",
+    authDomain: "itaytest-1a76b.firebaseapp.com",
+    databaseURL: "https://itaytest-1a76b.firebaseio.com",
+    projectId: "itaytest-1a76b",
+    storageBucket: "itaytest-1a76b.appspot.com",
+    messagingSenderId: "761828077641",
+    appId: "1:761828077641:web:55a91e2de35acd03e74f98",
+    measurementId: "G-MS8XD7T8JV"
+  };
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
