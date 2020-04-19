@@ -1,6 +1,6 @@
 {
-    "name": "itay_test",
-    "short_name": "itay_test",
+    "name": "diabetes_app",
+    "short_name": "diabetes_app",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#0175C2",
