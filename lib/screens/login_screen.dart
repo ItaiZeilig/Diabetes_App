@@ -158,11 +158,7 @@ class _LoginScreenState extends State<LoginScreen>
                                     labelText: 'Confirm Password'),
                                 obscureText: true,
                                 validator: _authMode == AuthMode.Signup
-                                    ? (value) {
-                                  if (value != _passwordController.text) {
-                                    return 'Passwords do not match!';
-                                  }
-                                }
+                                    ? (value) => value != _passwordController.text ? 'Passwords not match' : ''
                                     : null,
                               ),
                               TextFormField(
@@ -174,11 +170,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   labelText: 'Display Name',
                                 ),
                                 keyboardType: TextInputType.emailAddress,
-                                validator: (value) {
-                                  if (value.isEmpty ) {
-                                    return 'Invalid Display Name!';
-                                  }
-                                },
+                                validator: (value) => value.isEmpty ? 'Display Name is not valid' : null,
                                 onSaved: (value) {
                                   _authData['name'] = value;
                                 },
