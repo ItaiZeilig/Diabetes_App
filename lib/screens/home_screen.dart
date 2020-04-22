@@ -32,7 +32,18 @@ class HomeScreen extends StatelessWidget {
                     CircleAvatar(
                       backgroundImage: NetworkImage(
                           "https://p7.hiclipart.com/preview/14/65/239/ico-avatar-scalable-vector-graphics-icon-doctor-with-stethoscope.jpg"),
-                    )
+                    ),
+                    MaterialButton(
+                      onPressed: () => auth.logOut(),
+                      splashColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        'Sign Out',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               )

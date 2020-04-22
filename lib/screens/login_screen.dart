@@ -158,8 +158,8 @@ class _LoginScreenState extends State<LoginScreen>
                                     labelText: 'Confirm Password'),
                                 obscureText: true,
                                 validator: _authMode == AuthMode.Signup
-                                    ? (value) => value != _passwordController.text ? 'Passwords not match' : ''
-                                    : null,
+                                    ? (value) => value != _passwordController.text ? 'Passwords not match' : null
+                                    : null ,
                               ),
                               TextFormField(
                                 cursorColor: Theme.of(context).primaryColor,

@@ -17,6 +17,10 @@ class Auth with ChangeNotifier {
     return _user.uid;
   }
 
+  Future<void> logOut() async {
+    await _firebaseAuth.signOut();
+  }
+
   Future<String> signUp(String email, String password,String displayName) async {
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
