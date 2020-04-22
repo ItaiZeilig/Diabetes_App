@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "223092174927",
-    "firebase_url": "https://doctorapp-f4fbe.firebaseio.com",
-    "project_id": "doctorapp-f4fbe",
-    "storage_bucket": "doctorapp-f4fbe.appspot.com"
+    "project_number": "478463150944",
+    "firebase_url": "https://diabetesapp-6f42d.firebaseio.com",
+    "project_id": "diabetesapp-6f42d",
+    "storage_bucket": "diabetesapp-6f42d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:223092174927:android:678ea1bf11cdc91032ba3a",
+        "mobilesdk_app_id": "1:478463150944:android:642977b825e19d79b6ec05",
         "android_client_info": {
           "package_name": "com.example.diabetes_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "223092174927-rfjquei0ff2ko9q2v776k2vhut916p3v.apps.googleusercontent.com",
+          "client_id": "478463150944-v0gjutdn2b9vijt2p70kcknv55rmmsbq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCaDlNzwl9Fe8hLhWI6AkJ3jRiAzDyc_EE"
+          "current_key": "AIzaSyAY4LfKpwWxdu103bmF57FybmLuLmHdo_Q"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "223092174927-rfjquei0ff2ko9q2v776k2vhut916p3v.apps.googleusercontent.com",
+              "client_id": "478463150944-v0gjutdn2b9vijt2p70kcknv55rmmsbq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
