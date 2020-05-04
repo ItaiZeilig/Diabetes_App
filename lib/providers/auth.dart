@@ -10,24 +10,24 @@ class Auth with ChangeNotifier {
   final UserService userService = new UserService();
   FirebaseUser _user;
 
-  Future<String> signIn(String email, String password) async {
+  Future<void> signIn(String email, String password) async {
     AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     _user = result.user;
-    return _user.uid;
+    notifyListeners();
   }
 
   Future<void> logOut() async {
     await _firebaseAuth.signOut();
   }
 
-  Future<String> signUp(String email, String password,String displayName) async {
+  Future<void> signUp(String email, String password,String displayName) async {
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     _user = result.user;
     await userService.saveNewUser(email, displayName);
     await this.signIn(email, password);
-    return _user.uid;
+    notifyListeners();
   }
 
   handleAuth() {

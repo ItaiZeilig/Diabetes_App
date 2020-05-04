@@ -12,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen>
     with SingleTickerProviderStateMixin {
+
   Auth auth;
   AuthMode _authMode = AuthMode.Login;
   final _formKey = GlobalKey<FormState>();
@@ -54,8 +55,7 @@ class _LoginScreenState extends State<LoginScreen>
     try {
       if (_authMode == AuthMode.Login) {
         // Login User
-        await auth.signIn(
-            _authData['email'].trim(), _authData['password'].trim());
+        await auth.signIn(_authData['email'].trim(), _authData['password'].trim());
       } else {
         // Sign user up
         auth.signUp(_authData['email'].trim(), _authData['password'].trim(), _authData['name']);
@@ -70,7 +70,6 @@ class _LoginScreenState extends State<LoginScreen>
     setState(() {
       _isLoading = false;
       _formKey.currentState.reset();
-      _switchAuthMode();
     });
   }
 
