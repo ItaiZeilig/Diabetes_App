@@ -13,11 +13,12 @@ class Auth with ChangeNotifier {
 
   
 
-  Future<String> signIn(String email, String password) async {
+  Future<void> signIn(String email, String password) async {
     AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     user = result.user;
     return user.uid;
+    notifyListeners();
   }
 
   Future<void> logOut() async {
@@ -26,15 +27,17 @@ class Auth with ChangeNotifier {
 
 
   Future<String> signUp(String email, String password,String displayName) async {
+  Future<void> signUp(String email, String password,String displayName) async {
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     user = result.user;
     await userService.saveNewUser(user.uid, email, displayName);
     await this.signIn(email, password);
     return user.uid;
+    notifyListeners();
   }
 
-  handleAuth() {
+   handleAuth() {
     return StreamBuilder(
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (context, snapshot) {
@@ -48,4 +51,5 @@ class Auth with ChangeNotifier {
     );
   }
 
+}
 }
