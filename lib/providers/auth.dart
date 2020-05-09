@@ -26,7 +26,6 @@ class Auth with ChangeNotifier {
   }
 
 
-  Future<String> signUp(String email, String password,String displayName) async {
   Future<void> signUp(String email, String password,String displayName) async {
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
@@ -51,5 +50,4 @@ class Auth with ChangeNotifier {
     );
   }
 
-}
 }
