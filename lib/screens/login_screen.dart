@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     auth = Provider.of<Auth>(context);
-    final deviceSize = MediaQuery.of(context).size;
+    //final deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -205,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen>
                               onPressed: _switchAuthMode,
                               splashColor: Theme.of(context).primaryColor,
                               child: Text(
-                                'SignUp',
+                                '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   decoration: TextDecoration.underline,

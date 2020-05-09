@@ -1,4 +1,5 @@
-import 'package:diabetes_app/screens/home_screen.dart';
+
+import 'package:diabetes_app/screens/challenge_screen.dart';
 import 'package:diabetes_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,10 @@ class _MyAppState extends State<MyApp> {
           home: auth.handleAuth(),
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
-            HomeScreen.routeName: (ctx) => HomeScreen(),
+            //HomeScreen.routeName: (ctx) => HomeScreen(),
+            //DailyChallenge.routeName: (ctx) => DailyChallenge()
+            NewChallengeScreen.routeName: (ctx) => NewChallengeScreen()
+
           },
         ),
       ),
