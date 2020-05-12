@@ -1,5 +1,5 @@
+import 'package:diabetes_app/providers/user_service.dart';
 import 'package:diabetes_app/screens/challenge_screen.dart';
-import 'package:diabetes_app/services/user_service.dart';
 import 'package:diabetes_app/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -17,8 +17,8 @@ class Auth with ChangeNotifier {
     AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     user = result.user;
-    return user.uid;
     notifyListeners();
+    return user.uid;
   }
 
   Future<void> logOut() async {
@@ -26,14 +26,14 @@ class Auth with ChangeNotifier {
   }
 
 
-  Future<void> signUp(String email, String password,String displayName) async {
+  Future<void> signUp(String email, String password,String name) async {
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     user = result.user;
-    await userService.saveNewUser(user.uid, email, displayName);
+    await userService.createUser(user.uid , email, name);
+    notifyListeners();
     await this.signIn(email, password);
     return user.uid;
-    notifyListeners();
   }
 
    handleAuth() {
