@@ -1,7 +1,7 @@
 
-
+import 'package:diabetes_app/providers/user_service.dart';
 import 'package:diabetes_app/screens/challenge_screen.dart';
-import 'package:diabetes_app/screens/hcp_challenge_screen.dart';
+import 'package:diabetes_app/screens/home_screen.dart';
 import 'package:diabetes_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +23,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider.value(
           value: Auth(),
         ),
+        ChangeNotifierProvider.value(
+          value: UserService(),
+        ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
@@ -34,12 +37,9 @@ class _MyAppState extends State<MyApp> {
             primaryColor: Color(0xFF7f70e7),
             accentColor: Color(0xFF7f70e7),
           ),
-          //home: auth.handleAuth(),
-          home: HCPChallengeScreen(),
+          home: auth.handleAuth(),
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
-            //HomeScreen.routeName: (ctx) => HomeScreen(),
-            //DailyChallenge.routeName: (ctx) => DailyChallenge()
             NewChallengeScreen.routeName: (ctx) => NewChallengeScreen()
 
           },

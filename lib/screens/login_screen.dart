@@ -55,10 +55,10 @@ class _LoginScreenState extends State<LoginScreen>
     try {
       if (_authMode == AuthMode.Login) {
         // Login User
-        await auth.signIn(_authData['email'].trim(), _authData['password'].trim());
+        await auth.signIn(email: _authData['email'].trim(), password: _authData['password'].trim());
       } else {
         // Sign user up
-        auth.signUp(_authData['email'].trim(), _authData['password'].trim(), _authData['name']);
+        auth.signUp(email: _authData['email'].trim(), password: _authData['password'].trim(), name: _authData['name']);
 
       }
     } catch (error) {
