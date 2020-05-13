@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/providers/auth.dart';
 import 'package:diabetes_app/providers/user_service.dart';
 import 'package:diabetes_app/screens/daily_challenge_screen.dart';
+import 'package:diabetes_app/screens/hcp_challenge_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:diabetes_app/widgets/home_screen/category.dart';
@@ -127,6 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 DailyChallenge.routeName,
                                 "daily_challenges_icon.png"),
                             SingleCategory("Chat", DailyChallenge.routeName,
+                                "chat_icon.png"),
+                            SingleCategory("Search", HCPChallengeScreen.routeName,
                                 "chat_icon.png"),
                           ],
                         ),

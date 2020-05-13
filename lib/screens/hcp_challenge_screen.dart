@@ -6,7 +6,7 @@ import 'package:diabetes_app/providers/auth.dart';
 import 'package:diabetes_app/dailyChallenge/challenge.dart';
 
 class HCPChallengeScreen extends StatefulWidget {
-  static const routeName = '/dailyCallenge';
+  static const routeName = '/hcpChallenge';
 
   @override
   _HCPChallengeScreenState createState() => _HCPChallengeScreenState();
