@@ -34,8 +34,18 @@ class _DailyChallenge extends State<DailyChallenge> {
     return StreamProvider<List<Challenge>>.value(
       value: ChallengeService().reciveAllChallengesFromDB,
       child: Scaffold(
-        appBar: AppBar(
+         appBar: AppBar(
           title: Text('Daily Challenge Screen'),
+          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 0.0,
+          actions: <Widget>[
+            // FlatButton.icon(
+            //     onPressed: () async {
+            //       await _auth.logOut();
+            //     },
+            //     icon: Icon(Icons.person),
+            //     label: Text('Logout'))
+          ],
         ),
         body: new RefreshIndicator(
           child: Column(
@@ -62,24 +72,7 @@ class _DailyChallenge extends State<DailyChallenge> {
               )
               ),
 
-              ChallengeList(), // REMOVE THE COMMAND TO SEE THE LIST OF CHALLENGES 
-              /*
-              ButtonTheme(
-                minWidth: 300.0,
-                child: RaisedButton(
-                  color: Color(0xFFc1b7f3),
-                  onPressed: (null),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Text(
-                    'Your Score is:',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                ),
-              ),
-            */
-
+              //ChallengeList(), 
               MaterialButton(
                 onPressed: () => auth.logOut(),
                 splashColor: Theme.of(context).primaryColor,

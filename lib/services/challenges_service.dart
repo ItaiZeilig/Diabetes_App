@@ -34,6 +34,12 @@ final String uid;
   Stream<List<Challenge>> get reciveAllChallengesFromDB {
     return allChallenges.snapshots().map(_challengeListFromSpanshot);
   }
+
+  Future<List<Challenge>> reciveAllChallengesFromDBFuture() async {
+    var snapshot = await allChallenges.getDocuments();
+    var answer = _challengeListFromSpanshot(snapshot);
+    return answer;
+  }
 }
 
 
@@ -45,37 +51,4 @@ deleteFood(Challenge singleChallenge, Function challengeDeleted) async {
 }
 */
 
-// Future<List<GroupWithIds>> groupsToPairs (QuerySnapshot groupSnap) {
-//     return Future.wait(groupSnap.documents.map((DocumentSnapshot groupDoc) async {
-//       return await groupToPair(groupDoc);
-//     }).toList());
-//   }
 
-// Stream<List<GroupWithIds>> stream = Firestore.instance
-//         .collection('Challenges')
-//         .orderBy('id')
-//         .snapshots()
-//         .asyncMap((QuerySnapshot groupSnap) => groupsToPairs(groupSnap));
-
-//     return StreamBuilder(
-//         stream: stream,
-//         builder: (BuildContext c, AsyncSnapshot<List<GroupWithUsers>> snapshot) {
-//             // build whatever
-//     }
-//     )
-
-//     Future<GroupWithIds> groupToPair(DocumentSnapshot groupDoc) {
-//     return Firestore.instance
-//         .collection('Challenges')
-//         .where('id', isEqualTo: groupDoc.documentID)
-//         //.orderBy('createdAt', descending: false)
-//         .getDocuments()
-//         .then((usersSnap) {
-//       List<Challenge> users = [];
-//       for (var doc in usersSnap.documents) {
-//         users.add(Challenge.from(doc));
-//       }
-
-//       return GroupWithIds(Group.from(groupDoc), users);
-//     });
-//   }

@@ -1,8 +1,10 @@
+import 'package:diabetes_app/providers/search_widget.dart';
 import 'package:diabetes_app/screens/challenge_screen.dart';
 import 'package:diabetes_app/services/user_service.dart';
 import 'package:diabetes_app/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:diabetes_app/screens/hcp_challenge_screen.dart';
 
 
 class Auth with ChangeNotifier {
@@ -18,7 +20,7 @@ class Auth with ChangeNotifier {
         email: email, password: password);
     user = result.user;
     return user.uid;
-    notifyListeners();
+    //notifyListeners();
   }
 
   Future<void> logOut() async {
@@ -33,7 +35,7 @@ class Auth with ChangeNotifier {
     await userService.saveNewUser(user.uid, email, displayName);
     await this.signIn(email, password);
     return user.uid;
-    notifyListeners();
+    //notifyListeners();
   }
 
    handleAuth() {
@@ -41,8 +43,8 @@ class Auth with ChangeNotifier {
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          //return NewChallengeScreen();
-         return NewChallengeScreen();
+          return Search();
+         //return HCPChallengeScreen();
         } else {
           return LoginScreen();
         }

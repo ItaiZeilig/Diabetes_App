@@ -15,6 +15,22 @@ class Challenge {
     randIndex = data['randIndex'];
   }
 
+  Challenge.fromJson(Map<String, dynamic> data) {
+    id = data['id'];
+    name = data['name'];
+    category = data['category'];
+    randIndex = data['randIndex'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'category': category,
+      'randIndex' : randIndex,
+    };
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

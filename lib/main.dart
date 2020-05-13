@@ -1,9 +1,12 @@
 
+
 import 'package:diabetes_app/screens/challenge_screen.dart';
+import 'package:diabetes_app/screens/hcp_challenge_screen.dart';
 import 'package:diabetes_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './providers/auth.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -31,7 +34,8 @@ class _MyAppState extends State<MyApp> {
             primaryColor: Color(0xFF7f70e7),
             accentColor: Color(0xFF7f70e7),
           ),
-          home: auth.handleAuth(),
+          //home: auth.handleAuth(),
+          home: HCPChallengeScreen(),
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
             //HomeScreen.routeName: (ctx) => HomeScreen(),
