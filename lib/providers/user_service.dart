@@ -1,43 +1,51 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class User {
   final String id;
   final String name;
   final String email;
 
-  User({
-    @required this.id,
-    @required this.name,
-    @required this.email
-  });
+  User({this.id, this.name, this.email});
 
-  factory User.fromFirestore(DocumentSnapshot doc) {
-    Map data = doc.data;
-    return User(
-      id: doc.documentID,
-      name: data['displayName'] ?? '',
-     email: data['email'] ?? '',
-     );
+  User.fromData(Map<String, dynamic> data)
+      : id = data['id'],
+        name = data['name'],
+        email = data['email'];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+    };
   }
-
 }
 
 class UserService with ChangeNotifier {
+  final CollectionReference _usersCollectionReference =
+      Firestore.instance.collection('users');
+      
+  User _user;
 
-  final Firestore _db = Firestore.instance;
+  User get getUser => _user;
 
-  Future<User> fetchUserByID(String uid) async {
-    var snap = await _db.collection('users').document(uid).get();
-    return User.fromFirestore(snap);
+  Future createUser(User user) async {
+    try {
+      await _usersCollectionReference.document(user.id).setData(user.toJson());
+    } catch (e) {
+      return e.message;
+    }
   }
 
-  Future<void> createUser(String uid, String email, String name) async{
-    await _db.collection('users').document(uid).setData({
-      'email': email,
-      'name': name,
-      'createDate': FieldValue.serverTimestamp(),
-    });
+  Future<void> fetchAndSetUser(String uid) async {
+    try {
+      var userData = await _usersCollectionReference.document(uid).get();
+      _user = User.fromData(userData.data);
+      notifyListeners();
+    } catch (e) {
+      return e.message;
+    }
   }
-
 }
