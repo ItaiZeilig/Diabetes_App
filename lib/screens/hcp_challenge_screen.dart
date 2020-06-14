@@ -30,32 +30,42 @@ class _HCPChallengeScreenState extends State<HCPChallengeScreen> {
           title: Text('HCP - Daily Challenge Screen'),
           backgroundColor: Theme.of(context).primaryColor,
           elevation: 0.0,
+
+          actions: <Widget>[
+            FlatButton.icon(
+                onPressed: () async {
+                  await _auth.logOut();
+                },
+                icon: Icon(Icons.person),
+                label: Text('Logout'))
+          ],
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-                child: Expanded(
+              child: Expanded(
               child: Column(
                 children: <Widget>[
-                  Expanded(child: Search()),
+                  Expanded(
+                    child: Search()),
                 ],
               ),
             )),
 
             //ChallengeList(),
 
-            MaterialButton(
-              onPressed: () => _auth.logOut(),
-              splashColor: Theme.of(context).primaryColor,
-              child: Text(
-                'Sign Out',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
+            // MaterialButton(
+            //   onPressed: () => _auth.logOut(),
+            //   splashColor: Theme.of(context).primaryColor,
+            //   child: Text(
+            //     'Sign Out',
+            //     style: TextStyle(
+            //       fontWeight: FontWeight.bold,
+            //       decoration: TextDecoration.underline,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

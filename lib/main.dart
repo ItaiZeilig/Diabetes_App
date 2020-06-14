@@ -2,6 +2,7 @@
 import 'package:diabetes_app/providers/user_service.dart';
 import 'package:diabetes_app/screens/challenge_screen.dart';
 import 'package:diabetes_app/screens/hcp_challenge_screen.dart';
+import 'package:diabetes_app/chat/hcp_chat_home.dart';
 import 'package:diabetes_app/screens/home_screen.dart';
 import 'package:diabetes_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,8 @@ class _MyAppState extends State<MyApp> {
             LoginScreen.routeName: (ctx) => LoginScreen(),
             NewChallengeScreen.routeName: (ctx) => NewChallengeScreen(),
             HCPChallengeScreen.routeName: (ctx) => HCPChallengeScreen(),
-
+            //HCPChatHomePage.routeName: (ctx) => HCPChatHomePage(currentUserId: auth.getUser.toString()),
+            HCPChatHomePage.routeName: (ctx) => HCPChatHomePage(currentUserId: null),
           },
         ),
       ),

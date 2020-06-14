@@ -150,17 +150,6 @@ class _NewChallengeScreenState extends State<NewChallengeScreen> {
                 style: TextStyle(color: Colors.red, fontSize: 15.0),
               ),
             ),
-            // MaterialButton(
-            //   onPressed: () => _auth.logOut(),
-            //   splashColor: Theme.of(context).primaryColor,
-            //   child: Text(
-            //     'Sign Out',
-            //     style: TextStyle(
-            //       fontWeight: FontWeight.bold,
-            //       decoration: TextDecoration.underline,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

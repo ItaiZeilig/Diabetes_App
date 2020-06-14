@@ -13,7 +13,6 @@ class Auth with ChangeNotifier {
   Future<FirebaseUser> get getUser async =>  await _firebaseAuth.currentUser();
 
 
-
   Future signIn({
     @required String email,
     @required String password,

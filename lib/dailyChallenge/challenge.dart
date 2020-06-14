@@ -1,25 +1,29 @@
 
 
 class Challenge {
+
   String id;
   String name;
   String category;
-  int randIndex;
+  String searchKey;
+  
 
-  Challenge({this.id, this.name, this.category, this.randIndex});
+  Challenge({this.id, this.name, this.category, this.searchKey});
+
+  // Do class challenge with uid
 
   Challenge.fromMap(Map<String, dynamic> data) {
     id = data['id'];
     name = data['name'];
     category = data['category'];
-    randIndex = data['randIndex'];
+    searchKey = data['searchKey'];
   }
 
   Challenge.fromJson(Map<String, dynamic> data) {
     id = data['id'];
     name = data['name'];
     category = data['category'];
-    randIndex = data['randIndex'];
+    searchKey = data['searchKey'];
   }
 
   Map<String, dynamic> toJson() {
@@ -27,7 +31,8 @@ class Challenge {
       'id': id,
       'name': name,
       'category': category,
-      'randIndex' : randIndex,
+      'searchKey': searchKey,
+      
     };
   }
 
@@ -36,7 +41,7 @@ class Challenge {
       'id': id,
       'name': name,
       'category': category,
-      'randIndex' : randIndex,
+      'searchKey': searchKey,
     };
   }
 }
