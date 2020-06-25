@@ -42,6 +42,7 @@ class _AllChallengesScreenState extends State<AllChallengesScreen> {
     final Size _deviceSize = MediaQuery.of(context).size;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: DefaultTabController(
         length: 2,
         child: Scaffold(

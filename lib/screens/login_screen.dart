@@ -1,4 +1,3 @@
-
 import '../providers/auth_provider.dart';
 import '../providers/chat_provider.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:provider/provider.dart';
 enum AuthMode { Signup, Login }
 
 class LoginScreen extends StatefulWidget {
-
   static const routeName = '/login';
 
   @override
@@ -15,7 +13,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   AuthMode _authMode = AuthMode.Login;
 
   AuthProvider _auth;
@@ -65,23 +62,37 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       if (_authMode == AuthMode.Login) {
         // Login User
-        await _auth.signIn(email: _authData['email'].trim(), password: _authData['password'].trim());
+        var res = await _auth.signIn(
+            email: _authData['email'].trim(),
+            password: _authData['password'].trim());
+        if (res != null) {
+          _showErrorDialog(res);
+          setState(() {
+            _isLoading = false;
+            _formKey.currentState.reset();
+          });
+        }
       } else {
         // Sign user up
-        _auth.signUp(email: _authData['email'].trim(), password: _authData['password'].trim(), name: _authData['name']).then((value) {
-           _chatProvider.createNewChatRoomForUser(_auth.getUser);
-        });
+        var res = await _auth.signUp(
+            email: _authData['email'].trim(),
+            password: _authData['password'].trim(),
+            name: _authData['name']);
+        if (res != null) {
+          _showErrorDialog(res);
+          setState(() {
+            _isLoading = false;
+            _formKey.currentState.reset();
+          });
+        }
       }
     } catch (error) {
       _showErrorDialog(error.message);
       setState(() {
         _formKey.currentState.reset();
+        _isLoading = false;
       });
     }
-    setState(() {
-      _isLoading = false;
-      _formKey.currentState.reset();
-    });
   }
 
   void _switchAuthMode() {
@@ -95,10 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
   }
-
-  
-
-   
 
   @override
   Widget build(BuildContext context) {
@@ -172,8 +179,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     labelText: 'Confirm Password'),
                                 obscureText: true,
                                 validator: _authMode == AuthMode.Signup
-                                    ? (value) => value != _passwordController.text ? 'Passwords not match' : null
-                                    : null ,
+                                    ? (value) =>
+                                        value != _passwordController.text
+                                            ? 'Passwords not match'
+                                            : null
+                                    : null,
                               ),
                               TextFormField(
                                 cursorColor: Theme.of(context).primaryColor,
@@ -184,7 +194,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   labelText: 'Display Name',
                                 ),
                                 keyboardType: TextInputType.emailAddress,
-                                validator: (value) => value.isEmpty ? 'Display Name is not valid' : null,
+                                validator: (value) => value.isEmpty
+                                    ? 'Display Name is not valid'
+                                    : null,
                                 onSaved: (value) {
                                   _authData['name'] = value;
                                 },

@@ -33,7 +33,7 @@ class DismissibleSingleChallenge extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  _challengesProvider.allChallengesTabIndex == 0 ? Icons.archive : Icons.check,
+                  Icons.archive,
                   color: Colors.white,
                 ),
                 Text(

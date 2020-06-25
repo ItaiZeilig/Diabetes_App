@@ -43,7 +43,6 @@ class _MyAppState extends State<MyApp> {
             accentColor: Color(0xFFbac2fe),
           ),
           home: auth.handleAuth(),
-          debugShowMaterialGrid: false,
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
             SingleChatScreen.routeName: (ctx) => SingleChatScreen(),

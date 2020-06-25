@@ -26,7 +26,6 @@ class AuthProvider with ChangeNotifier {
         email: email,
         password: password,
       );
-      return authResult.user != null;
     } catch (e) {
       return e.message;
     }
@@ -66,7 +65,6 @@ class AuthProvider with ChangeNotifier {
         createTimestamp: FieldValue.serverTimestamp(),
         type: "Patient",
       ));
-      return authResult.user != null;
     } catch (e) {
       return e.message;
     }
