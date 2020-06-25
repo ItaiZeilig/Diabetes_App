@@ -84,6 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
             _isLoading = false;
             _formKey.currentState.reset();
           });
+        } else if (_auth.getUser != null) {
+          _chatProvider.createNewChatRoomForUser(_auth.getUser);
         }
       }
     } catch (error) {
