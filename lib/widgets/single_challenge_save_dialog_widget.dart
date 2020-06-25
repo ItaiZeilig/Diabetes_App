@@ -3,6 +3,7 @@ import '../providers/challenge_provider.dart';
 import '../widgets/single_challenge_widget.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SingleChallengeSaveDialog extends StatelessWidget {
   SingleChallengeSaveDialog(this.challenge, this.alertContext, this.mainContext,
       this.deviceSize, this.challengesProvider, this.addChallenge);
