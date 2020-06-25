@@ -1,24 +1,33 @@
-import 'package:diabetes_app/providers/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+import '../providers/auth_provider.dart';
+import '../providers/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 enum AuthMode { Signup, Login }
 
 class LoginScreen extends StatefulWidget {
+
   static const routeName = '/login';
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
-    with SingleTickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen> {
 
-  Auth auth;
   AuthMode _authMode = AuthMode.Login;
+
+  AuthProvider _auth;
+
+  ChatProvider _chatProvider;
+
   final _formKey = GlobalKey<FormState>();
+
   var _isLoading = false;
+
   final _passwordController = TextEditingController();
+
   Map<String, String> _authData = {
     'email': '',
     'password': '',
@@ -56,11 +65,12 @@ class _LoginScreenState extends State<LoginScreen>
     try {
       if (_authMode == AuthMode.Login) {
         // Login User
-        await auth.signIn(email: _authData['email'].trim(), password: _authData['password'].trim());
+        await _auth.signIn(email: _authData['email'].trim(), password: _authData['password'].trim());
       } else {
         // Sign user up
-        auth.signUp(email: _authData['email'].trim(), password: _authData['password'].trim(), name: _authData['name']);
-
+        _auth.signUp(email: _authData['email'].trim(), password: _authData['password'].trim(), name: _authData['name']).then((value) {
+           _chatProvider.createNewChatRoomForUser(_auth.getUser);
+        });
       }
     } catch (error) {
       _showErrorDialog(error.message);
@@ -92,8 +102,8 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
-    auth = Provider.of<Auth>(context);
-    //final deviceSize = MediaQuery.of(context).size;
+    _auth = Provider.of<AuthProvider>(context);
+    _chatProvider = Provider.of<ChatProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(

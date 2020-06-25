@@ -1,14 +1,14 @@
-
-import 'package:diabetes_app/providers/user_service.dart';
-import 'package:diabetes_app/screens/challenge_screen.dart';
-import 'package:diabetes_app/screens/hcp_challenge_screen.dart';
-import 'package:diabetes_app/chat/hcp_chat_home.dart';
-import 'package:diabetes_app/screens/home_screen.dart';
-import 'package:diabetes_app/screens/login_screen.dart';
+import './screens/profile_screen.dart';
+import './providers/challenge_provider.dart';
+import './providers/chat_provider.dart';
+import './screens/all_challenges_screen.dart';
+import './screens/all_chats_screen.dart';
+import './screens/daily_challenges_screen.dart';
+import './screens/single_chat_screen.dart';
+import './providers/auth_provider.dart';
+import './screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './providers/auth.dart';
-
 
 void main() => runApp(MyApp());
 
@@ -23,13 +23,16 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: Auth(),
+          value: AuthProvider(),
         ),
         ChangeNotifierProvider.value(
-          value: UserService(),
+          value: ChatProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: ChallengesProvider(),
         ),
       ],
-      child: Consumer<Auth>(
+      child: Consumer<AuthProvider>(
         builder: (ctx, auth, _) => MaterialApp(
           title: 'DoctorApp',
           debugShowCheckedModeBanner: false,
@@ -37,15 +40,17 @@ class _MyAppState extends State<MyApp> {
             // Define the default brightness and colors.
             brightness: Brightness.light,
             primaryColor: Color(0xFF7f70e7),
-            accentColor: Color(0xFF7f70e7),
+            accentColor: Color(0xFFbac2fe),
           ),
           home: auth.handleAuth(),
+          debugShowMaterialGrid: false,
           routes: {
             LoginScreen.routeName: (ctx) => LoginScreen(),
-            NewChallengeScreen.routeName: (ctx) => NewChallengeScreen(),
-            HCPChallengeScreen.routeName: (ctx) => HCPChallengeScreen(),
-            //HCPChatHomePage.routeName: (ctx) => HCPChatHomePage(currentUserId: auth.getUser.toString()),
-            HCPChatHomePage.routeName: (ctx) => HCPChatHomePage(currentUserId: null),
+            SingleChatScreen.routeName: (ctx) => SingleChatScreen(),
+            AllChatsScreen.routeName: (ctx) => AllChatsScreen(),
+            DailyChallengesScreen.routeName: (ctx) => DailyChallengesScreen(),
+            AllChallengesScreen.routeName: (ctx) => AllChallengesScreen(),
+            ProfileScreen.routeName: (ctx) => ProfileScreen(),
           },
         ),
       ),
