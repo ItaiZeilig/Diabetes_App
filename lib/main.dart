@@ -1,3 +1,5 @@
+import 'package:diabetes_app/screens/add_new_article.dart';
+
 import './screens/profile_screen.dart';
 import './providers/challenge_provider.dart';
 import './providers/chat_provider.dart';
@@ -50,6 +52,7 @@ class _MyAppState extends State<MyApp> {
             DailyChallengesScreen.routeName: (ctx) => DailyChallengesScreen(),
             AllChallengesScreen.routeName: (ctx) => AllChallengesScreen(),
             ProfileScreen.routeName: (ctx) => ProfileScreen(),
+            AddNewArticle.routeName: (ctx) => AddNewArticle(),
           },
         ),
       ),

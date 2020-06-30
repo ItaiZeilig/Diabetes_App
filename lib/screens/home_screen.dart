@@ -1,3 +1,12 @@
+import 'dart:ui';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabetes_app/providers/article_provider.dart';
+import 'package:diabetes_app/screens/add_new_article.dart';
+import 'package:diabetes_app/screens/read_article_screen.dart';
+import 'package:diabetes_app/widgets/latest_news_widget.dart';
+
+import '../models/createdBy.dart';
 import '../screens/profile_screen.dart';
 import '../screens/all_challenges_screen.dart';
 import '../screens/all_chats_screen.dart';
@@ -7,6 +16,7 @@ import '../widgets/single_home_category_widget.dart';
 import '../providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:diabetes_app/models/article.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -15,11 +25,34 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   AuthProvider _auth;
   var _isLoading = true;
   var firstInit = true;
   GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
+
+  ArticleProvider _articleProvider;
+
+  final List<Tab> myTabs = <Tab>[
+    Tab(text: 'Latest News'),
+    Tab(text: 'Popular'),
+  ];
+  TabController _tabController;
+
+  List<Article> allArticles = [];
+
+  Future<List<Article>> loadArticles() async {
+    return allArticles =
+        await _articleProvider.reciveAllChallengesFromDBFuture();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: myTabs.length);
+    //allArticles =
+  }
 
   @override
   void didChangeDependencies() {
@@ -40,6 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
       firstInit = false;
     }
   }
+
+  // Future<List<Article>> getUserTaskList() async {
+
+  //   QuerySnapshot qShot =
+  //     await Firestore.instance.collection('articles').getDocuments();
+
+  //   return qShot.documents.map(
+  //     (doc) => Article(author: doc.
+
+  //   ).toList();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -116,20 +160,84 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
-                      SingleHomeCategory(
-                          name: "Online Chat",
-                          icon: Icons.chat_bubble_outline,
-                          routeName: _auth.getUser.type == 'Patient'
-                              ? SingleChatScreen.routeName
-                              : AllChatsScreen.routeName),
-                      SingleHomeCategory(
-                          name: "Daily Challenges",
-                          icon: Icons.adjust,
-                          routeName: _auth.getUser.type == 'Patient'
-                              ? DailyChallengesScreen.routeName
-                              : AllChallengesScreen.routeName),
+                      Row(
+                        children: <Widget>[
+                          SingleHomeCategory(
+                              name: "Online Chat",
+                              icon: Icons.chat_bubble_outline,
+                              routeName: _auth.getUser.type == 'Patient'
+                                  ? SingleChatScreen.routeName
+                                  : AllChatsScreen.routeName),
+                          SingleHomeCategory(
+                              name: "Daily Challenges",
+                              icon: Icons.adjust,
+                              routeName: _auth.getUser.type == 'Patient'
+                                  ? DailyChallengesScreen.routeName
+                                  : AllChallengesScreen.routeName),
+                          SingleHomeCategory(
+                              name: "Add New Article",
+                              icon: Icons.crop_original,
+                              routeName: _auth.getUser.type == 'Patient'
+                                  ? DailyChallengesScreen.routeName
+                                  : AddNewArticle.routeName),
+                        ],
+                      ),
                     ],
                   ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: TabBar(
+                      controller: _tabController,
+                      labelColor: Colors.black,
+                      unselectedLabelColor: Colors.grey[450],
+                      unselectedLabelStyle: TextStyle(fontSize: 14.0),
+                      indicatorSize: TabBarIndicatorSize.label,
+                      isScrollable: true,
+                      indicatorColor: Colors.white,
+                      labelStyle: TextStyle(
+                          fontSize: 16.0, fontWeight: FontWeight.bold),
+                      tabs: myTabs,
+                    ),
+                  ),
+                  StreamBuilder<QuerySnapshot>(
+                    stream:
+                        Firestore.instance.collection('articles').snapshots(),
+                    builder: (BuildContext context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return CircularProgressIndicator();
+                      }
+                      return Expanded(
+                        child: ListView.builder(
+                            itemCount: snapshot.data.documents.length,
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              Article article = Article.fromSnapshot(
+                                  snapshot.data.documents[index]);
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ReadFullArticle(
+                                              article: article)));
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 140.0,
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 18.0, vertical: 8.0),
+                                  child: News(article: article),
+                                ),
+                              );
+                            }),
+                      );
+                    },
+                  )
                 ],
               ),
             ),
