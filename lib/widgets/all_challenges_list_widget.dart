@@ -45,7 +45,7 @@ class _AllChallengesListState extends State<AllChallengesList> {
                       Challenge.fromSnapshot(snapshot.data.documents[index]);
                   if (challenge.name
                       .toLowerCase()
-                      .contains(_challengesProvider.searchText) || _challengesProvider.searchText.trim().isEmpty) {
+                      .contains(_challengesProvider.searchText) || _challengesProvider.searchText.isEmpty) {
                     return DismissibleSingleChallenge(
                         challengesProvider: _challengesProvider,
                         challenge: challenge,
