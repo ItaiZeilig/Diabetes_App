@@ -15,6 +15,7 @@ class AllChatsScreen extends StatefulWidget {
 class _AllChatsScreenState extends State<AllChatsScreen> {
   ChatProvider _chatProvider;
   AuthProvider _auth;
+  TextEditingController searchController = TextEditingController();
   var firstInit = true;
   final myController = TextEditingController();
   String _searchText = '';
@@ -106,11 +107,13 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                         Chat chat = Chat.fromSnapshot(
                                             snapshot.data.documents[index]);
                                         if (chat.name
-                                            .toLowerCase()
-                                            .contains(_searchText) || _searchText.trim().isEmpty)
+                                                .toLowerCase()
+                                                .contains(_searchText) ||
+                                            _searchText.trim().isEmpty) {
                                           return SingleChatRoomBlock(
                                               deviceSize: _deviceSize,
                                               chat: chat);
+                                        }
                                       }),
                                 );
                               },
@@ -120,23 +123,44 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                             padding: EdgeInsets.all(20),
                             margin: EdgeInsets.symmetric(
                                 vertical: _deviceSize.height * 0.12,
+                                //vertical: 20.0,
                                 horizontal: _deviceSize.width / 8),
                             height: _deviceSize.height * 0.1,
                             decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: TextField(
+                                color: Colors.grey[200],
+                                //color: Theme.of(context).accentColor,
+                                borderRadius: BorderRadius.circular(25.0)),
+                            child: TextFormField(
                               onChanged: (value) {
                                 setState(() {
-                                  _searchText = value;
+                                  _searchText = value;                                  
                                 });
                               },
+                              controller: searchController,
                               decoration: InputDecoration(
-                                icon: Icon(
+                                hintText: 'Search',
+                                border: InputBorder.none,
+                                fillColor: Colors.grey[500],
+                                prefixIcon: Icon(
                                   Icons.search,
-                                  color: Colors.black,
+                                  color: Colors.grey,
+                                  size: 25.0,
                                 ),
+                                suffixIcon: IconButton(
+                                    padding: EdgeInsets.only(right: 1.0),
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback(
+                                        (_) => setState(() {
+                                          _searchText = "";
+                                          searchController.clear();
+                                        }),
+                                      );
+                                    }),
                               ),
                             ),
                           ),

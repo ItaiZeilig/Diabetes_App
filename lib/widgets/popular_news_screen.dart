@@ -2,17 +2,17 @@ import 'package:diabetes_app/models/article.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class LatesNews extends StatefulWidget {
+class PopularNews extends StatefulWidget {
   final Article article;
 
-  LatesNews({this.article});
+  PopularNews({this.article});
 
   @override
-  _LatesNewsState createState() => _LatesNewsState(article: article);
+  _PopularNewsState createState() => _PopularNewsState(article: article);
 }
 
-class _LatesNewsState extends State<LatesNews> {
-  _LatesNewsState({this.article});
+class _PopularNewsState extends State<PopularNews> {
+  _PopularNewsState({this.article});
 
   final Article article;
 

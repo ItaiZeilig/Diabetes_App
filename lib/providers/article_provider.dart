@@ -24,6 +24,15 @@ class ArticleProvider with ChangeNotifier {
     }
   }
 
+  Stream<QuerySnapshot> getArticleSnapShot(String uid) {
+    return _articlesCollectionReference
+        .document(uid)
+        .collection("articles")
+        .where('isPopular', isEqualTo: true)
+        .limit(3)
+        .snapshots();
+  }
+
   Future addNewArticle(
       String id, String title, String subtitle, String content, String category,
       int diabetesType,dynamic time,String author,String image,CreatedBy createdBy) async {

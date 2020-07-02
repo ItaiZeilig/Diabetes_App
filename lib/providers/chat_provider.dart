@@ -11,7 +11,7 @@ class ChatProvider with ChangeNotifier {
 
   Chat _singleChat;
   Chat get getSingleChat => _singleChat;
-
+  
   Stream<QuerySnapshot> getChatSnapShot(String uid) {
     return _chatsCollectionReference
         .document(uid)
