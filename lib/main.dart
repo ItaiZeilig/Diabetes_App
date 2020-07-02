@@ -1,6 +1,4 @@
 import 'package:diabetes_app/screens/home_screen.dart';
-
-import './screens/add_new_article.dart';
 import './screens/profile_screen.dart';
 import './providers/challenge_provider.dart';
 import './providers/chat_provider.dart';
@@ -12,6 +10,8 @@ import './providers/auth_provider.dart';
 import './screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'screens/add_new_article_screen.dart';
 
 void main() => runApp(MyApp());
 

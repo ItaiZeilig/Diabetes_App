@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/createdBy.dart';
+import 'createdBy.dart';
 
 Article articleFromJson(String str) => Article.fromJson(json.decode(str));
 
@@ -20,6 +21,7 @@ class Article {
         this.favorite,
         this.image,
         this.createdBy,
+        this.isPopular,
     });
 
     String id;
@@ -34,6 +36,7 @@ class Article {
     String favorite;
     String image;
     CreatedBy createdBy;
+    bool isPopular;
 
     factory Article.fromJson(Map<String, dynamic> json) => Article(
         id: json["id"],
@@ -48,6 +51,7 @@ class Article {
         favorite: json["favorite"],
         image: json["image"],
         createdBy: CreatedBy.fromJson(json["createdBy"]),
+        isPopular: json["popular"],
     );
 
      factory Article.fromSnapshot(DocumentSnapshot document) => Article(
@@ -63,6 +67,7 @@ class Article {
         favorite: document["favorite"],
         image: document["image"],
         createdBy: CreatedBy.fromJson(document["createdBy"]),
+        isPopular: document["popular"],
       );
 
     Map<String, dynamic> toJson() => {
@@ -78,7 +83,9 @@ class Article {
         "favorite": favorite,
         "image": image,
         "createdBy": createdBy.toJson(),
+        "popular": isPopular,
     };
+
 }
 
 

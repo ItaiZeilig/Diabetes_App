@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../providers/article_provider.dart';
-import '../screens/add_new_article.dart';
-import '../screens/read_article_screen.dart';
-import '../widgets/latest_news_widget.dart';
+import 'package:diabetes_app/providers/article_provider.dart';
+import 'package:diabetes_app/screens/add_new_article_screen.dart';
+import 'package:diabetes_app/screens/read_article_screen.dart';
+import 'package:diabetes_app/widgets/latest_news_widget.dart';
+import 'package:diabetes_app/widgets/popular_news_screen.dart';
+
 import '../screens/profile_screen.dart';
 import '../screens/all_challenges_screen.dart';
 import '../screens/all_chats_screen.dart';
@@ -39,6 +41,8 @@ class _HomeScreenState extends State<HomeScreen>
   TabController _tabController;
 
   List<Article> allArticles = [];
+
+  bool _islates = true;
 
   Future<List<Article>> loadArticles() async {
     return allArticles =
@@ -186,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen>
                       isScrollable: true,
                       indicatorColor: Colors.white,
                       labelStyle: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold),
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                       tabs: myTabs,
                     ),
                   ),
@@ -198,31 +202,67 @@ class _HomeScreenState extends State<HomeScreen>
                         return CircularProgressIndicator();
                       }
                       return Expanded(
-                        child: ListView.builder(
-                            itemCount: snapshot.data.documents.length,
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            physics: ScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              Article article = Article.fromSnapshot(
-                                  snapshot.data.documents[index]);
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ReadFullArticle(
-                                              article: article)));
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 140.0,
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: 18.0, vertical: 8.0),
-                                  child: News(article: article),
-                                ),
-                              );
-                            }),
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: <Widget>[
+                            ListView.builder(
+                                itemCount: snapshot.data.documents.length,
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                physics: ScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  Article article = Article.fromSnapshot(
+                                      snapshot.data.documents[index]);
+                                  //if(article.isPopular == true){
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReadFullArticle(
+                                                      article: article)));
+                                    },
+                                    child: Container(
+                                        width: double.infinity,
+                                        height: 140.0,
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 18.0, vertical: 8.0),
+                                        child: LatesNews(article: article)),
+                                  );
+                                  // }
+                                  //else{
+                                  //return CircularProgressIndicator();
+                                  //}
+                                }),
+                            ListView.builder(
+                                itemCount: snapshot.data.documents.length,
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                physics: ScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  Article article = Article.fromSnapshot(
+                                      snapshot.data.documents[index]);
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReadFullArticle(
+                                                      article: article)));
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 140.0,
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 18.0, vertical: 8.0),
+                                      child: PopularNews(article: article),
+                                    ),
+                                  );
+                                }),
+                          ],
+                        ),
                       );
                     },
                   )
