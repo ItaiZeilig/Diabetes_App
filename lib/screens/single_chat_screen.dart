@@ -17,28 +17,26 @@ class SingleChatScreen extends StatefulWidget {
 class _SingleChatScreenState extends State<SingleChatScreen> {
   ChatProvider _chatProvider;
   AuthProvider _auth;
-  var firstInit = true;
-  final myController = TextEditingController();
+  var _firstInit = true;
+  final _myController = TextEditingController();
   Chat _chat;
 
   @override
   didChangeDependencies() async {
     super.didChangeDependencies();
-    if (firstInit) {
+    if (_firstInit) {
       _auth = Provider.of<AuthProvider>(context);
       _chatProvider = Provider.of<ChatProvider>(context);
       _chat = ModalRoute.of(context).settings.arguments;
       if (_chat == null) {
-        _chatProvider
-            .fetchAndSetChat(_auth.getUser.id)
-            .whenComplete(() => {
-                  setState(() {
-                    _chat = _chatProvider.getSingleChat;
-                    firstInit = false;
-                  })
-                });
-      }else{
-        firstInit = false;
+        _chatProvider.fetchAndSetChat(_auth.user.id).whenComplete(() => {
+              setState(() {
+                _chat = _chatProvider.getSingleChat;
+                _firstInit = false;
+              })
+            });
+      } else {
+        _firstInit = false;
       }
     }
   }
@@ -48,7 +46,7 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
     final Size _deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-        child: firstInit
+        child: _firstInit
             ? Center(child: CircularProgressIndicator())
             : GestureDetector(
                 onTap: () {
@@ -122,7 +120,7 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                         return ChatBubble(
                                             messageData: msg,
                                             isSent:
-                                                _auth.getUser.id == msg.userId);
+                                                _auth.user.id == msg.userId);
                                       }),
                                 );
                               },
@@ -145,18 +143,18 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                       onSubmitted: (value) {
                                         _chatProvider.sendMessage(
                                             new Message(
-                                                userId: _auth.getUser.id,
-                                                type: _auth.getUser.type,
-                                                userName: _auth.getUser.name,
+                                                userId: _auth.user.id,
+                                                type: _auth.user.type,
+                                                userName: _auth.user.name,
                                                 createTimestamp: FieldValue
                                                     .serverTimestamp(),
                                                 message: value),
                                             _chat.createdBy.userId);
-                                        myController.clear();
+                                        _myController.clear();
                                       },
                                       style: TextStyle(
                                           color: Colors.black, fontSize: 15.0),
-                                      controller: myController,
+                                      controller: _myController,
                                       decoration: InputDecoration.collapsed(
                                         hintText: 'Type your message...',
                                         hintStyle:
@@ -172,14 +170,14 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                     onPressed: () {
                                       _chatProvider.sendMessage(
                                           new Message(
-                                              userId: _auth.getUser.id,
-                                              type: _auth.getUser.type,
-                                              userName: _auth.getUser.name,
+                                              userId: _auth.user.id,
+                                              type: _auth.user.type,
+                                              userName: _auth.user.name,
                                               createTimestamp:
                                                   FieldValue.serverTimestamp(),
-                                              message: myController.text),
+                                              message: _myController.text),
                                           _chat.createdBy.userId);
-                                      myController.clear();
+                                      _myController.clear();
                                     },
                                     color: Theme.of(context).primaryColor,
                                   ),

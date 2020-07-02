@@ -1,12 +1,10 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diabetes_app/providers/article_provider.dart';
-import 'package:diabetes_app/screens/add_new_article.dart';
-import 'package:diabetes_app/screens/read_article_screen.dart';
-import 'package:diabetes_app/widgets/latest_news_widget.dart';
-
-import '../models/createdBy.dart';
+import '../providers/article_provider.dart';
+import '../screens/add_new_article.dart';
+import '../screens/read_article_screen.dart';
+import '../widgets/latest_news_widget.dart';
 import '../screens/profile_screen.dart';
 import '../screens/all_challenges_screen.dart';
 import '../screens/all_chats_screen.dart';
@@ -16,7 +14,7 @@ import '../widgets/single_home_category_widget.dart';
 import '../providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:diabetes_app/models/article.dart';
+import '../models/article.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -51,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: myTabs.length);
-    //allArticles =
   }
 
   @override
@@ -59,7 +56,8 @@ class _HomeScreenState extends State<HomeScreen>
     super.didChangeDependencies();
     if (firstInit) {
       _auth = Provider.of<AuthProvider>(context);
-      if (_auth.getUser == null) {
+      // If user in provider is null fetch it back from db
+      if (_auth.user == null) {
         _auth.fetchAndSetUser().whenComplete(() {
           setState(() {
             _isLoading = false;
@@ -74,19 +72,9 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  // Future<List<Article>> getUserTaskList() async {
-
-  //   QuerySnapshot qShot =
-  //     await Firestore.instance.collection('articles').getDocuments();
-
-  //   return qShot.documents.map(
-  //     (doc) => Article(author: doc.
-
-  //   ).toList();
-  // }
-
   @override
   Widget build(BuildContext context) {
+    _auth = Provider.of<AuthProvider>(context);
     return Scaffold(
       key: _scaffoldkey,
       drawer: Drawer(
@@ -146,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen>
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          _auth.getUser.name,
+                          _auth.user.name,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 30),
                         ),
@@ -165,19 +153,19 @@ class _HomeScreenState extends State<HomeScreen>
                           SingleHomeCategory(
                               name: "Online Chat",
                               icon: Icons.chat_bubble_outline,
-                              routeName: _auth.getUser.type == 'Patient'
+                              routeName: _auth.user.type == 'Patient'
                                   ? SingleChatScreen.routeName
                                   : AllChatsScreen.routeName),
                           SingleHomeCategory(
                               name: "Daily Challenges",
                               icon: Icons.adjust,
-                              routeName: _auth.getUser.type == 'Patient'
+                              routeName: _auth.user.type == 'Patient'
                                   ? DailyChallengesScreen.routeName
                                   : AllChallengesScreen.routeName),
                           SingleHomeCategory(
                               name: "Add New Article",
                               icon: Icons.crop_original,
-                              routeName: _auth.getUser.type == 'Patient'
+                              routeName: _auth.user.type == 'Patient'
                                   ? DailyChallengesScreen.routeName
                                   : AddNewArticle.routeName),
                         ],

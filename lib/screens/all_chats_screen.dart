@@ -102,12 +102,14 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                   height: _deviceSize.height * 0.8,
                                   child: ListView.builder(
                                       itemCount: snapshot.data.documents.length,
+                                      // ignore: missing_return
                                       itemBuilder: (context, index) {
                                         Chat chat = Chat.fromSnapshot(
                                             snapshot.data.documents[index]);
                                         if (chat.name
-                                            .toLowerCase()
-                                            .contains(_searchText) || _searchText.trim().isEmpty)
+                                                .toLowerCase()
+                                                .contains(_searchText) ||
+                                            _searchText.isEmpty)
                                           return SingleChatRoomBlock(
                                               deviceSize: _deviceSize,
                                               chat: chat);

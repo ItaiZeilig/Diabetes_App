@@ -39,7 +39,7 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
                   arguments: widget.chat);
             },
             child: Container(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(20),
               margin: EdgeInsets.all(30),
               decoration: BoxDecoration(
                 color: Colors.blue,
@@ -64,7 +64,8 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
                             ),
                             Text(
                               DateFormat('kk:mm').format(
-                                widget.chat.lastMessage.createTimestamp.toDate(),
+                                widget.chat.lastMessage.createTimestamp
+                                    .toDate(),
                               ),
                               style:
                                   TextStyle(fontSize: 16, color: Colors.white),

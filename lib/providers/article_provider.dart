@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../models/article.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../models/createdBy.dart';
 
 class ArticleProvider with ChangeNotifier {

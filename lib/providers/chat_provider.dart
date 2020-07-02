@@ -45,11 +45,12 @@ class ChatProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchAndSetChat(String uid) async {
+  Future<dynamic> fetchAndSetChat(String uid) async {
     try {
       var chatData = await _chatsCollectionReference.document(uid).get();
       _singleChat = Chat.fromJson(chatData.data);
       notifyListeners();
+      return true;
     } catch (e) {
       return e.message;
     }

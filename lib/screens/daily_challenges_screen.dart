@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/challenge.dart';
 import '../providers/auth_provider.dart';
 import '../providers/challenge_provider.dart';
@@ -5,7 +7,6 @@ import '../widgets/single_challenge_widget.dart';
 import '../widgets/week_days_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 
 class DailyChallengesScreen extends StatefulWidget {
   static const routeName = '/dailyChallenges';
@@ -28,20 +29,30 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
     if (firstInit) {
       _challengesProvider = Provider.of<ChallengesProvider>(context);
       _auth = Provider.of<AuthProvider>(context);
-      _challengesProvider.addChallengeToUserByDay(_auth.getUser.id , 1).whenComplete(() {
+      if (_auth.user == null) {
+        _auth.fetchAndSetUser().whenComplete(() {
+          _challengesProvider
+              .addChallengeToUserByDay(_auth.user.id, 1)
+              .whenComplete(() {
+            setState(() {
+              firstInit = false;
+            });
+          });
+        });
+      } else {
         setState(() {
           firstInit = false;
         });
-      });
+      }
     }
   }
 
-    void handleTap(Challenge challenge) {
+  void handleTap(Challenge challenge) {
     challenge.doneItems += 1;
     if (challenge.doneItems == challenge.numberOfItems) {
       challenge.done = true;
     }
-    _challengesProvider.updateUserChallenge(challenge, _auth.getUser.id);
+    _challengesProvider.updateUserChallenge(challenge, _auth.user.id);
   }
 
   @override
@@ -72,11 +83,16 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
                   Center(
                     child: StreamBuilder(
                       stream: _challengesProvider
-                          .getUserDailyChallengesSnapshot(_auth.getUser.id),
+                          .getUserDailyChallengesSnapshot(_auth.user.id),
                       builder: (BuildContext context, snapshot) {
                         if (!snapshot.hasData) {
                           return Text("Loading...");
                         }
+                        if (snapshot.data.documents.length <= 0)
+                          return Container(
+                              height: _deviceSize.height * 0.6,
+                              child: Text(
+                                  "No Daily Challenges in the system yet"));
                         return Container(
                           height: _deviceSize.height * 0.6,
                           child: ListView.builder(
@@ -84,8 +100,8 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
                               itemBuilder: (context, index) {
                                 Challenge challenge = Challenge.fromSnapshot(
                                     snapshot.data.documents[index]);
-                                _challengesProvider.updateUserChallenge(
-                                    challenge, _auth.getUser.id);
+                                // _challengesProvider.updateUserChallenge(
+                                //     challenge, _auth.getUser.id);
                                 return InkWell(
                                     onTap: () {
                                       if (!challenge.done) handleTap(challenge);
@@ -124,7 +140,7 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
                             width: 10,
                           ),
                           Text(
-                            "${((dayNumber) / 6 * 100).ceil()}% Completion",
+                            "${((dayNumber) / 7 * 100).ceil()}% Completion",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -145,7 +161,7 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
                             width: 10,
                           ),
                           Text(
-                            "${6 - dayNumber} days left",
+                            "${7 - dayNumber} days left",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

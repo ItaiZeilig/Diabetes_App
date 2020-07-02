@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-
-import '../models/user.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +17,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   bool showReports = true;
-  User _user;
   String _password;
 
   @override
@@ -28,9 +24,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.didChangeDependencies();
     if (firstInit) {
       _auth = Provider.of<AuthProvider>(context);
-      _user = _auth.getUser;
-      firstInit = false;
-      _auth.fetchAndSetUser();
+      if (_auth.user == null) {
+        _auth.fetchAndSetUser().whenComplete(() {
+          setState(() {
+            firstInit = false;
+          });
+        });
+      } else {
+        setState(() {
+          firstInit = false;
+        });
+      }
     }
   }
 
@@ -62,12 +66,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _isLoading = true;
     });
     bool pass = true;
-    String message = 'Successfully changed email';
+    String message = 'Successfully changed';
     try {
       FirebaseUser user = await _auth.getFirebaseUser;
       if (user != null) {
         // Update Email
-        await user.updateEmail(_user.email).then((_) {}).catchError((error) {
+        await user
+            .updateEmail(_auth.user.email)
+            .then((_) {})
+            .catchError((error) {
           pass = false;
           switch (error.code) {
             case 'ERROR_REQUIRES_RECENT_LOGIN':
@@ -100,7 +107,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (!pass) {
       _showAlertDialog(message);
     } else {
-      _auth.updateUserInfo(_user).whenComplete(() => _showAlertDialog(message));
+      _auth
+          .updateUserInfo(_auth.user)
+          .whenComplete(() => _showAlertDialog(message));
+      _auth.fetchAndSetUser();
     }
     setState(() {
       FocusScope.of(context).unfocus();
@@ -152,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(
                           height: 20,
                         ),
-                        Text(_auth.getUser.name,
+                        Text(_auth.user.name,
                             style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -217,7 +227,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           labelText: 'Display Name',
                                         ),
                                         keyboardType: TextInputType.text,
-                                        initialValue: _user.name,
+                                        initialValue: _auth.user.name,
                                         // ignore: missing_return
                                         validator: (value) {
                                           if (value.isEmpty) {
@@ -225,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           }
                                         },
                                         onSaved: (value) {
-                                          _user.name = value;
+                                          _auth.user.name = value;
                                         },
                                       ),
                                       TextFormField(
@@ -240,7 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                         keyboardType:
                                             TextInputType.emailAddress,
-                                        initialValue: _user.email,
+                                        initialValue: _auth.user.email,
                                         // ignore: missing_return
                                         validator: (value) {
                                           if (value.isEmpty ||
@@ -249,7 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           }
                                         },
                                         onSaved: (value) {
-                                          _user.email = value;
+                                          _auth.user.email = value;
                                         },
                                       ),
                                       TextFormField(

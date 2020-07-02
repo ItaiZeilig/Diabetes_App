@@ -44,9 +44,9 @@ class _AddNewArticleState extends State<AddNewArticle> {
   dynamic _time = FieldValue.serverTimestamp();
 
   Future<List<Article>> loadArticles() async {
-    return allArticles = await _articleProvider.reciveAllChallengesFromDBFuture();
+    return allArticles =
+        await _articleProvider.reciveAllChallengesFromDBFuture();
   }
-        
 
   @override
   Widget build(BuildContext context) {
@@ -86,16 +86,14 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             ),
                             labelText: 'Article Title',
                           ),
-
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Invalid name!';
                             }
-                          },                          
-                          onChanged: (value) =>
-                                setState(() => _title = value),
+                          },
+                          onChanged: (value) => setState(() => _title = value),
                           onSaved: (value) {
-                            _title = value;                           
+                            _title = value;
                           },
                         ),
                         TextFormField(
@@ -112,10 +110,9 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             }
                           },
                           onChanged: (value) =>
-                                setState(() => _subtitle = value),
+                              setState(() => _subtitle = value),
                           onSaved: (value) {
                             _subtitle = value;
-                            
                           },
                         ),
                         TextFormField(
@@ -133,7 +130,6 @@ class _AddNewArticleState extends State<AddNewArticle> {
                           },
                           onSaved: (value) {
                             _author = value;
-                            
                           },
                         ),
                         TextFormField(
@@ -144,7 +140,6 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             ),
                             labelText: 'Article Content',
                           ),
-                          
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Content cant be empty';
@@ -152,16 +147,16 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             return null;
                           },
                           onSaved: (value) {
-                            _content = value;                            
+                            _content = value;
                           },
                         ),
                         DropdownButtonFormField(
                             decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                        ),
-                        labelText: 'Article Category',
-                      ),
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              labelText: 'Article Category',
+                            ),
                             value: _category ?? 'Sport',
                             items: categorys.map((category) {
                               return DropdownMenuItem(
@@ -177,14 +172,13 @@ class _AddNewArticleState extends State<AddNewArticle> {
                                 _category = 'Sport';
                               }
                             }),
-                        
                         DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                        ),
-                        labelText: 'Article Diabetes Type',
-                      ),
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              labelText: 'Article Diabetes Type',
+                            ),
                             value: _diabetesType ?? 1,
                             items: diabetesTypes.map((category) {
                               return DropdownMenuItem(
@@ -215,10 +209,9 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             }
                             return null;
                           },
-                          onChanged: (value) =>
-                                setState(() => _image = value),
+                          onChanged: (value) => setState(() => _image = value),
                           onSaved: (value) {
-                            _image = value;                          
+                            _image = value;
                           },
                         ),
                         Padding(
@@ -254,12 +247,15 @@ class _AddNewArticleState extends State<AddNewArticle> {
                                       _author,
                                       _image,
                                       CreatedBy(
-                                          name: _auth.getUser.name,
-                                          type: _auth.getUser.type,
-                                          userId: _auth.getUser.id));
-                                 
-                                  //allArticles = await loadArticles();  
-                                  await Navigator.push(context,MaterialPageRoute(builder: (context) => HomeScreen()));                                                          
+                                          name: _auth.user.name,
+                                          type: _auth.user.type,
+                                          userId: _auth.user.id));
+
+                                  //allArticles = await loadArticles();
+                                  await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomeScreen()));
                                 }
                               } catch (e) {}
                             },

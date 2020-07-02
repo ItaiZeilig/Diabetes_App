@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabetes_app/screens/home_screen.dart';
+import 'package:diabetes_app/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../screens/home_screen.dart';
-import '../screens/login_screen.dart';
 import '../models/user.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +10,8 @@ class AuthProvider with ChangeNotifier {
   final CollectionReference _usersCollectionReference =
       Firestore.instance.collection('users');
 
-  User _user;
-  User get getUser => _user;
+  User user;
+  // User get getUser => user;
 
   // Firebase user one-time fetch
   Future<FirebaseUser> get getFirebaseUser async =>
@@ -32,16 +32,23 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> logOut() async {
-    _user = null;
+    user = null;
     notifyListeners();
     await _firebaseAuth.signOut();
   }
 
-  
-
   Future updateUserInfo(User user) async {
     try {
       await _usersCollectionReference.document(user.id).setData(user.toJson());
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  Future resetPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return 'Please check your email for reset your password';
     } catch (e) {
       return e.message;
     }
@@ -73,8 +80,6 @@ class AuthProvider with ChangeNotifier {
   Future createUser(User user) async {
     try {
       await _usersCollectionReference.document(user.id).setData(user.toJson());
-      _user = user;
-      notifyListeners();
     } catch (e) {
       return e.message;
     }
@@ -85,7 +90,7 @@ class AuthProvider with ChangeNotifier {
       var firebaseUser = await getFirebaseUser;
       var userData =
           await _usersCollectionReference.document(firebaseUser.uid).get();
-      _user = User.fromJson(userData.data);
+      user = User.fromJson(userData.data);
       notifyListeners();
     } catch (e) {
       return e.message;

@@ -1,5 +1,6 @@
-import 'package:diabetes_app/screens/add_new_article.dart';
+import 'package:diabetes_app/screens/home_screen.dart';
 
+import './screens/add_new_article.dart';
 import './screens/profile_screen.dart';
 import './providers/challenge_provider.dart';
 import './providers/chat_provider.dart';
@@ -59,5 +60,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-

@@ -70,9 +70,9 @@ class _AllChallengesScreenState extends State<AllChallengesScreen> {
                           id: uuid.v4(),
                           createTimestamp: FieldValue.serverTimestamp(),
                           createdBy: CreatedBy(
-                              name: _auth.getUser.name,
-                              type: _auth.getUser.type,
-                              userId: _auth.getUser.id));
+                              name: _auth.user.name,
+                              type: _auth.user.type,
+                              userId: _auth.user.id));
                       showDialog(
                           context: context,
                           builder: (BuildContext alertContext) {
