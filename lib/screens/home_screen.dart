@@ -148,31 +148,35 @@ class _HomeScreenState extends State<HomeScreen>
                   Column(
                     children: <Widget>[
                       Text(
-                        "What do you need?",
+                        "What would you like to do?",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
-                      Row(
-                        children: <Widget>[
-                          SingleHomeCategory(
-                              name: "Online Chat",
-                              icon: Icons.chat_bubble_outline,
-                              routeName: _auth.user.type == 'Patient'
-                                  ? SingleChatScreen.routeName
-                                  : AllChatsScreen.routeName),
-                          SingleHomeCategory(
-                              name: "Daily Challenges",
-                              icon: Icons.adjust,
-                              routeName: _auth.user.type == 'Patient'
-                                  ? DailyChallengesScreen.routeName
-                                  : AllChallengesScreen.routeName),
-                          SingleHomeCategory(
-                              name: "Add New Article",
-                              icon: Icons.crop_original,
-                              routeName: _auth.user.type == 'Patient'
-                                  ? DailyChallengesScreen.routeName
-                                  : AddNewArticle.routeName),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 6.0),
+                        child: Row(
+                          children: <Widget>[
+                            
+                            SingleHomeCategory(
+                                name: "Online Chat",
+                                icon: Icons.chat_bubble_outline,
+                                routeName: _auth.user.type == 'Patient'
+                                    ? SingleChatScreen.routeName
+                                    : AllChatsScreen.routeName),
+                            SingleHomeCategory(
+                                name: "Daily Challenges",
+                                icon: Icons.adjust,
+                                routeName: _auth.user.type == 'Patient'
+                                    ? DailyChallengesScreen.routeName
+                                    : AllChallengesScreen.routeName),
+                            SingleHomeCategory(
+                                name: "Add New Article",
+                                icon: Icons.crop_original,
+                                routeName: _auth.user.type == 'Patient'
+                                    ? DailyChallengesScreen.routeName
+                                    : AddNewArticle.routeName),
+                          ],
+                        ),
                       ),
                     ],
                   ),

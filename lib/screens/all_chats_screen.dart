@@ -51,10 +51,10 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                       Stack(
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.only(bottom: 30),
+                            padding: EdgeInsets.only(bottom: 80),
                             decoration: BoxDecoration(
                                 color: Theme.of(context).accentColor),
-                            height: _deviceSize.height * 0.15,
+                            height: _deviceSize.height * 0.23,                           
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
@@ -83,14 +83,17 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                             ),
                           ),
                           Container(
-                            height: _deviceSize.height,
+                            //height: _deviceSize.height,
+                            //height: double.infinity,
+                            width: double.infinity,
                             margin:
-                                EdgeInsets.only(top: _deviceSize.height * 0.1),
+                                //EdgeInsets.only(top: _deviceSize.height * 0.1,),
+                                EdgeInsets.only(top: 140.0),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Colors.grey[200],
                               borderRadius: BorderRadius.all(
-                                Radius.circular(30),
+                                Radius.circular(25.0),
                               ),
                             ),
                             child: StreamBuilder(
@@ -99,11 +102,13 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                 if (!snapshot.hasData) {
                                   return Text("Loading...");
                                 }
-                                return Container(
-                                  height: _deviceSize.height * 0.8,
+                                return Container(                                  
+                                  height: _deviceSize.height * 0.85 ,
+                                  //height: double.infinity,
+                                  //width: double.infinity,
                                   child: ListView.builder(
-                                      itemCount: snapshot.data.documents.length,
-                                      // ignore: missing_return
+                                    shrinkWrap: true,
+                                      itemCount: snapshot.data.documents.length,                                      
                                       itemBuilder: (context, index) {
                                         Chat chat = Chat.fromSnapshot(
                                             snapshot.data.documents[index]);
@@ -115,21 +120,24 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                               deviceSize: _deviceSize,
                                               chat: chat);
                                         }
-                                      }),
+                                      },
+                                      //decoration: InputDecorationTheme(hoverColor: Colors.red),
+                                  ),
+                                  
                                 );
                               },
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.all(20),
-                            margin: EdgeInsets.symmetric(
-                                vertical: _deviceSize.height * 0.12,
-                                //vertical: 20.0,
-                                horizontal: _deviceSize.width / 8),
-                            height: _deviceSize.height * 0.1,
+                            padding: EdgeInsets.all(8),
+                            // margin: EdgeInsets.symmetric(
+                            //     //vertical: _deviceSize.height * 0.12,
+                            //     vertical: 72.5,
+                            //     horizontal: _deviceSize.width / 8),
+                            // height: _deviceSize.height * 0.1,
+                            margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 65.0, bottom: 20.0),
                             decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                //color: Theme.of(context).accentColor,
+                                color: Colors.grey[200],                                
                                 borderRadius: BorderRadius.circular(25.0)),
                             child: TextFormField(
                               onChanged: (value) {

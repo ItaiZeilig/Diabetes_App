@@ -88,11 +88,7 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
                         if (!snapshot.hasData) {
                           return Text("Loading...");
                         }
-                        if (snapshot.data.documents.length <= 0)
-                          return Container(
-                              height: _deviceSize.height * 0.6,
-                              child: Text(
-                                  "No Daily Challenges in the system yet"));
+
                         return Container(
                           height: _deviceSize.height * 0.6,
                           child: ListView.builder(

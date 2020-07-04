@@ -38,12 +38,13 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
               Navigator.of(context).pushNamed(SingleChatScreen.routeName,
                   arguments: widget.chat);
             },
-            child: Container(
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(30),
+            child: Container(             
+              padding: EdgeInsets.symmetric(vertical: 15.0 , horizontal: 25.0),              
+              margin: EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0, bottom: 1.0),
               decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(30),
+                //color: Colors.lightBlueAccent[100],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Row(
                 children: [
@@ -51,16 +52,16 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: widget._deviceSize.width / 1.5,
+                        width: widget._deviceSize.width / 1.25,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              widget.chat.createdBy.name,
+                            Text(                              
+                              widget.chat.createdBy.name,                      
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                                  color: Colors.black),
                             ),
                             Text(
                               DateFormat('kk:mm').format(
@@ -68,19 +69,21 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
                                     .toDate(),
                               ),
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.white),
+                                  TextStyle(fontSize: 16, color: Colors.black),
                             ),
                           ],
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Row(
                         children: [
                           Text(
+
                             "${widget.chat.lastMessage.userName}: ",
                             style: TextStyle(
+                              color: Colors.black ,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
