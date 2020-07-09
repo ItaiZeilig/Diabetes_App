@@ -11,7 +11,7 @@ class AuthProvider with ChangeNotifier {
       Firestore.instance.collection('users');
 
   User user;
-  // User get getUser => user;
+  User get asgetUser => user;
 
   // Firebase user one-time fetch
   Future<FirebaseUser> get getFirebaseUser async =>
@@ -70,7 +70,8 @@ class AuthProvider with ChangeNotifier {
         name: name,
         active: true,
         createTimestamp: FieldValue.serverTimestamp(),
-        type: "Patient",
+        //type: "Patient",
+        type: "Doctor",
       ));
     } catch (e) {
       return e.message;

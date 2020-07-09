@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/models/article.dart';
+import 'package:diabetes_app/screens/read_article_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -11,10 +15,17 @@ class PopularNews extends StatefulWidget {
   _PopularNewsState createState() => _PopularNewsState(article: article);
 }
 
+// DateTime parseTime (time)  {
+//   return DateFormat('yyyy-MM-dd hh:mm').format(time.toDate()) == null ? "" 
+//   : DateFormat('yyyy-MM-dd hh:mm').format(time.toDate());
+// }
+
 class _PopularNewsState extends State<PopularNews> {
   _PopularNewsState({this.article});
 
   final Article article;
+  var _isLoading = true;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +63,7 @@ class _PopularNewsState extends State<PopularNews> {
                     style:
                         TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                   ),
-                   SizedBox(height: 4.0),
+                  SizedBox(height: 4.0),
                   Text(
                     article.subtitle,
                     overflow: TextOverflow.ellipsis,
@@ -76,9 +87,13 @@ class _PopularNewsState extends State<PopularNews> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                         
+                          //article.time,
+                          // time?.toString() ?? "Empty"
                           DateFormat('yyyy-MM-dd hh:mm').format(article.time.toDate()),
-                          //article.author,
+                          // DateFormat('yyyy-MM-dd hh:mm')
+                          //     .format(article.time.toDate()) != null ? DateFormat('yyyy-MM-dd hh:mm')
+                          //     .format(article.time.toDate()) : "",
+                         
                           style: TextStyle(
                             fontSize: 14.0,
                           ),
@@ -98,6 +113,7 @@ class _PopularNewsState extends State<PopularNews> {
               ),
             ),
           ),
+          
         ],
       ),
     );

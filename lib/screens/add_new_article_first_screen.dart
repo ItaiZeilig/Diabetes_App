@@ -1,14 +1,17 @@
+
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/providers/article_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:diabetes_app/models/article.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/createdBy.dart';
 import '../providers/auth_provider.dart';
+
 import 'home_screen.dart';
 
 class AddNewArticle extends StatefulWidget {
@@ -32,20 +35,29 @@ class _AddNewArticleState extends State<AddNewArticle> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String _title;
-  String _subtitle;
-  String _content;
-  String _category;
-  int _diabetesType;
-  String _author;
-  String _seen;
-  String _favorite;
-  String _image;
-  dynamic _time = FieldValue.serverTimestamp();
+  String title;
+  String subtitle;
+  String content;
+  String category;
+  int diabetesType;
+  String author;
+  //String _seen;
+  //String _favorite;
+  String image;
+  dynamic time = FieldValue.serverTimestamp();  
+  //dynamic time = DateTime.now();
+  
+  bool _isPopular = false;
 
   Future<List<Article>> loadArticles() async {
-    return allArticles =
-        await _articleProvider.reciveAllChallengesFromDBFuture();
+    return allArticles = await _articleProvider.reciveAllArticlesFromDBFuture();
+  }
+
+
+@override
+  void initState() {    
+    super.initState();
+    
   }
 
   @override
@@ -61,13 +73,17 @@ class _AddNewArticleState extends State<AddNewArticle> {
           children: <Widget>[
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-              //child: Center(
-              child: Text(
-                'Add Article',
-                style: (TextStyle(fontWeight: FontWeight.bold, fontSize: 27.0)),
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+              child: Container(
+                height: 210.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  image: DecorationImage(
+                      image: AssetImage(
+                          "assets/images/article_coffee_cup_desk_pen.jpg"),
+                      fit: BoxFit.fill),
+                ),
               ),
-              //),
             ),
             //SizedBox(height: 5.0),
             Column(
@@ -91,9 +107,10 @@ class _AddNewArticleState extends State<AddNewArticle> {
                               return 'Invalid name!';
                             }
                           },
-                          onChanged: (value) => setState(() => _title = value),
+                          onChanged: (value) => setState(() => title = value),
                           onSaved: (value) {
-                            _title = value;
+                            title = value;
+                            
                           },
                         ),
                         TextFormField(
@@ -110,9 +127,10 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             }
                           },
                           onChanged: (value) =>
-                              setState(() => _subtitle = value),
+                              setState(() => subtitle = value),
                           onSaved: (value) {
-                            _subtitle = value;
+                            subtitle = value;
+                            
                           },
                         ),
                         TextFormField(
@@ -129,49 +147,10 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             }
                           },
                           onSaved: (value) {
-                            _author = value;
+                            author = value;
+                           
                           },
                         ),
-                        TextFormField(
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            labelText: 'Article Content',
-                          ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Content cant be empty';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _content = value;
-                          },
-                        ),
-                        DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              labelStyle: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              labelText: 'Article Category',
-                            ),
-                            value: _category ?? 'Sport',
-                            items: categorys.map((category) {
-                              return DropdownMenuItem(
-                                value: category,
-                                child: Text('$category'),
-                              );
-                            }).toList(),
-                            onChanged: (val) => setState(() => _category = val),
-                            onSaved: (value) {
-                              if ((_category != null)) {
-                                _category = value;
-                              } else {
-                                _category = 'Sport';
-                              }
-                            }),
                         DropdownButtonFormField(
                             decoration: InputDecoration(
                               labelStyle: TextStyle(
@@ -179,7 +158,7 @@ class _AddNewArticleState extends State<AddNewArticle> {
                               ),
                               labelText: 'Article Diabetes Type',
                             ),
-                            value: _diabetesType ?? 1,
+                            value: diabetesType ?? 1,
                             items: diabetesTypes.map((category) {
                               return DropdownMenuItem(
                                 value: category,
@@ -187,14 +166,94 @@ class _AddNewArticleState extends State<AddNewArticle> {
                               );
                             }).toList(),
                             onChanged: (value) =>
-                                setState(() => _diabetesType = value),
+                                setState(() => diabetesType = value),
                             onSaved: (value) {
-                              if ((_diabetesType != null)) {
-                                _diabetesType = value;
+                              if ((diabetesType != null)) {
+                                diabetesType = value;
                               } else {
-                                _diabetesType = 1;
+                                diabetesType = 1;
                               }
                             }),
+                        DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              labelText: 'Article Category',
+                            ),
+                            value: category ?? 'Sport',
+                            items: categorys.map((category) {
+                              return DropdownMenuItem(
+                                value: category,
+                                child: Text('$category'),
+                              );
+                            }).toList(),
+                            onChanged: (val) => setState(() => category = val),
+                            onSaved: (value) {
+                              if ((category != null)) {
+                                category = value;
+                                print(category);
+                              } else {
+                                category = 'Sport';
+                              }
+                            }),
+
+                        CheckboxListTile(
+                            title: Text(
+                              "Is article popular?",
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            activeColor: Colors.green,
+                            secondary: Icon(
+                              Icons.star,
+                              color: Colors.yellow[600],
+                              size: 25.0,
+                            ),
+                            value: _isPopular,
+                            onChanged: (bool response) {
+                              setState(() {
+                                _isPopular = response;
+                              });
+                            }),
+
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Article Content',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(15.0)),
+                          child: TextFormField(
+                            onSaved: (value) {
+                              content = value;
+                            },
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 13,
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              border: InputBorder.none,
+                              //fillColor: Colors.white,
+                            ),
+                          ),
+                        ),
+                      
                         TextFormField(
                           cursorColor: Theme.of(context).primaryColor,
                           decoration: InputDecoration(
@@ -205,15 +264,17 @@ class _AddNewArticleState extends State<AddNewArticle> {
                           ),
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Enter image URL';
+                              return 'Enter full image URL';
                             }
                             return null;
                           },
-                          onChanged: (value) => setState(() => _image = value),
+                          onChanged: (value) => setState(() => image = value),
                           onSaved: (value) {
-                            _image = value;
+                            image = value;
                           },
                         ),
+                        
+
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: RaisedButton(
@@ -236,26 +297,30 @@ class _AddNewArticleState extends State<AddNewArticle> {
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
 
-                                  _articleProvider.addNewArticle(
+                                  
+
+                                  await _articleProvider.addNewArticle(
                                       uuid.v4(),
-                                      _title,
-                                      _subtitle,
-                                      _content,
-                                      _category,
-                                      _diabetesType,
-                                      _time,
-                                      _author,
-                                      _image,
+                                      title,
+                                      subtitle,
+                                      content,
+                                      category,
+                                      diabetesType,
+                                      time,
+                                      author,
+                                      image,
                                       CreatedBy(
                                           name: _auth.user.name,
                                           type: _auth.user.type,
-                                          userId: _auth.user.id));
-
-                                  //allArticles = await loadArticles();
+                                          userId: _auth.user.id),
+                                      _isPopular);                                 
+                                
                                   await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => HomeScreen()));
+                                  
+                               
                                 }
                               } catch (e) {}
                             },

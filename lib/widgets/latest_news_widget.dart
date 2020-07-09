@@ -76,8 +76,9 @@ class _LatesNewsState extends State<LatesNews> {
                     child: Row(
                       children: <Widget>[
                         Text(
-                         
-                          DateFormat('yyyy-MM-dd hh:mm').format(article.time.toDate()),
+                         DateFormat('yyyy-MM-dd hh:mm')
+                              .format(article.time.toDate()) != null ? DateFormat('yyyy-MM-dd hh:mm')
+                              .format(article.time.toDate()) : "",
                           //article.author,
                           style: TextStyle(
                             fontSize: 14.0,

@@ -12,6 +12,12 @@ class ArticleProvider with ChangeNotifier {
 
   List<Article> articles = [];
 
+  getArticleId() {
+    var ref =
+        _articlesCollectionReference.getDocuments();
+    ref.then((v) => (v.documents[0].documentID));
+  }
+
   Future createArticle(Article article) async {
     try {
       await _articlesCollectionReference
@@ -22,18 +28,24 @@ class ArticleProvider with ChangeNotifier {
     }
   }
 
-  Stream<QuerySnapshot> getArticleSnapShot(String uid) {
+  Stream<QuerySnapshot> getAllArticlesByType(String id, int diabetesType) {
+  try {
     return _articlesCollectionReference
-        .document(uid)
-        .collection("articles")
-        .where('isPopular', isEqualTo: true)
-        .limit(3)
-        .snapshots();
+      .document(id)
+      .collection("articles")
+      .where("diabetesType", isEqualTo: diabetesType)
+      .snapshots();  
+  } catch (e) {
+    return e.message;
   }
+    
+}
+
+
 
   Future addNewArticle(
       String id, String title, String subtitle, String content, String category,
-      int diabetesType,dynamic time,String author,String image,CreatedBy createdBy) async {
+      int diabetesType,dynamic time,String author,String image,CreatedBy createdBy, bool isPopular) async {
     return await _articlesCollectionReference.document(id).setData({
         "id": id,
         "title": title,
@@ -47,10 +59,11 @@ class ArticleProvider with ChangeNotifier {
         //"favorite": favorite,
         "image": image,
         "createdBy": createdBy.toJson(),
+        "isPopular" : isPopular,
     });
   }
 
-  List<Article> _challengeListFromSpanshot(QuerySnapshot snapshot) {
+  List<Article> _articleListFromSpanshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return Article(
         id: doc.data["id"] ?? '',
@@ -69,13 +82,13 @@ class ArticleProvider with ChangeNotifier {
     }).toList();
   }
 
-  Stream<List<Article>> get reciveAllChallengesFromDB {
-    return _articlesCollectionReference.snapshots().map(_challengeListFromSpanshot);
+  Stream<List<Article>> get reciveAllArticlesFromDB {
+    return _articlesCollectionReference.snapshots().map(_articleListFromSpanshot);
   }
 
-  Future<List<Article>> reciveAllChallengesFromDBFuture() async {
+  Future<List<Article>> reciveAllArticlesFromDBFuture() async {
     var snapshot = await _articlesCollectionReference.getDocuments();
-    var answer = _challengeListFromSpanshot(snapshot);
+    var answer = _articleListFromSpanshot(snapshot);
     return answer.toList();
   }
 

@@ -145,6 +145,7 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                   _searchText = value;
                                 });
                               },
+                              
                               controller: searchController,
                               decoration: InputDecoration(
                                 hintText: 'Search',

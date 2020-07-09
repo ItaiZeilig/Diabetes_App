@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/providers/article_provider.dart';
-import 'package:diabetes_app/screens/add_new_article_screen.dart';
+import 'package:diabetes_app/screens/add_new_article_first_screen.dart';
 import 'package:diabetes_app/screens/read_article_screen.dart';
 import 'package:diabetes_app/widgets/latest_news_widget.dart';
 import 'package:diabetes_app/widgets/popular_news_screen.dart';
@@ -45,8 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
   bool _islates = true;
 
   Future<List<Article>> loadArticles() async {
-    return allArticles =
-        await _articleProvider.reciveAllChallengesFromDBFuture();
+    return allArticles = await _articleProvider.reciveAllArticlesFromDBFuture();
   }
 
   @override
@@ -138,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen>
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          _auth.user.name,
+                          _auth.user.name.toString() != null ? _auth.user.name.toString() : "",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 30),
                         ),
@@ -153,10 +152,10 @@ class _HomeScreenState extends State<HomeScreen>
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 6.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 6.0, horizontal: 6.0),
                         child: Row(
                           children: <Widget>[
-                            
                             SingleHomeCategory(
                                 name: "Online Chat",
                                 icon: Icons.chat_bubble_outline,
@@ -199,8 +198,12 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   ),
                   StreamBuilder<QuerySnapshot>(
-                    stream:
-                        Firestore.instance.collection('articles').snapshots(),
+                    stream: Firestore.instance
+                        .collection('articles')
+                        .where("diabetesType",
+                            isEqualTo:
+                                2) // TODO - Need to change the isEqualTo - Users diabetes type
+                        .snapshots(),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData) {
                         return CircularProgressIndicator();
@@ -217,7 +220,6 @@ class _HomeScreenState extends State<HomeScreen>
                                 itemBuilder: (context, index) {
                                   Article article = Article.fromSnapshot(
                                       snapshot.data.documents[index]);
-                                  //if(article.isPopular == true){
                                   return InkWell(
                                     onTap: () {
                                       Navigator.push(
@@ -234,37 +236,47 @@ class _HomeScreenState extends State<HomeScreen>
                                             horizontal: 18.0, vertical: 8.0),
                                         child: LatesNews(article: article)),
                                   );
-                                  // }
-                                  //else{
-                                  //return CircularProgressIndicator();
-                                  //}
                                 }),
-                            ListView.builder(
-                                itemCount: snapshot.data.documents.length,
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                physics: ScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  Article article = Article.fromSnapshot(
-                                      snapshot.data.documents[index]);
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ReadFullArticle(
-                                                      article: article)));
+                            StreamBuilder<QuerySnapshot>(
+                              stream: Firestore.instance
+                                  .collection('articles')
+                                  //.where("diabetesType",  isEqualTo: 2)
+                                  .where("isPopular", isEqualTo: true)
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                if (snapshot.data != null) {
+                                  return ListView.builder(
+                                    itemCount: snapshot.data.documents.length,
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    physics: ScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      Article article = Article.fromSnapshot(
+                                          snapshot.data.documents[index]);
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => ReadFullArticle(article: article),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 140.0,
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 18.0, vertical: 8.0),
+                                          child: PopularNews(article: article),
+                                        ),
+                                      );
                                     },
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 140.0,
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 18.0, vertical: 8.0),
-                                      child: PopularNews(article: article),
-                                    ),
                                   );
-                                }),
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              },
+                            ),
                           ],
                         ),
                       );

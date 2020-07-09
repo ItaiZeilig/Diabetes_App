@@ -51,7 +51,7 @@ class Article {
         favorite: json["favorite"],
         image: json["image"],
         createdBy: CreatedBy.fromJson(json["createdBy"]),
-        isPopular: json["popular"],
+        isPopular: json["isPopular"],
     );
 
      factory Article.fromSnapshot(DocumentSnapshot document) => Article(
@@ -67,7 +67,7 @@ class Article {
         favorite: document["favorite"],
         image: document["image"],
         createdBy: CreatedBy.fromJson(document["createdBy"]),
-        isPopular: document["popular"],
+        isPopular: document["isPopular"],
       );
 
     Map<String, dynamic> toJson() => {
