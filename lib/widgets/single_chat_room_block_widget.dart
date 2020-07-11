@@ -64,10 +64,10 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
                                   color: Colors.black),
                             ),
                             Text(
-                              DateFormat('kk:mm').format(
+                              DateFormat('MM/dd kk:mm').format(
                                 widget.chat.lastMessage.createTimestamp
-                                    .toDate(),
-                              ),
+                                    .toDate()),
+                              
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black),
                             ),

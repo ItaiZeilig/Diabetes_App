@@ -70,8 +70,8 @@ class AuthProvider with ChangeNotifier {
         name: name,
         active: true,
         createTimestamp: FieldValue.serverTimestamp(),
-        //type: "Patient",
-        type: "Doctor",
+        type: "Patient",
+        //type: "Doctor",
       ));
     } catch (e) {
       return e.message;

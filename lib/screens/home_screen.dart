@@ -12,7 +12,6 @@ import '../screens/all_challenges_screen.dart';
 import '../screens/all_chats_screen.dart';
 import '../screens/daily_challenges_screen.dart';
 import '../screens/single_chat_screen.dart';
-import '../widgets/single_home_category_widget.dart';
 import '../providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -137,7 +136,9 @@ class _HomeScreenState extends State<HomeScreen>
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          _auth.user.name.toString() != null ? _auth.user.name.toString() : "",
+                          _auth.user.name.toString() != null
+                              ? _auth.user.name.toString()
+                              : "",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 30),
                         ),
@@ -151,36 +152,41 @@ class _HomeScreenState extends State<HomeScreen>
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6.0, horizontal: 6.0),
-                        child: Row(
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Container(
+                        height: 180.0,
+                        width: double.infinity,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
                           children: <Widget>[
-                            SingleHomeCategory(
-                                name: "Online Chat",
-                                icon: Icons.chat_bubble_outline,
-                                routeName: _auth.user.type == 'Patient'
-                                    ? SingleChatScreen.routeName
-                                    : AllChatsScreen.routeName),
-                            SingleHomeCategory(
-                                name: "Daily Challenges",
-                                icon: Icons.adjust,
-                                routeName: _auth.user.type == 'Patient'
-                                    ? DailyChallengesScreen.routeName
-                                    : AllChallengesScreen.routeName),
-                            SingleHomeCategory(
-                                name: "Add New Article",
-                                icon: Icons.crop_original,
-                                routeName: _auth.user.type == 'Patient'
-                                    ? DailyChallengesScreen.routeName
-                                    : AddNewArticle.routeName),
+                            _buildListItem(
+                                'Online Chat',
+                                'assets/images/message.png',
+                                Color(0xFFD7FADA),
+                                Color(0xFF56CC7E),
+                                1),
+                            _buildListItem(
+                                'Daily Challenge',
+                                'assets/images/challenge.png',
+                                Color(0xFFC2E3FE),
+                                Color(0xFF6A8CAA),
+                                2),
+                            _buildListItem(
+                                // TODO IF Pateint or Doctor?!?
+                                'News Article',
+                                'assets/images/newspaper.png',
+                                Color(0xFFFFE9C6),
+                                Color(0xFFDA9551),
+                                3),
                           ],
                         ),
-                      ),
+                      )
                     ],
                   ),
                   SizedBox(
-                    height: 30.0,
+                    height: 15.0,
                   ),
                   Align(
                     alignment: Alignment.topLeft,
@@ -239,8 +245,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 }),
                             StreamBuilder<QuerySnapshot>(
                               stream: Firestore.instance
-                                  .collection('articles')
-                                  //.where("diabetesType",  isEqualTo: 2)
+                                  .collection('articles')                                  
                                   .where("isPopular", isEqualTo: true)
                                   .snapshots(),
                               builder: (context, snapshot) {
@@ -258,7 +263,9 @@ class _HomeScreenState extends State<HomeScreen>
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => ReadFullArticle(article: article),
+                                              builder: (context) =>
+                                                  ReadFullArticle(
+                                                      article: article),
                                             ),
                                           );
                                         },
@@ -285,6 +292,87 @@ class _HomeScreenState extends State<HomeScreen>
                 ],
               ),
             ),
+    );
+  }
+
+  gotoSelectedPage(int routhName) {
+    switch (routhName) {
+      case 1:
+        _auth.user.type == 'Patient'
+            ? Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SingleChatScreen()))
+            : Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AllChatsScreen()));
+        break;
+      case 2:
+        _auth.user.type == 'Patient'
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DailyChallengesScreen()))
+            : Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AllChallengesScreen()));
+        break;
+      case 3:
+        _auth.user.type == 'Patient'
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DailyChallengesScreen()))
+            : Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddNewArticle()));
+        break;
+      default:
+    }
+  }
+
+  _buildListItem(String name, String imgPath, Color bgColor, Color textColor,
+      int routhName) {
+    return Padding(
+      padding: EdgeInsets.only(left: 15.0),
+      child: InkWell(
+        onTap: () {
+          gotoSelectedPage(routhName);
+        },
+        child: Container(
+            height: 150.0,
+            width: 130.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              color: bgColor,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Hero(
+                  tag: name,
+                  child: Container(
+                    height: 75.0,
+                    width: 75.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        imgPath,
+                        height: 50.0,
+                        width: 50.0,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 25.0),
+                Text(
+                  name,
+                  style: TextStyle(
+                      fontSize: 17.0,
+                      color: textColor,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            )),
+      ),
     );
   }
 }

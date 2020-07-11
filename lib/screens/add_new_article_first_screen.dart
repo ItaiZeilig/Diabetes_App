@@ -1,10 +1,10 @@
-
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/providers/article_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:diabetes_app/models/article.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -44,20 +44,18 @@ class _AddNewArticleState extends State<AddNewArticle> {
   //String _seen;
   //String _favorite;
   String image;
-  dynamic time = FieldValue.serverTimestamp();  
+  dynamic time = FieldValue.serverTimestamp();
   //dynamic time = DateTime.now();
-  
+
   bool _isPopular = false;
 
   Future<List<Article>> loadArticles() async {
     return allArticles = await _articleProvider.reciveAllArticlesFromDBFuture();
   }
 
-
-@override
-  void initState() {    
+  @override
+  void initState() {
     super.initState();
-    
   }
 
   @override
@@ -110,7 +108,6 @@ class _AddNewArticleState extends State<AddNewArticle> {
                           onChanged: (value) => setState(() => title = value),
                           onSaved: (value) {
                             title = value;
-                            
                           },
                         ),
                         TextFormField(
@@ -130,7 +127,6 @@ class _AddNewArticleState extends State<AddNewArticle> {
                               setState(() => subtitle = value),
                           onSaved: (value) {
                             subtitle = value;
-                            
                           },
                         ),
                         TextFormField(
@@ -148,8 +144,10 @@ class _AddNewArticleState extends State<AddNewArticle> {
                           },
                           onSaved: (value) {
                             author = value;
-                           
                           },
+                          inputFormatters: [
+                            new LengthLimitingTextInputFormatter(22),
+                          ],
                         ),
                         DropdownButtonFormField(
                             decoration: InputDecoration(
@@ -192,12 +190,10 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             onSaved: (value) {
                               if ((category != null)) {
                                 category = value;
-                                print(category);
                               } else {
                                 category = 'Sport';
                               }
                             }),
-
                         CheckboxListTile(
                             title: Text(
                               "Is article popular?",
@@ -217,7 +213,6 @@ class _AddNewArticleState extends State<AddNewArticle> {
                                 _isPopular = response;
                               });
                             }),
-
                         SizedBox(
                           height: 15.0,
                         ),
@@ -253,7 +248,6 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             ),
                           ),
                         ),
-                      
                         TextFormField(
                           cursorColor: Theme.of(context).primaryColor,
                           decoration: InputDecoration(
@@ -273,8 +267,6 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             image = value;
                           },
                         ),
-                        
-
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: RaisedButton(
@@ -297,8 +289,6 @@ class _AddNewArticleState extends State<AddNewArticle> {
                                 if (_formKey.currentState.validate()) {
                                   _formKey.currentState.save();
 
-                                  
-
                                   await _articleProvider.addNewArticle(
                                       uuid.v4(),
                                       title,
@@ -313,14 +303,12 @@ class _AddNewArticleState extends State<AddNewArticle> {
                                           name: _auth.user.name,
                                           type: _auth.user.type,
                                           userId: _auth.user.id),
-                                      _isPopular);                                 
-                                
+                                      _isPopular);
+
                                   await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => HomeScreen()));
-                                  
-                               
                                 }
                               } catch (e) {}
                             },
