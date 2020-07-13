@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -11,26 +10,30 @@ class PersonalInfo extends StatefulWidget {
   _PersonalInfoState createState() => _PersonalInfoState();
 }
 
-
 final _formKey = GlobalKey<FormState>();
 
-final List<String> categorys = ['1' , '2' , 'GDM' , 'MODY'  , 'PREDIABETES' , 'other'];
+final List<String> categorys = [
+  '1',
+  '2',
+  'GDM',
+  'MODY',
+  'PREDIABETES',
+  'other'
+];
 
 DateTime dateTime = DateTime.now();
 final String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
 
 AgeDuration age;
 
-
-
 String firstName;
 String lastName;
-DateTime birthday; 
+DateTime birthday;
 bool male = false;
 bool female = false;
 bool isEnable = true;
 String gendar;
-String diabetesDiagnosisDate; 
+String diabetesDiagnosisDate;
 double weight;
 double height;
 double bmi;
@@ -40,23 +43,14 @@ String pump;
 String medication;
 String sensor;
 
-
-
-
 class _PersonalInfoState extends State<PersonalInfo> {
-
-  
   double calculateBMI(double weight, double height) {
     bmi = weight / pow(height / 100, 2);
     return bmi;
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-    
-    
     return Scaffold(
       appBar: AppBar(
         title: Text("Medical Personal Info"),
@@ -65,331 +59,298 @@ class _PersonalInfoState extends State<PersonalInfo> {
         child: ListView(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
+              padding:
+                  const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
               child: Center(
                 child: Text(
                   'Personal Information',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w800, fontSize: 27.0),
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 27.0),
                 ),
               ),
             ),
-
             Padding(
-                  padding: const EdgeInsets.only(right: 40.0, left: 40.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        
-                       SizedBox(
-                          height: 15.0,
+              padding: const EdgeInsets.only(right: 40.0, left: 40.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    TextFormField(
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
                         ),
-                        TextFormField(
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            labelText: 'First Name',
-                          ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Invalid name!';
-                            }
-                          },
-                          onChanged: (value) => setState(() => firstName = value),
-                          onSaved: (value) {
-                            firstName = value;
-                            print(firstName);
-                          },
-                        ),
-
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        TextFormField(
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            labelText: 'Last Name',
-                          ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Invalid name!';
-                            }
-                          },
-                          onChanged: (value) => setState(() => lastName = value),
-                          onSaved: (value) {
-                            lastName = value;
-                            print(lastName);
-                          },
-                        ),
-                                                
-                        
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text('Male:'),
-                            Checkbox(
-                              value: male, 
-                              onChanged: (bool response){
-                                setState(() {
-                                  male = response;
-                                  if(male == true){
-                                    print(male);
-                                    gendar = 'Male';
-                                    
-                                  }  
-                                });
-                                
-                              }),
-                           
-                            Text('Female:'),
-                            Checkbox(
-                              tristate: false,
-                              value: female, 
-                              onChanged: (bool response){
-                                setState(() {
-                                  female = response;
-                                  print(female);
-                                  if(female == true){
-                                    gendar = 'Female';
-                                    
-                                  }
-                                });
-                              }),
-                          ],
-                        ),
-                                                
-
-                         SizedBox(
-                          height: 5.0,
-                        ),
-
-
-                        Material(
-                          color: Colors.transparent,
-                          child: new Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                             
-
-                              const Text('Birthday',
-                                  style: TextStyle(
-                                  color: Color(0xFF7f70e7),
-                                  ),
-                                ),
-                              
-                              const Padding(
-                                padding: EdgeInsets.only(bottom: 5.0),
-                              ),
-                              CupertinoDateTextBox(
-                                  initialValue: dateTime,
-                                  onDateChange: onBirthdayChange,
-                                  hintText: DateFormat.yMd().format(dateTime) ),
-                            ],
-                          ),
+                        labelText: 'First Name',
                       ),
-
-
-
-
-                        
-
-                         SizedBox(
-                          height: 5.0,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Invalid name!';
+                        }
+                      },
+                      onChanged: (value) => setState(() => firstName = value),
+                      onSaved: (value) {
+                        firstName = value;
+                        print(firstName);
+                      },
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextFormField(
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
                         ),
-                        TextFormField(
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            labelText: 'Weight in Kilograms',
-                          ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Weight cant be empty';
-                            }
-                          },
-                          onChanged: (value) =>
-                              setState(() => weight = double.parse(value)),
-                          onSaved: (value) {
-                            weight = double.parse(value);
-                            print(weight);
-                          },
-                        ),
-                        
-
-                         SizedBox(
-                          height: 5.0,
-                        ),
-                        TextFormField(
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            labelText: 'Height in meters',
-                          ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Height cant be empty';
-                            }
-                          },
-                          onChanged: (value) =>
-                              setState(() => height = double.parse(value)),
-                          onSaved: (value) {
-                            height = double.parse(value);
-                            print(height);
-                          },
-                        ),
-
-                         SizedBox(
-                          height: 5.0,
-                        ),
-
-
-                        TextFormField(
-                            enabled: false,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              hintText: 'BMI = ' +  calculateBMI(weight ?? 1 ,height ?? 1).toString(),
-                              hintStyle: TextStyle(
-                                  color: Color(0xFF7f70e7), ),
-                              //contentPadding: EdgeInsets.all(widget.textfieldPadding),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6.0),
-                                  borderSide: const BorderSide(
-                                      color: CupertinoColors.inactiveGray, width: 0.0)),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6.0),
-                                  borderSide: const BorderSide(
-                                      color: CupertinoColors.inactiveGray, width: 0.0)),
-                            ),
-                            onSaved: (value) {
-                            bmi = calculateBMI(weight ?? 1 ,height ?? 1);
-                            print(bmi);
-                          },
-                        ),
-
-
-
-                        
-                        
-                        
-                        DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              labelStyle: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              labelText: 'Diabetes Type',
-                            ),
-                            value: fullDiabetesTypeOption ?? '1',
-                            items: categorys.map((category) {
-                              return DropdownMenuItem(
-                                value: category,
-                                child: Text('$category'),
-                              );
-                            }).toList(),
-                            //onChanged: (val) => setState(() => fullDiabetesTypeOption = val),
-                            onChanged: (String value){                              
+                        labelText: 'Last Name',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Invalid name!';
+                        }
+                      },
+                      onChanged: (value) => setState(() => lastName = value),
+                      onSaved: (value) {
+                        lastName = value;
+                        print(lastName);
+                      },
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text('Male:'),
+                        Checkbox(
+                            value: male,
+                            onChanged: (bool response) {
                               setState(() {
-                                fullDiabetesTypeOption = value;
-                                if(int.parse(fullDiabetesTypeOption) == 1){
-                                  diabetesType = 1;
-                                  print(diabetesType.toString() + " Ths is type 1");
+                                male = response;
+                                if (male == true) {
+                                  print(male);
+                                  gendar = 'Male';
                                 }
-                                else{
-                                  diabetesType = 2;
-                                  print(diabetesType.toString() + " Ths is type 2");
-                                }
-                                
                               });
-                            },
-                            onSaved: (value) {
-                              if ((fullDiabetesTypeOption != null)) {
-                                fullDiabetesTypeOption = value;
-                              } else {
-                                fullDiabetesTypeOption = '1';
-                              }
                             }),
-                        
-                        
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: RaisedButton(
-                            color: Colors.white,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(
-                                  'Complete  ',
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                Icon(
-                                  Icons.playlist_add_check,
-                                  color: Colors.green,
-                                ),
-                              ],
-                            ),
-                            onPressed: () async {
-                              // try {
-                                 if (_formKey.currentState.validate()) {
-                                   print(formattedDate);
-                                  //  print(birthdayChangeStore(birthday));
-                                  //  final difference = dateTime.difference(birthday).inDays;
-                                  //  print(difference);
-
-                                  age = Age.dateDifference(
-                                    fromDate: birthday, toDate: dateTime, includeToDate: false);
-
-                                  print(age.years);
-
-                                   
-                                   
-                              //     _formKey.currentState.save();
-
-                              //     await _articleProvider.addNewArticle(
-                              //         uuid.v4(),
-                              //         title,
-                              //         subtitle,
-                              //         content,
-                              //         category,
-                              //         diabetesType,
-                              //         time,
-                              //         author,
-                              //         image,
-                              //         CreatedBy(
-                              //             name: _auth.user.name,
-                              //             type: _auth.user.type,
-                              //             userId: _auth.user.id),
-                              //         _isPopular);
-
-                              //     await Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) => HomeScreen()));
+                        Text('Female:'),
+                        Checkbox(
+                            tristate: false,
+                            value: female,
+                            onChanged: (bool response) {
+                              setState(() {
+                                female = response;
+                                print(female);
+                                if (female == true) {
+                                  gendar = 'Female';
                                 }
-                              // } catch (e) {}
-                            },
-                          ),
-                        ),
+                              });
+                            }),
                       ],
                     ),
-                  ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const Text(
+                            'Birthday',
+                            style: TextStyle(
+                              color: Color(0xFF7f70e7),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 5.0),
+                          ),
+                          CupertinoDateTextBox(
+                              initialValue: dateTime,
+                              onDateChange: onBirthdayChange,
+                              hintText: DateFormat.yMd().format(dateTime)),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextFormField(
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: 'Weight in Kilograms',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Weight cant be empty';
+                        }
+                      },
+                      onChanged: (value) =>
+                          setState(() => weight = double.parse(value)),
+                      onSaved: (value) {
+                        weight = double.parse(value);
+                        print(weight);
+                      },
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextFormField(
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: 'Height in meters',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Height cant be empty';
+                        }
+                      },
+                      onChanged: (value) =>
+                          setState(() => height = double.parse(value)),
+                      onSaved: (value) {
+                        height = double.parse(value);
+                        print(height);
+                      },
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextFormField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintText: 'BMI = ' +
+                            calculateBMI(weight ?? 1, height ?? 1).toString(),
+                        hintStyle: TextStyle(
+                          color: Color(0xFF7f70e7),
+                        ),
+                        //contentPadding: EdgeInsets.all(widget.textfieldPadding),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                            borderSide: const BorderSide(
+                                color: CupertinoColors.inactiveGray,
+                                width: 0.0)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                            borderSide: const BorderSide(
+                                color: CupertinoColors.inactiveGray,
+                                width: 0.0)),
+                      ),
+                      onSaved: (value) {
+                        bmi = calculateBMI(weight ?? 1, height ?? 1);
+                        print(bmi);
+                      },
+                    ),
+                    DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          labelText: 'Diabetes Type',
+                        ),
+                        value: fullDiabetesTypeOption ?? '1',
+                        items: categorys.map((category) {
+                          return DropdownMenuItem(
+                            value: category,
+                            child: Text('$category'),
+                          );
+                        }).toList(),
+                        //onChanged: (val) => setState(() => fullDiabetesTypeOption = val),
+                        onChanged: (String value) {
+                          setState(() {
+                            fullDiabetesTypeOption = value;
+                            if (int.parse(fullDiabetesTypeOption) == 1) {
+                              diabetesType = 1;
+                              print(diabetesType.toString() + " Ths is type 1");
+                            } else {
+                              diabetesType = 2;
+                              print(diabetesType.toString() + " Ths is type 2");
+                            }
+                          });
+                        },
+                        onSaved: (value) {
+                          if ((fullDiabetesTypeOption != null)) {
+                            fullDiabetesTypeOption = value;
+                          } else {
+                            fullDiabetesTypeOption = '1';
+                          }
+                        }),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: RaisedButton(
+                        color: Colors.white,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Complete  ',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            Icon(
+                              Icons.playlist_add_check,
+                              color: Colors.green,
+                            ),
+                          ],
+                        ),
+                        onPressed: () async {
+                          // try {
+                          if (_formKey.currentState.validate()) {
+                            print(formattedDate);
+                            //  print(birthdayChangeStore(birthday));
+                            //  final difference = dateTime.difference(birthday).inDays;
+                            //  print(difference);
+
+                            age = Age.dateDifference(
+                                fromDate: birthday,
+                                toDate: dateTime,
+                                includeToDate: false);
+
+                            print(age.years);
+
+                            //     _formKey.currentState.save();
+
+                            //     await _articleProvider.addNewArticle(
+                            //         uuid.v4(),
+                            //         title,
+                            //         subtitle,
+                            //         content,
+                            //         category,
+                            //         diabetesType,
+                            //         time,
+                            //         author,
+                            //         image,
+                            //         CreatedBy(
+                            //             name: _auth.user.name,
+                            //             type: _auth.user.type,
+                            //             userId: _auth.user.id),
+                            //         _isPopular);
+
+                            //     await Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) => HomeScreen()));
+                          }
+                          // } catch (e) {}
+                        },
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-  
 
   void onBirthdayChange(DateTime chosen) {
     setState(() {
@@ -400,7 +361,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
   DateTime birthdayChangeStore(DateTime chosen) {
     setState(() {
       birthday = chosen;
-     
     });
     return birthday;
   }
