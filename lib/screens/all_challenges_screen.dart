@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabetes_app/screens/edit_challenge_screen.dart';
 import '../models/challenge.dart';
 import '../models/createdBy.dart';
 import '../widgets/single_challenge_save_dialog_widget.dart';
@@ -29,8 +30,8 @@ class _AllChallengesScreenState extends State<AllChallengesScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (firstInit) {
-      _challengesProvider = Provider.of<ChallengesProvider>(context);
       _auth = Provider.of<AuthProvider>(context);
+      _challengesProvider = Provider.of<ChallengesProvider>(context);
       setState(() {
         firstInit = false;
       });
@@ -40,7 +41,6 @@ class _AllChallengesScreenState extends State<AllChallengesScreen> {
   @override
   Widget build(BuildContext context) {
     final Size _deviceSize = MediaQuery.of(context).size;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
@@ -73,17 +73,9 @@ class _AllChallengesScreenState extends State<AllChallengesScreen> {
                               name: _auth.user.name,
                               type: _auth.user.type,
                               userId: _auth.user.id));
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext alertContext) {
-                            return SingleChallengeSaveDialog(
-                                challenge,
-                                alertContext,
-                                context,
-                                _deviceSize,
-                                _challengesProvider,
-                                true);
-                          });
+                      Navigator.of(context).pushNamed(
+                          EditChallengeScreen.routeName,
+                          arguments: [challenge]);
                     },
                     icon: Icon(Icons.add),
                   ),
