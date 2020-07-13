@@ -12,7 +12,7 @@ import './screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/add_new_article_first_screen.dart';
+import 'screens/add_new_article_screen.dart';
 
 void main() => runApp(MyApp());
 

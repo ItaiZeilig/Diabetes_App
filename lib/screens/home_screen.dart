@@ -2,10 +2,11 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/providers/article_provider.dart';
-import 'package:diabetes_app/screens/add_new_article_first_screen.dart';
+import 'package:diabetes_app/screens/add_new_article_screen.dart';
 import 'package:diabetes_app/screens/read_article_screen.dart';
 import 'package:diabetes_app/widgets/latest_news_widget.dart';
-import 'package:diabetes_app/widgets/popular_news_screen.dart';
+import 'package:diabetes_app/widgets/popular_news_widget.dart';
+import 'package:diabetes_app/screens/personal_info_screen.dart';
 
 import '../screens/profile_screen.dart';
 import '../screens/all_challenges_screen.dart';
@@ -117,12 +118,15 @@ class _HomeScreenState extends State<HomeScreen>
                             _scaffoldkey.currentState.openDrawer();
                           },
                         ),
-                        InkWell(
-                          onTap: () => Navigator.of(context)
-                              .pushNamed(ProfileScreen.routeName),
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                "https://p7.hiclipart.com/preview/14/65/239/ico-avatar-scalable-vector-graphics-icon-doctor-with-stethoscope.jpg"),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: InkWell(
+                            onTap: () => Navigator.of(context)
+                                .pushNamed(ProfileScreen.routeName),
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  "https://p7.hiclipart.com/preview/14/65/239/ico-avatar-scalable-vector-graphics-icon-doctor-with-stethoscope.jpg"),
+                            ),
                           ),
                         ),
                       ],
@@ -161,6 +165,13 @@ class _HomeScreenState extends State<HomeScreen>
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: <Widget>[
+                             _buildListItem(
+                                // TODO IF Pateint or Doctor?!?
+                                'Personal Info',
+                                'assets/images/app.png',
+                                Color(0xFFFF9999),
+                                Color(0xFFFF4C4C),
+                                4),
                             _buildListItem(
                                 'Online Chat',
                                 'assets/images/message.png',
@@ -180,6 +191,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 Color(0xFFFFE9C6),
                                 Color(0xFFDA9551),
                                 3),
+                           
                           ],
                         ),
                       )
@@ -321,6 +333,15 @@ class _HomeScreenState extends State<HomeScreen>
                     builder: (context) => DailyChallengesScreen()))
             : Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AddNewArticle()));
+        break;
+      case 4:
+        _auth.user.type == 'Patient'
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AddNewArticle()))
+            : Navigator.push(context,
+                MaterialPageRoute(builder: (context) => PersonalInfo()));
         break;
       default:
     }

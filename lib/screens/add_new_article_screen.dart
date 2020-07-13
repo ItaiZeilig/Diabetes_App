@@ -45,7 +45,7 @@ class _AddNewArticleState extends State<AddNewArticle> {
   //String _favorite;
   String image;
   dynamic time = FieldValue.serverTimestamp();
-  //dynamic time = DateTime.now();
+  
 
   bool _isPopular = false;
 
