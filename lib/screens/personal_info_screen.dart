@@ -174,7 +174,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           ),
                           const Padding(
                             padding: EdgeInsets.only(bottom: 5.0),
->>>>>>> f15dcf65b66af863879a9f74241212bee40b02c0
+
                           ),
                           CupertinoDateTextBox(
                               initialValue: dateTime,
