@@ -12,10 +12,6 @@ class PersonalInfo extends StatefulWidget {
 
 final _formKey = GlobalKey<FormState>();
 
-<<<<<<< HEAD
-final List<String> categorys = ['1' , '2' , 'GDM' , 'MODY'  , 'PREDIABETES' , 'other'];
-final List<String> gendarType = ['Male' , 'Female'];
-=======
 final List<String> categorys = [
   '1',
   '2',
@@ -24,7 +20,6 @@ final List<String> categorys = [
   'PREDIABETES',
   'other'
 ];
->>>>>>> f15dcf65b66af863879a9f74241212bee40b02c0
 
 DateTime dateTime = DateTime.now();
 final String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
@@ -177,74 +172,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               color: Color(0xFF7f70e7),
                             ),
                           ),
-<<<<<<< HEAD
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Invalid name!';
-                            }
-                          },
-                          onChanged: (value) => setState(() => lastName = value),
-                          onSaved: (value) {
-                            lastName = value;
-                            print(lastName);
-                          },
-                        ),
-                                                
-                        
-                        
-                       DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              labelStyle: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              labelText: 'Gendar',
-                            ),
-                            value: gendar ?? 'Male',
-                            items: gendarType.map((category) {
-                              return DropdownMenuItem(
-                                value: category,
-                                child: Text('$category'),
-                              );
-                            }).toList(),
-                            //onChanged: (val) => setState(() => fullDiabetesTypeOption = val),
-                            onChanged: (String value){                              
-                              setState(() {
-                                gendar = value;                                                              
-                              });
-                            },
-                            onSaved: (value) {
-                              if ((gendar != null)) {
-                                gendar = value;
-                              } else {
-                                gendar = 'Male';
-                              }
-                            }),
-                                                
-
-                         SizedBox(
-                          height: 15.0,
-                        ),
-
-
-                        Material(
-                          color: Colors.transparent,
-                          child: new Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[                            
-                              Text('Birthday',
-                                  style: TextStyle(
-                                  color: Color(0xFF7f70e7),
-                                  ),
-                                ),                              
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 5.0),
-                              ),
-                              CupertinoDateTextBox(
-                                  initialValue: dateTime,
-                                  onDateChange: onBirthdayChange,
-                                  hintText: DateFormat.yMd().format(dateTime)),
-                            ],
-=======
                           const Padding(
                             padding: EdgeInsets.only(bottom: 5.0),
 >>>>>>> f15dcf65b66af863879a9f74241212bee40b02c0
@@ -255,29 +182,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               hintText: DateFormat.yMd().format(dateTime)),
                         ],
                       ),
-<<<<<<< HEAD
-
-
-                        TextFormField(
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            labelText: 'Weight in Kilograms',
-                          ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Weight cant be empty';
-                            }
-                          },
-                          onChanged: (value) =>
-                              setState(() => weight = double.parse(value)),
-                          onSaved: (value) {
-                            weight = double.parse(value);
-                            print(weight);
-                          },
-=======
                     ),
                     SizedBox(
                       height: 5.0,
@@ -310,7 +214,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       decoration: InputDecoration(
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
->>>>>>> f15dcf65b66af863879a9f74241212bee40b02c0
                         ),
                         labelText: 'Height in meters',
                       ),
@@ -338,15 +241,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         hintStyle: TextStyle(
                           color: Color(0xFF7f70e7),
                         ),
-<<<<<<< HEAD
-                        TextFormField(
-                          cursorColor: Theme.of(context).primaryColor,
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            labelText: 'Height in Centimeter',
-=======
                         //contentPadding: EdgeInsets.all(widget.textfieldPadding),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(6.0),
@@ -368,96 +262,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         decoration: InputDecoration(
                           labelStyle: TextStyle(
                             color: Theme.of(context).primaryColor,
->>>>>>> f15dcf65b66af863879a9f74241212bee40b02c0
                           ),
                           labelText: 'Diabetes Type',
                         ),
-<<<<<<< HEAD
-
-
-                        TextFormField(
-                            enabled: false,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              hintText: 'BMI = ' +  calculateBMI(weight == null ? 0 : weight,height == null ? 0 : height).toString(),
-                              hintStyle: TextStyle(
-                                  color: Color(0xFF7f70e7), ),
-                              //contentPadding: EdgeInsets.all(widget.textfieldPadding),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6.0),
-                                  borderSide: const BorderSide(
-                                      color: CupertinoColors.inactiveGray, width: 0.0)),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(6.0),
-                                  borderSide: const BorderSide(
-                                      color: CupertinoColors.inactiveGray, width: 0.0)),
-                            ),
-                            onSaved: (value) {
-                            bmi = calculateBMI(weight,height);
-                            print(bmi);
-                          },
-                        ),
-
-
-
-                        
-                        
-                        
-                        DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              labelStyle: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              labelText: 'Diabetes Type',
-                            ),
-                            value: fullDiabetesTypeOption ?? '1',
-                            items: categorys.map((category) {
-                              return DropdownMenuItem(
-                                value: category,
-                                child: Text('$category'),
-                              );
-                            }).toList(),
-                            //onChanged: (val) => setState(() => fullDiabetesTypeOption = val),
-                            onChanged: ( value){                              
-                              setState(() {
-                                fullDiabetesTypeOption = value.toString();
-                                if(int.parse(fullDiabetesTypeOption) == 1){
-                                  diabetesType = 1;
-                                  print(diabetesType.toString() + " Ths is type 1");
-                                }
-                                else{
-                                  diabetesType = 2;
-                                  print(diabetesType.toString() + " Ths is type 2");
-                                }
-                                
-                              });
-                            },
-                            onSaved: (value) {
-                              if ((fullDiabetesTypeOption != null)) {
-                                fullDiabetesTypeOption = value;
-                              } else {
-                                fullDiabetesTypeOption = '1';
-                              }
-                            }),
-                        
-                        
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: RaisedButton(
-                            color: Colors.white,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(
-                                  'Complete  ',
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                Icon(
-                                  Icons.playlist_add_check,
-                                  color: Colors.green,
-                                ),
-                              ],
-=======
                         value: fullDiabetesTypeOption ?? '1',
                         items: categorys.map((category) {
                           return DropdownMenuItem(
@@ -499,7 +306,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             Icon(
                               Icons.playlist_add_check,
                               color: Colors.green,
->>>>>>> f15dcf65b66af863879a9f74241212bee40b02c0
                             ),
                           ],
                         ),
