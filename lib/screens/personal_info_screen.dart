@@ -15,13 +15,12 @@ class PersonalInfo extends StatefulWidget {
 final _formKey = GlobalKey<FormState>();
 
 final List<String> categorys = ['1' , '2' , 'GDM' , 'MODY'  , 'PREDIABETES' , 'other'];
+final List<String> gendarType = ['Male' , 'Female'];
 
 DateTime dateTime = DateTime.now();
 final String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
 
 AgeDuration age;
-
-
 
 String firstName;
 String lastName;
@@ -50,6 +49,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
     bmi = weight / pow(height / 100, 2);
     return bmi;
   }
+  getAge(DateTime birthday, DateTime dateTime){
+    var age = Age.dateDifference(fromDate: birthday, toDate: dateTime, includeToDate: false);
+    if(age != null) {
+      return age.years;
+    }
+    return dateTime;
+  }
+  
 
 
   @override
@@ -129,46 +136,38 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         ),
                                                 
                         
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text('Male:'),
-                            Checkbox(
-                              value: male, 
-                              onChanged: (bool response){
-                                setState(() {
-                                  male = response;
-                                  if(male == true){
-                                    print(male);
-                                    gendar = 'Male';
-                                    
-                                  }  
-                                });
-                                
-                              }),
-                           
-                            Text('Female:'),
-                            Checkbox(
-                              tristate: false,
-                              value: female, 
-                              onChanged: (bool response){
-                                setState(() {
-                                  female = response;
-                                  print(female);
-                                  if(female == true){
-                                    gendar = 'Female';
-                                    
-                                  }
-                                });
-                              }),
-                          ],
-                        ),
+                        
+                       DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              labelStyle: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              labelText: 'Gendar',
+                            ),
+                            value: gendar ?? 'Male',
+                            items: gendarType.map((category) {
+                              return DropdownMenuItem(
+                                value: category,
+                                child: Text('$category'),
+                              );
+                            }).toList(),
+                            //onChanged: (val) => setState(() => fullDiabetesTypeOption = val),
+                            onChanged: (String value){                              
+                              setState(() {
+                                gendar = value;                                                              
+                              });
+                            },
+                            onSaved: (value) {
+                              if ((gendar != null)) {
+                                gendar = value;
+                              } else {
+                                gendar = 'Male';
+                              }
+                            }),
                                                 
 
                          SizedBox(
-                          height: 5.0,
+                          height: 15.0,
                         ),
 
 
@@ -176,34 +175,24 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           color: Colors.transparent,
                           child: new Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                             
-
-                              const Text('Birthday',
+                            children: <Widget>[                            
+                              Text('Birthday',
                                   style: TextStyle(
                                   color: Color(0xFF7f70e7),
                                   ),
-                                ),
-                              
-                              const Padding(
+                                ),                              
+                              Padding(
                                 padding: EdgeInsets.only(bottom: 5.0),
                               ),
                               CupertinoDateTextBox(
                                   initialValue: dateTime,
                                   onDateChange: onBirthdayChange,
-                                  hintText: DateFormat.yMd().format(dateTime) ),
+                                  hintText: DateFormat.yMd().format(dateTime)),
                             ],
                           ),
                       ),
 
 
-
-
-                        
-
-                         SizedBox(
-                          height: 5.0,
-                        ),
                         TextFormField(
                           cursorColor: Theme.of(context).primaryColor,
                           decoration: InputDecoration(
@@ -235,7 +224,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             labelStyle: TextStyle(
                               color: Theme.of(context).primaryColor,
                             ),
-                            labelText: 'Height in meters',
+                            labelText: 'Height in Centimeter',
                           ),
                           validator: (value) {
                             if (value.isEmpty) {
@@ -259,7 +248,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                             enabled: false,
                             decoration: InputDecoration(
                               isDense: true,
-                              hintText: 'BMI = ' +  calculateBMI(weight ?? 1 ,height ?? 1).toString(),
+                              hintText: 'BMI = ' +  calculateBMI(weight == null ? 0 : weight,height == null ? 0 : height).toString(),
                               hintStyle: TextStyle(
                                   color: Color(0xFF7f70e7), ),
                               //contentPadding: EdgeInsets.all(widget.textfieldPadding),
@@ -273,7 +262,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                       color: CupertinoColors.inactiveGray, width: 0.0)),
                             ),
                             onSaved: (value) {
-                            bmi = calculateBMI(weight ?? 1 ,height ?? 1);
+                            bmi = calculateBMI(weight,height);
                             print(bmi);
                           },
                         ),
@@ -298,9 +287,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               );
                             }).toList(),
                             //onChanged: (val) => setState(() => fullDiabetesTypeOption = val),
-                            onChanged: (String value){                              
+                            onChanged: ( value){                              
                               setState(() {
-                                fullDiabetesTypeOption = value;
+                                fullDiabetesTypeOption = value.toString();
                                 if(int.parse(fullDiabetesTypeOption) == 1){
                                   diabetesType = 1;
                                   print(diabetesType.toString() + " Ths is type 1");

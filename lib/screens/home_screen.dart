@@ -149,53 +149,66 @@ class _HomeScreenState extends State<HomeScreen>
                       ],
                     ),
                   ),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "What would you like to do?",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      Container(
-                        height: 180.0,
-                        width: double.infinity,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                             _buildListItem(
-                                // TODO IF Pateint or Doctor?!?
-                                'Personal Info',
-                                'assets/images/app.png',
-                                Color(0xFFFF9999),
-                                Color(0xFFFF4C4C),
-                                4),
-                            _buildListItem(
-                                'Online Chat',
-                                'assets/images/message.png',
-                                Color(0xFFD7FADA),
-                                Color(0xFF56CC7E),
-                                1),
-                            _buildListItem(
-                                'Daily Challenge',
-                                'assets/images/challenge.png',
-                                Color(0xFFC2E3FE),
-                                Color(0xFF6A8CAA),
-                                2),
-                            _buildListItem(
-                                // TODO IF Pateint or Doctor?!?
-                                'News Article',
-                                'assets/images/newspaper.png',
-                                Color(0xFFFFE9C6),
-                                Color(0xFFDA9551),
-                                3),
-                           
-                          ],
+                  Flexible(
+                    flex: 1,
+                    fit: FlexFit.tight,
+                                      child: Column(
+                      children: <Widget>[
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.tight,
+                          child: Text(
+                            "What would you like to do?",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
                         ),
-                      )
-                    ],
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Flexible(
+                          flex: 5,
+                          fit: FlexFit.tight,
+                          child: Container(
+                            height: 180.0,
+                            width: double.infinity,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: <Widget>[
+                                 _buildListItem(
+                                    // TODO IF Pateint or Doctor?!?
+                                    'Personal Info',
+                                    'assets/images/app.png',
+                                    //Color(0xFFFF9999)
+                                    Color(0xFFF4C2C2) ,
+                                    Color(0xFFFF4C4C),
+                                    4),
+                                _buildListItem(
+                                    'Online Chat',
+                                    'assets/images/message.png',
+                                    Color(0xFFD7FADA),
+                                    Color(0xFF56CC7E),
+                                    1),
+                                _buildListItem(
+                                    'Daily Challenge',
+                                    'assets/images/challenge.png',
+                                    Color(0xFFC2E3FE),
+                                    Color(0xFF6A8CAA),
+                                    2),
+                                _buildListItem(
+                                    // TODO IF Pateint or Doctor?!?
+                                    'News Article',
+                                    'assets/images/newspaper.png',
+                                    Color(0xFFFFE9C6),
+                                    Color(0xFFDA9551),
+                                    3),
+                               
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 15.0,
