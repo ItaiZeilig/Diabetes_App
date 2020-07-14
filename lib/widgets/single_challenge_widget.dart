@@ -6,10 +6,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 class SingleChallenge extends StatelessWidget {
-  SingleChallenge(
-    this.challenge, {
-    Key key,
-  }) : super(key: key);
+  SingleChallenge(this.challenge);
 
   Challenge challenge;
   ChallengesProvider _challengesProvider;
@@ -45,8 +42,8 @@ class SingleChallenge extends StatelessWidget {
     }
   }
 
-  IconData getIconByType(String type){
-        switch (type) {
+  IconData getIconByType(String type) {
+    switch (type) {
       case "Sport":
         return Icons.directions_run;
         break;

@@ -22,7 +22,7 @@ class ChallengesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setSearchText(String text){
+  void setSearchText(String text) {
     searchText = text;
     notifyListeners();
   }

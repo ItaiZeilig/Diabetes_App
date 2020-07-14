@@ -40,12 +40,14 @@ class _AllChallengesListState extends State<AllChallengesList> {
             height: _deviceSize.height,
             child: ListView.builder(
                 itemCount: snapshot.data.documents.length,
+                // ignore: missing_return
                 itemBuilder: (context, index) {
                   Challenge challenge =
                       Challenge.fromSnapshot(snapshot.data.documents[index]);
                   if (challenge.name
-                      .toLowerCase()
-                      .contains(_challengesProvider.searchText) || _challengesProvider.searchText.isEmpty) {
+                          .toLowerCase()
+                          .contains(_challengesProvider.searchText) ||
+                      _challengesProvider.searchText.isEmpty) {
                     return DismissibleSingleChallenge(
                         challengesProvider: _challengesProvider,
                         challenge: challenge,
@@ -58,5 +60,3 @@ class _AllChallengesListState extends State<AllChallengesList> {
     );
   }
 }
-
-

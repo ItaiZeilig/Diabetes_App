@@ -77,7 +77,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    _auth = Provider.of<AuthProvider>(context);
     return Scaffold(
       key: _scaffoldkey,
       drawer: Drawer(
@@ -270,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 }),
                             StreamBuilder<QuerySnapshot>(
                               stream: Firestore.instance
-                                  .collection('articles')                                  
+                                  .collection('articles')
                                   .where("isPopular", isEqualTo: true)
                                   .snapshots(),
                               builder: (context, snapshot) {

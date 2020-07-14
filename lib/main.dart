@@ -1,4 +1,4 @@
-
+import 'package:diabetes_app/screens/edit_challenge_screen.dart';
 
 import './screens/profile_screen.dart';
 import './providers/challenge_provider.dart';
@@ -56,6 +56,7 @@ class _MyAppState extends State<MyApp> {
             ProfileScreen.routeName: (ctx) => ProfileScreen(),
             AddNewArticle.routeName: (ctx) => AddNewArticle(),
             //AddNewArticleSecond.routeName: (ctx) => AddNewArticleSecond(),
+            EditChallengeScreen.routeName: (ctx) => EditChallengeScreen(),
           },
         ),
       ),
