@@ -7,37 +7,32 @@ Challenge challengeFromJson(String str) => Challenge.fromJson(json.decode(str));
 String challengeToJson(Challenge data) => json.encode(data.toJson());
 
 class Challenge {
-    Challenge({
-        this.name,
-        this.description,
-        this.active,
-        this.createTimestamp,
-        this.type,
-        this.diabetesType,
-        this.doneItems,
-        this.numberOfItems,
-        this.done,
-        this.createdBy,
-        this.id,
-    });
+  Challenge({
+    this.name,
+    this.active,
+    this.createTimestamp,
+    this.type,
+    this.diabetesType,
+    this.doneItems,
+    this.numberOfItems,
+    this.done,
+    this.createdBy,
+    this.id,
+  });
 
-    String name;
-    String description;
-    bool active;
-    dynamic createTimestamp;
-    String type;
-    int doneItems;
-    int numberOfItems;
-    int diabetesType;
-    bool done;
-    CreatedBy createdBy;
-    String id;
+  String name;
+  bool active;
+  dynamic createTimestamp;
+  String type;
+  int doneItems;
+  int numberOfItems;
+  int diabetesType;
+  bool done;
+  CreatedBy createdBy;
+  String id;
 
-
-
-    factory Challenge.fromJson(Map<String, dynamic> json) => Challenge(
+  factory Challenge.fromJson(Map<String, dynamic> json) => Challenge(
         name: json["name"],
-        description: json["description"],
         active: json["active"],
         createTimestamp: json["createTimestamp"],
         type: json["type"],
@@ -47,11 +42,10 @@ class Challenge {
         done: json["done"],
         id: json["id"],
         createdBy: CreatedBy.fromJson(json["createdBy"]),
-    );
+      );
 
-      factory Challenge.fromSnapshot(DocumentSnapshot document) => Challenge(
+  factory Challenge.fromSnapshot(DocumentSnapshot document) => Challenge(
         name: document["name"],
-        description: document["description"],
         active: document["active"],
         createTimestamp: document["createTimestamp"],
         type: document["type"],
@@ -63,9 +57,8 @@ class Challenge {
         createdBy: CreatedBy.fromJson(document["createdBy"]),
       );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "name": name,
-        "description": description,
         "active": active,
         "createTimestamp": createTimestamp,
         "type": type,
@@ -75,7 +68,5 @@ class Challenge {
         "done": done,
         "id": id,
         "createdBy": createdBy.toJson(),
-    };
-
-  
+      };
 }

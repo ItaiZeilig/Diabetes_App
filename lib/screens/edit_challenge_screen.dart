@@ -79,31 +79,6 @@ class _EditChallengeScreenState extends State<EditChallengeScreen> {
                   ),
                   TextFormField(
                     cursorColor: Theme.of(context).primaryColor,
-                    initialValue: challenge.description,
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      labelText: 'Challenge description',
-                    ),
-                    keyboardType: TextInputType.text,
-                    // ignore: missing_return
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Invalid description!';
-                      }
-                    },
-                    onChanged: (value) {
-                      setState(() {
-                        challenge.description = value;
-                      });
-                    },
-                    onSaved: (value) {
-                      challenge.description = value;
-                    },
-                  ),
-                  TextFormField(
-                    cursorColor: Theme.of(context).primaryColor,
                     initialValue: challenge.numberOfItems.toString(),
                     decoration: InputDecoration(
                       labelStyle: TextStyle(

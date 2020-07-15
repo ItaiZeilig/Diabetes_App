@@ -61,7 +61,6 @@ class _AllChallengesScreenState extends State<AllChallengesScreen> {
                       Challenge challenge = Challenge(
                           active: true,
                           diabetesType: 1,
-                          description: "This is description",
                           done: false,
                           doneItems: 0,
                           name: "This is header",

@@ -1,0 +1,10 @@
+{
+    "email": "כתובת מייל",
+    "email_error": "כתובת מייל לא תקינה",
+    "password": "סיסמה",
+    "password_error": "סיסמה קצרה",
+    "login": "כניסה",
+    "signup": "הרשמה",
+    "forgot_password": "שכחתי סיסמה",
+    "send": "שלח"
+}

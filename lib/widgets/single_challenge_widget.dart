@@ -59,12 +59,12 @@ class SingleChallenge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size _deviceSize = MediaQuery.of(context).size;
     _challengesProvider = Provider.of<ChallengesProvider>(context);
     _auth = Provider.of<AuthProvider>(context);
     return Container(
-      margin: EdgeInsets.all(20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
             padding: EdgeInsets.all(20),
@@ -77,27 +77,29 @@ class SingleChallenge extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                challenge.name,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                "${challenge.numberOfItems - challenge.doneItems} ${challenge.description}",
-                style: TextStyle(
-                    fontSize: 14,
+          Container(
+            width: _deviceSize.width * 0.5,
+            child: Column(
+              children: [
+                Text(
+                  challenge.name,
+                  style: TextStyle(
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey),
-              ),
-            ],
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "${challenge.type}",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                ),
+              ],
+            ),
           ),
           CircularPercentIndicator(
             radius: 50.0,
@@ -107,7 +109,7 @@ class SingleChallenge extends StatelessWidget {
                     Icons.done_outline,
                     color: Colors.green,
                   )
-                : Text(""),
+                : Text("${challenge.numberOfItems - challenge.doneItems}"),
             percent: (challenge.doneItems / challenge.numberOfItems),
             backgroundColor: getBackgroundColorByType(challenge.type),
             progressColor: getPrograssColorByType(challenge.type),

@@ -1,0 +1,10 @@
+{
+    "email": "E-Mail",
+    "email_error": "Invalid email",
+    "password": "Password",
+    "password_error": "Password is too short",
+    "login": "Login",
+    "signup": "SignUp",
+    "forgot_password": "Forgot Password",
+    "send": "Send"
+}

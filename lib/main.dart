@@ -1,4 +1,5 @@
 import 'package:diabetes_app/screens/edit_challenge_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import './screens/profile_screen.dart';
 import './providers/challenge_provider.dart';
@@ -14,7 +15,15 @@ import 'package:provider/provider.dart';
 
 import 'screens/add_new_article_screen.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(EasyLocalization(
+      child: MyApp(),
+      path: "assets/languages",
+      saveLocale: true,
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('he', 'HE'),
+      ],
+    ));
 
 class MyApp extends StatefulWidget {
   @override
@@ -40,6 +49,9 @@ class _MyAppState extends State<MyApp> {
         builder: (ctx, auth, _) => MaterialApp(
           title: 'DoctorApp',
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
           theme: ThemeData(
             // Define the default brightness and colors.
             brightness: Brightness.light,

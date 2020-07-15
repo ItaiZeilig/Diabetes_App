@@ -30,20 +30,15 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
       _challengesProvider = Provider.of<ChallengesProvider>(context);
       _auth = Provider.of<AuthProvider>(context);
       if (_auth.user == null) {
-        _auth.fetchAndSetUser().whenComplete(() {
-          _challengesProvider
-              .addChallengeToUserByDay(_auth.user.id, 1)
-              .whenComplete(() {
-            setState(() {
-              firstInit = false;
-            });
-          });
-        });
-      } else {
+        _auth.fetchAndSetUser();
+      }
+      _challengesProvider
+          .addChallengeToUserByDay(_auth.user.id, 1)
+          .whenComplete(() {
         setState(() {
           firstInit = false;
         });
-      }
+      });
     }
   }
 
@@ -91,6 +86,7 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
 
                         return Container(
                           height: _deviceSize.height * 0.6,
+                          width: _deviceSize.width * 0.9,
                           child: ListView.builder(
                               itemCount: snapshot.data.documents.length,
                               itemBuilder: (context, index) {

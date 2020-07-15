@@ -80,30 +80,6 @@ class SingleChallengeSaveDialog extends StatelessWidget {
                     ),
                     TextFormField(
                       cursorColor: Theme.of(alertContext).primaryColor,
-                      initialValue: challenge.description,
-                      decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          color: Theme.of(alertContext).primaryColor,
-                        ),
-                        labelText: 'Challenge description',
-                      ),
-                      keyboardType: TextInputType.text,
-                      // ignore: missing_return
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Invalid description!';
-                        }
-                      },
-                      onChanged: (value) {
-                        challenge.description = value;
-                        valueNotifier.notifyListeners();
-                      },
-                      onSaved: (value) {
-                        challenge.description = value;
-                      },
-                    ),
-                    TextFormField(
-                      cursorColor: Theme.of(alertContext).primaryColor,
                       initialValue: challenge.numberOfItems.toString(),
                       decoration: InputDecoration(
                         labelStyle: TextStyle(

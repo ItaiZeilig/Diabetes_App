@@ -9,6 +9,7 @@ import 'package:diabetes_app/screens/read_article_screen.dart';
 import 'package:diabetes_app/widgets/latest_news_widget.dart';
 import 'package:diabetes_app/widgets/popular_news_widget.dart';
 import 'package:diabetes_app/screens/personal_info_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../screens/profile_screen.dart';
 import '../screens/all_challenges_screen.dart';
@@ -36,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   ArticleProvider _articleProvider = ArticleProvider();
   HealthInfoProvider _healthInfoProvider = HealthInfoProvider();
-
 
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Latest News'),
@@ -101,6 +101,22 @@ class _HomeScreenState extends State<HomeScreen>
                 _auth.logOut();
                 Navigator.pop(context);
               },
+            ),
+            ListTile(
+              title: Text("EN"),
+              onTap: () {
+                setState(() {
+                  EasyLocalization.of(context).locale = Locale('en', 'US');
+                });
+              },
+            ),
+            ListTile(
+              title: Text("HE"),
+              onTap: () {
+                setState(() {
+                  EasyLocalization.of(context).locale = Locale('he', 'HE');
+                });
+              },
             )
           ],
         ),
@@ -141,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen>
                     child: Column(
                       children: <Widget>[
                         Text(
-                          "Hello,",
+                          "title".tr(),
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
@@ -154,66 +170,92 @@ class _HomeScreenState extends State<HomeScreen>
                       ],
                     ),
                   ),
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                                      child: Column(
-                      children: <Widget>[
-                        Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: Text(
-                            "What would you like to do?",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        "What would you like to do?",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Container(
+                        height: 180.0,
+                        width: double.infinity,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: <Widget>[
+                            _buildListItem(
+                                // TODO IF Pateint or Doctor?!?
+                                'Personal Info',
+                                'assets/images/app.png',
+                                Color(0xFFFF9999),
+                                Color(0xFFFF4C4C),
+                                4),
+                            _buildListItem(
+                                'Online Chat',
+                                'assets/images/message.png',
+                                Color(0xFFD7FADA),
+                                Color(0xFF56CC7E),
+                                1),
+                            _buildListItem(
+                                'Daily Challenge',
+                                'assets/images/challenge.png',
+                                Color(0xFFC2E3FE),
+                                Color(0xFF6A8CAA),
+                                2),
+                            _buildListItem(
+                                // TODO IF Pateint or Doctor?!?
+                                'News Article',
+                                'assets/images/newspaper.png',
+                                Color(0xFFFFE9C6),
+                                Color(0xFFDA9551),
+                                3),
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        flex: 5,
+                        fit: FlexFit.tight,
+                        child: Container(
+                          height: 180.0,
+                          width: double.infinity,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: <Widget>[
+                              _buildListItem(
+                                  // TODO IF Pateint or Doctor?!?
+                                  'Personal Info',
+                                  'assets/images/app.png',
+                                  //Color(0xFFFF9999)
+                                  Color(0xFFF4C2C2),
+                                  Color(0xFFFF4C4C),
+                                  4),
+                              _buildListItem(
+                                  'Online Chat',
+                                  'assets/images/message.png',
+                                  Color(0xFFD7FADA),
+                                  Color(0xFF56CC7E),
+                                  1),
+                              _buildListItem(
+                                  'Daily Challenge',
+                                  'assets/images/challenge.png',
+                                  Color(0xFFC2E3FE),
+                                  Color(0xFF6A8CAA),
+                                  2),
+                              _buildListItem(
+                                  // TODO IF Pateint or Doctor?!?
+                                  'News Article',
+                                  'assets/images/newspaper.png',
+                                  Color(0xFFFFE9C6),
+                                  Color(0xFFDA9551),
+                                  3),
+                            ],
                           ),
                         ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Flexible(
-                          flex: 5,
-                          fit: FlexFit.tight,
-                          child: Container(
-                            height: 180.0,
-                            width: double.infinity,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: <Widget>[
-                                 _buildListItem(
-                                    // TODO IF Pateint or Doctor?!?
-                                    'Personal Info',
-                                    'assets/images/app.png',
-                                    //Color(0xFFFF9999)
-                                    Color(0xFFF4C2C2) ,
-                                    Color(0xFFFF4C4C),
-                                    4),
-                                _buildListItem(
-                                    'Online Chat',
-                                    'assets/images/message.png',
-                                    Color(0xFFD7FADA),
-                                    Color(0xFF56CC7E),
-                                    1),
-                                _buildListItem(
-                                    'Daily Challenge',
-                                    'assets/images/challenge.png',
-                                    Color(0xFFC2E3FE),
-                                    Color(0xFF6A8CAA),
-                                    2),
-                                _buildListItem(
-                                    // TODO IF Pateint or Doctor?!?
-                                    'News Article',
-                                    'assets/images/newspaper.png',
-                                    Color(0xFFFFE9C6),
-                                    Color(0xFFDA9551),
-                                    3),
-                               
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                   SizedBox(
                     height: 15.0,
@@ -237,8 +279,9 @@ class _HomeScreenState extends State<HomeScreen>
                     stream: Firestore.instance
                         .collection('articles')
                         .where("diabetesType",
-                            isEqualTo: 'MODY') // TODO - Need to change the isEqualTo - Users diabetes type
-                            .snapshots(),
+                            isEqualTo:
+                                'MODY') // TODO - Need to change the isEqualTo - Users diabetes type
+                        .snapshots(),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData) {
                         return CircularProgressIndicator();
@@ -353,10 +396,8 @@ class _HomeScreenState extends State<HomeScreen>
         break;
       case 4:
         _auth.user.type == 'Patient'
-            ? Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AddNewArticle()))
+            ? Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddNewArticle()))
             : Navigator.push(context,
                 MaterialPageRoute(builder: (context) => PersonalInfo()));
         break;

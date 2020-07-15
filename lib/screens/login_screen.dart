@@ -2,6 +2,7 @@ import '../providers/auth_provider.dart';
 import '../providers/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 enum AuthMode { Signup, Login, ResetPassword }
 
@@ -85,9 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
           _chatProvider.createNewChatRoomForUser(_auth.user);
         });
       }
-      setState(() {
-        _authMode = AuthMode.Login;
-      });
     } else {
       _res = await _auth.resetPassword(_authData['email'].trim());
     }
@@ -146,13 +144,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   labelStyle: TextStyle(
                                     color: Theme.of(context).primaryColor,
                                   ),
-                                  labelText: 'E-Mail',
+                                  labelText: 'email'.tr(),
                                 ),
                                 keyboardType: TextInputType.emailAddress,
                                 // ignore: missing_return
                                 validator: (value) {
                                   if (value.isEmpty || !value.contains('@')) {
-                                    return 'Invalid email!';
+                                    return 'email_error'.tr();
                                   }
                                 },
                                 onSaved: (value) {
@@ -167,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     labelStyle: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                     ),
-                                    labelText: 'Password',
+                                    labelText: 'password'.tr(),
                                   ),
                                   controller: _passwordController,
                                   obscureText: true,
@@ -177,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   // ignore: missing_return
                                   validator: (value) {
                                     if (value.isEmpty || value.length < 5) {
-                                      return 'Password is too short!';
+                                      return 'password_error'.tr();
                                     }
                                   },
                                   onSaved: (value) {
@@ -241,8 +239,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     child: Text(
                                       _authMode == AuthMode.ResetPassword
-                                          ? 'SEND'
-                                          : '${_authMode == AuthMode.Login ? 'LOGIN' : 'SIGNUP'}',
+                                          ? 'send'.tr()
+                                          : '${_authMode == AuthMode.Login ? 'login'.tr() : 'signup'.tr()}',
                                       style: TextStyle(
                                           fontSize: 20, color: Colors.white),
                                     ),
@@ -261,7 +259,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       splashColor:
                                           Theme.of(context).primaryColor,
                                       child: Text(
-                                        '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'}',
+                                        '${_authMode == AuthMode.Login ? 'signup'.tr() : 'login'.tr()}',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           decoration: TextDecoration.underline,
@@ -275,7 +273,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             : AuthMode.ResetPassword),
                                     splashColor: Theme.of(context).primaryColor,
                                     child: Text(
-                                      '${_authMode == AuthMode.ResetPassword ? 'Login' : 'Forgot Password'}',
+                                      '${_authMode == AuthMode.ResetPassword ? 'login'.tr() : 'forgot_password'.tr()}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         decoration: TextDecoration.underline,
