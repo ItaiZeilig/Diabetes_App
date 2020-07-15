@@ -1,21 +1,41 @@
-import 'package:age/age.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/models/createdBy.dart';
 import '../models/healthInfo.dart';
 import 'package:flutter/material.dart';
 
 class HealthInfoProvider with ChangeNotifier {
-
   final CollectionReference _healthInfoReference =
       Firestore.instance.collection('healthInfo');
 
+  HealthInfo healthInfo;
+
+  Future fetchHealthInfoByEmail(String email) async {
+    var doc = await _healthInfoReference.document(email).get();
+    healthInfo = HealthInfo.fromJson(doc.data);
+    notifyListeners();
+  }
 
   Future addNewHealthInfo(
-      String id, String name, String fullAge, int ageYears, String diabetesType, String gendar, 
-      dynamic dateOfBirth, dynamic diabetesDiagnosisDate , String weight, String height, String bmi,
-      String medication, String pump, String sensor, CreatedBy createdBy, String email) async {
-    return await _healthInfoReference.document(id).setData({
-       "id": id,
+      String id,
+      String name,
+      String fullAge,
+      int ageYears,
+      String diabetesType,
+      String gendar,
+      dynamic dateOfBirth,
+      dynamic diabetesDiagnosisDate,
+      String weight,
+      String height,
+      String bmi,
+      String medication,
+      String pump,
+      String sensor,
+      CreatedBy createdBy,
+      String email) async {
+    bool exist = await checkIfEmailExist(email);
+    if (!exist) {
+      return await _healthInfoReference.document(email).setData({
+        "id": id,
         "name": name,
         "fullAge": fullAge,
         "ageYears": ageYears,
@@ -29,14 +49,22 @@ class HealthInfoProvider with ChangeNotifier {
         "medication": medication,
         "pump": pump,
         "sensor": sensor,
-       "createdBy": createdBy.toJson(), 
-       "email": email,   
-    });
+        "createdBy": createdBy.toJson(),
+        "email": email,
+      });
+    } else {
+      return 'This email already exist';
+    }
   }
 
-  Future createNewChatRoomForUser(HealthInfo info, String uid) async {
+  Future checkIfEmailExist(String email) async {
     try {
-      await _healthInfoReference.document(uid).setData(info.toJson());
+      var response = await _healthInfoReference.document(email).get();
+      if (response.exists) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       return e.message;
     }

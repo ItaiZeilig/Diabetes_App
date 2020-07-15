@@ -1,3 +1,5 @@
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
+
 import '../providers/auth_provider.dart';
 import '../providers/chat_provider.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   AuthMode _authMode = AuthMode.Login;
   AuthProvider _auth;
   ChatProvider _chatProvider;
+  HealthInfoProvider _healthInfoProvider;
   final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
   var _firstInit = true;
@@ -34,6 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_firstInit) {
       _auth = Provider.of<AuthProvider>(context, listen: false);
       _chatProvider = Provider.of<ChatProvider>(context, listen: false);
+      _healthInfoProvider =
+          Provider.of<HealthInfoProvider>(context, listen: false);
       _firstInit = false;
     }
   }
@@ -77,14 +82,22 @@ class _LoginScreenState extends State<LoginScreen> {
           password: _authData['password'].trim());
     } else if (_authMode == AuthMode.Signup) {
       // Sign user up
-      _res = await _auth.signUp(
-          email: _authData['email'].trim(),
-          password: _authData['password'].trim(),
-          name: _authData['name']);
-      if (_res == null) {
-        await _auth.fetchAndSetUser().whenComplete(() {
-          _chatProvider.createNewChatRoomForUser(_auth.user);
-        });
+      bool isEmailExist = await _healthInfoProvider
+          .checkIfEmailExist(_authData['email'].trim());
+      if (isEmailExist) {
+        await _healthInfoProvider
+            .fetchHealthInfoByEmail(_authData['email'].trim());
+        _res = await _auth.signUp(
+            email: _authData['email'].trim(),
+            password: _authData['password'].trim(),
+            name: _healthInfoProvider.healthInfo.name);
+        if (_res == null) {
+          await _auth.fetchAndSetUser().whenComplete(() {
+            _chatProvider.createNewChatRoomForUser(_auth.user);
+          });
+        }
+      } else {
+        _res = "Email is not in the system, Please contact your Clinic";
       }
     } else {
       _res = await _auth.resetPassword(_authData['email'].trim());
@@ -157,7 +170,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _authData['email'] = value;
                                 },
                               ),
-                              
                               if (_authMode != AuthMode.ResetPassword)
                                 TextFormField(
                                   cursorColor: Theme.of(context).primaryColor,

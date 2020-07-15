@@ -23,12 +23,19 @@ class PersonalInfo extends StatefulWidget {
 
 List<GlobalKey<FormState>> _formKey = [];
 
-AuthProvider _auth = AuthProvider();
-HealthInfoProvider _healthInfoProvider = HealthInfoProvider();
+AuthProvider _auth;
+HealthInfoProvider _healthInfoProvider;
 
 var uuid = Uuid();
 
-final List<String> categorys = ['1', '2', 'GDM', 'MODY', 'PREDIABETES', 'other'];
+final List<String> categorys = [
+  '1',
+  '2',
+  'GDM',
+  'MODY',
+  'PREDIABETES',
+  'other'
+];
 final List<String> gendarType = ['Male', 'Female'];
 
 DateTime dateTime = DateTime.now();
@@ -48,56 +55,52 @@ String medication;
 String sensor;
 String email;
 
-
-
 class _PersonalInfoState extends State<PersonalInfo> {
-
-Random random = new Random();
-int randomNumber;
-
+  Random random = new Random();
+  int randomNumber;
 
   @override
-void initState() { 
-  randomNumber = random.nextInt(99);
-  _formKey = new List<GlobalKey<FormState>>.generate(100,
-        (i) => new GlobalKey<FormState>(debugLabel: ' _formKey'));
-  height = null;      
-  super.initState();
-  
-}
-  
-  double calculateBMI(double weight, double height) {    
-      if(weight == null || height == null){
-        weight = 0;
-        height = 1;
-      }
-      
-        bmi = weight / pow(height / 100, 2);
-      
-      return bmi;    
-    
+  void initState() {
+    randomNumber = random.nextInt(99);
+    _formKey = new List<GlobalKey<FormState>>.generate(
+        100, (i) => new GlobalKey<FormState>(debugLabel: ' _formKey'));
+    height = null;
+    super.initState();
   }
-  getAge(DateTime birthday, DateTime dateTime){
-    var age = Age.dateDifference(fromDate: birthday, toDate: dateTime, includeToDate: false);
-    if(age != null) {
+
+  double calculateBMI(double weight, double height) {
+    if (weight == null || height == null) {
+      weight = 0;
+      height = 1;
+    }
+
+    bmi = weight / pow(height / 100, 2);
+
+    return bmi;
+  }
+
+  getAge(DateTime birthday, DateTime dateTime) {
+    var age = Age.dateDifference(
+        fromDate: birthday, toDate: dateTime, includeToDate: false);
+    if (age != null) {
       return age.years;
     }
     return dateTime;
   }
 
-  String personFullName(String firstName, String lastName){
+  String personFullName(String firstName, String lastName) {
     return (firstName + " " + lastName).toString();
   }
 
   void onBirthdayChange(DateTime chosen) {
-    setState(() {     
-        birthday = chosen;     
+    setState(() {
+      birthday = chosen;
     });
   }
 
   void onDiabetesDateChange(DateTime chosen) {
-    setState(() {     
-        diabetesDiagnosisDate = chosen;     
+    setState(() {
+      diabetesDiagnosisDate = chosen;
     });
   }
 
@@ -109,16 +112,15 @@ void initState() {
   }
 
   showAlertDialog(BuildContext context) {
-
     // set up the button
     Widget okButton = FlatButton(
       child: Text("OK"),
-      onPressed: () { 
+      onPressed: () {
         //Navigator.of(context).pop();
         Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => HomeScreen())); // dismiss dialog        
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomeScreen())); // dismiss dialog
       },
     );
 
@@ -139,13 +141,11 @@ void initState() {
       },
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
-     _auth = Provider.of<AuthProvider>(context);
-
-
+    _auth = Provider.of<AuthProvider>(context);
+    _healthInfoProvider = Provider.of<HealthInfoProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Medical Personal Info"),
@@ -191,30 +191,28 @@ void initState() {
                         print(name);
                       },
                     ),
-                   
-                   
                     DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                        decoration: InputDecoration(
+                          labelStyle: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          labelText: 'Gendar',
                         ),
-                        labelText: 'Gendar',
-                      ),
-                      value: gendar ?? 'Male',
-                      items: gendarType.map((category) {
-                        return DropdownMenuItem(
-                          value: category,
-                          child: Text('$category'),
-                        );
-                      }).toList(),
-                      onChanged: (val) => setState(() => gendar= val),
-                      onSaved: (value) {
-                        if ((gendar != null)) {
-                          gendar = value;
-                        } else {
-                          gendar = 'Male';
-                        }
-                      }),
+                        value: gendar ?? 'Male',
+                        items: gendarType.map((category) {
+                          return DropdownMenuItem(
+                            value: category,
+                            child: Text('$category'),
+                          );
+                        }).toList(),
+                        onChanged: (val) => setState(() => gendar = val),
+                        onSaved: (value) {
+                          if ((gendar != null)) {
+                            gendar = value;
+                          } else {
+                            gendar = 'Male';
+                          }
+                        }),
                     SizedBox(
                       height: 15.0,
                     ),
@@ -231,7 +229,6 @@ void initState() {
                           ),
                           const Padding(
                             padding: EdgeInsets.only(bottom: 5.0),
-
                           ),
                           CupertinoDateTextBox(
                               initialValue: dateTime,
@@ -245,6 +242,7 @@ void initState() {
                     ),
                     TextFormField(
                       cursorColor: Theme.of(context).primaryColor,
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
@@ -268,6 +266,7 @@ void initState() {
                     ),
                     TextFormField(
                       cursorColor: Theme.of(context).primaryColor,
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
@@ -290,16 +289,16 @@ void initState() {
                       height: 5.0,
                     ),
                     TextFormField(
-                      
                       enabled: false,
-                      decoration: InputDecoration( 
+                      decoration: InputDecoration(
                         // filled: true,
-                        // fillColor: (calculateBMI(weight == null ? 0 : weight, height == null ? 0 :  weight)) > 10 ? 
-                           //Colors.green : Colors.red,
-                        isDense: true,                        
-                        hintText: 'BMI = ' + calculateBMI(weight , height).toString(),
+                        // fillColor: (calculateBMI(weight == null ? 0 : weight, height == null ? 0 :  weight)) > 10 ?
+                        //Colors.green : Colors.red,
+                        isDense: true,
+                        hintText:
+                            'BMI = ' + calculateBMI(weight, height).toString(),
                         hintStyle: TextStyle(
-                          color: Colors.black,                          
+                          color: Colors.black,
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(6.0),
@@ -312,7 +311,7 @@ void initState() {
                                 color: CupertinoColors.inactiveGray,
                                 width: 0.0)),
                       ),
-                       onChanged: (value) =>
+                      onChanged: (value) =>
                           setState(() => bmi = double.parse(value)),
                       onSaved: (value) {
                         bmi = calculateBMI(weight, height);
@@ -332,10 +331,10 @@ void initState() {
                             value: category,
                             child: Text('$category'),
                           );
-                        }).toList(),                        
+                        }).toList(),
                         onChanged: (String value) {
                           setState(() {
-                            diabetesTypeOption = value;                                                        
+                            diabetesTypeOption = value;
                           });
                         },
                         onSaved: (value) {
@@ -345,10 +344,8 @@ void initState() {
                             diabetesTypeOption = '1';
                           }
                           print(diabetesTypeOption);
-                        }
-                      ),
-
-                      SizedBox(
+                        }),
+                    SizedBox(
                       height: 15.0,
                     ),
                     Material(
@@ -357,14 +354,13 @@ void initState() {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           const Text(
-                            'Diabetes Diagnosis Date', 
+                            'Diabetes Diagnosis Date',
                             style: TextStyle(
                               color: Color(0xFF7f70e7),
                             ),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(bottom: 5.0),
-
                           ),
                           CupertinoDateTextBox(
                               initialValue: dateTime,
@@ -373,8 +369,6 @@ void initState() {
                         ],
                       ),
                     ),
-
-
                     SizedBox(
                       height: 5.0,
                     ),
@@ -398,8 +392,6 @@ void initState() {
                         print(medication);
                       },
                     ),
-
-
                     SizedBox(
                       height: 5.0,
                     ),
@@ -416,15 +408,12 @@ void initState() {
                           return 'Pump cant be empty';
                         }
                       },
-                      onChanged: (value) =>
-                          setState(() => pump = (value)),
+                      onChanged: (value) => setState(() => pump = (value)),
                       onSaved: (value) {
                         pump = (value);
                         print(pump);
                       },
                     ),
-
-                    
                     SizedBox(
                       height: 5.0,
                     ),
@@ -441,34 +430,31 @@ void initState() {
                           return 'Sensor cant be empty';
                         }
                       },
-                      onChanged: (value) =>
-                          setState(() => sensor = (value)),
+                      onChanged: (value) => setState(() => sensor = (value)),
                       onSaved: (value) {
                         sensor = (value);
                         print(sensor);
                       },
                     ),
-
-                   TextFormField(
-                    cursorColor: Theme.of(context).primaryColor,
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                    TextFormField(
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: 'User E-Mail',
                       ),
-                      labelText: 'User E-Mail',
+                      keyboardType: TextInputType.emailAddress,
+                      // ignore: missing_return
+                      validator: (value) {
+                        if (value.isEmpty || !value.contains('@')) {
+                          return 'Invalid email!';
+                        }
+                      },
+                      onSaved: (String value) {
+                        email = value;
+                      },
                     ),
-                    keyboardType: TextInputType.emailAddress,
-                    // ignore: missing_return
-                    validator: (value) {
-                      if (value.isEmpty || !value.contains('@')) {
-                        return 'Invalid email!';
-                      }
-                    },
-                    onSaved: (String value) {
-                      email = value;
-                    },
-                  ),
-
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: RaisedButton(
@@ -487,61 +473,53 @@ void initState() {
                           ],
                         ),
                         onPressed: () async {
-                           try {
-                          if (_formKey[randomNumber].currentState.validate()) {
+                          try {
+                            if (_formKey[randomNumber]
+                                .currentState
+                                .validate()) {
+                              _formKey[randomNumber].currentState.save();
+                              age = Age.dateDifference(
+                                  fromDate: birthday,
+                                  toDate: dateTime,
+                                  includeToDate: false);
 
-                             _formKey[randomNumber].currentState.save();
+                              await _healthInfoProvider.addNewHealthInfo(
+                                uuid.v4(),
+                                name,
+                                age.toString(),
+                                age.years,
+                                diabetesTypeOption,
+                                gendar,
+                                Timestamp.fromMicrosecondsSinceEpoch(
+                                        birthday.microsecondsSinceEpoch)
+                                    .toDate(),
+                                Timestamp.fromMicrosecondsSinceEpoch(
+                                        diabetesDiagnosisDate
+                                            .microsecondsSinceEpoch)
+                                    .toDate(),
+                                weight.toString(),
+                                height.toString(),
+                                bmi.toString(),
+                                medication,
+                                pump,
+                                sensor,
+                                CreatedBy(
+                                    name: _auth.user.name,
+                                    type: _auth.user.type,
+                                    userId: _auth.user.id),
+                                email,
+                              );
 
+                              await showAlertDialog(context);
 
-                            print(formattedDate);                            
-
-                            age = Age.dateDifference(
-                                fromDate: birthday,
-                                toDate: dateTime,
-                                includeToDate: false);
-
-                            print("This is birthday: " + birthday.toString());
-                            
-                            print("This is age: " + age.toString());
-
-
-                            print("This is diabetes date: " + diabetesDiagnosisDate.toString());
-                            
-                                await _healthInfoProvider.addNewHealthInfo(
-                                      uuid.v4(),
-                                      name,
-                                      age.toString(),
-                                      age.years,
-                                      diabetesTypeOption,                                      
-                                      gendar,                                       
-                                      Timestamp.fromMicrosecondsSinceEpoch(birthday.microsecondsSinceEpoch).toDate(),
-                                      Timestamp.fromMicrosecondsSinceEpoch(diabetesDiagnosisDate.microsecondsSinceEpoch).toDate(), 
-                                      weight.toString(),
-                                      height.toString(),
-                                      bmi.toString(),
-                                      medication,
-                                      pump,
-                                      sensor,
-                                      
-                                      CreatedBy(
-                                          name: _auth.user.name,
-                                          type: _auth.user.type,
-                                          userId: _auth.user.id),
-                                      email,
-                                      );
-                                      
-                                
-                                
-                                await showAlertDialog(context);
-
-                                // await Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => HomeScreen()));
+                              // await Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => HomeScreen()));
+                            }
+                          } catch (e) {
+                            print(e);
                           }
-                           } catch (e) {
-                             print("Error");
-                           }
                         },
                       ),
                     ),
@@ -554,8 +532,6 @@ void initState() {
       ),
     );
   }
-
-  
 }
 
 class CupertinoDateTextBox extends StatefulWidget {
@@ -650,7 +626,7 @@ class _CupertinoDateTextBoxState extends State<CupertinoDateTextBox> {
     Color textColor;
     if (_currentDate != null) {
       final formatter = new DateFormat('dd/MM/yyyy');
-      
+
       fieldText = formatter.format(_currentDate);
       textColor = widget.color;
     } else {

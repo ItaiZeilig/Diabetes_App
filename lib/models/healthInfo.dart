@@ -26,8 +26,8 @@ class HealthInfo {
     this.medication,
     this.pump,
     this.sensor,
-    this.createdBy,  
-    this.email,  
+    this.createdBy,
+    this.email,
   });
 
   String id;
@@ -56,18 +56,18 @@ class HealthInfo {
         diabetesDiagnosisDate: json["diabetesDiagnosisDate"],
         gendar: json["gender"],
         dateOfBirth: json["dateOfBirth"],
-        weight: json["weight"].toDouble(),
-        height: json["height"].toDouble(),
-        bmi: json["bmi"].toDouble(),
+        weight: json["weight"],
+        height: json["height"],
+        bmi: json["bmi"],
         medication: json["medication"],
         pump: json["pump"],
         sensor: json["sensor"],
-        createdBy: CreatedBy.fromJson(json["createdBy"]),        
+        createdBy: CreatedBy.fromJson(json["createdBy"]),
         email: json["email"],
       );
 
   Map<String, dynamic> toJson() => {
-      "id": id,
+        "id": id,
         "name": name,
         "fullAge": fullAge,
         "ageYears": ageYears,
@@ -81,7 +81,7 @@ class HealthInfo {
         "medication": medication,
         "pump": pump,
         "sensor": sensor,
-        "createdBy": createdBy.toJson(), 
-      "email": email,               
+        "createdBy": createdBy.toJson(),
+        "email": email,
       };
 }

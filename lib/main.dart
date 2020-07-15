@@ -1,3 +1,5 @@
+import 'package:diabetes_app/providers/article_provider.dart';
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
 import 'package:diabetes_app/screens/edit_challenge_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -43,6 +45,12 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider.value(
           value: ChallengesProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: HealthInfoProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: ArticleProvider(),
         ),
       ],
       child: Consumer<AuthProvider>(
