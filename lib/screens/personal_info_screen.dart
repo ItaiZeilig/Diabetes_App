@@ -1,52 +1,81 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabetes_app/models/healthInfo.dart';
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
+import 'package:diabetes_app/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:age/age.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+import '../providers/auth_provider.dart';
+import '../models/createdBy.dart';
 
 class PersonalInfo extends StatefulWidget {
+  static const routeName = '/personalInfo';
   @override
   _PersonalInfoState createState() => _PersonalInfoState();
 }
 
-final _formKey = GlobalKey<FormState>();
+//final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-final List<String> categorys = [
-  '1',
-  '2',
-  'GDM',
-  'MODY',
-  'PREDIABETES',
-  'other'
-];
+List<GlobalKey<FormState>> _formKey = [];
+
+AuthProvider _auth = AuthProvider();
+HealthInfoProvider _healthInfoProvider = HealthInfoProvider();
+
+var uuid = Uuid();
+
+final List<String> categorys = ['1', '2', 'GDM', 'MODY', 'PREDIABETES', 'other'];
+final List<String> gendarType = ['Male', 'Female'];
 
 DateTime dateTime = DateTime.now();
 final String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
 
 AgeDuration age;
-
-String firstName;
-String lastName;
-DateTime birthday;
-bool male = false;
-bool female = false;
-bool isEnable = true;
+String name;
+dynamic birthday;
 String gendar;
-String diabetesDiagnosisDate;
+dynamic diabetesDiagnosisDate;
 double weight;
 double height;
 double bmi;
-String fullDiabetesTypeOption;
-int diabetesType;
+String diabetesTypeOption;
 String pump;
 String medication;
 String sensor;
+String email;
+
+
 
 class _PersonalInfoState extends State<PersonalInfo> {
-  double calculateBMI(double weight, double height) {
-    bmi = weight / pow(height / 100, 2);
-    return bmi;
+
+Random random = new Random();
+int randomNumber;
+
+
+  @override
+void initState() { 
+  randomNumber = random.nextInt(99);
+  _formKey = new List<GlobalKey<FormState>>.generate(100,
+        (i) => new GlobalKey<FormState>(debugLabel: ' _formKey'));
+  height = null;      
+  super.initState();
+  
+}
+  
+  double calculateBMI(double weight, double height) {    
+      if(weight == null || height == null){
+        weight = 0;
+        height = 1;
+      }
+      
+        bmi = weight / pow(height / 100, 2);
+      
+      return bmi;    
+    
   }
   getAge(DateTime birthday, DateTime dateTime){
     var age = Age.dateDifference(fromDate: birthday, toDate: dateTime, includeToDate: false);
@@ -55,10 +84,68 @@ class _PersonalInfoState extends State<PersonalInfo> {
     }
     return dateTime;
   }
+
+  String personFullName(String firstName, String lastName){
+    return (firstName + " " + lastName).toString();
+  }
+
+  void onBirthdayChange(DateTime chosen) {
+    setState(() {     
+        birthday = chosen;     
+    });
+  }
+
+  void onDiabetesDateChange(DateTime chosen) {
+    setState(() {     
+        diabetesDiagnosisDate = chosen;     
+    });
+  }
+
+  DateTime birthdayChangeStore(DateTime chosen) {
+    setState(() {
+      birthday = chosen;
+    });
+    return birthday;
+  }
+
+  showAlertDialog(BuildContext context) {
+
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () { 
+        //Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomeScreen())); // dismiss dialog        
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Patient Added Successfully"),
+      content: Text("Email was sent to " + email), // need to add email
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   
 
   @override
   Widget build(BuildContext context) {
+     _auth = Provider.of<AuthProvider>(context);
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Medical Personal Info"),
@@ -79,7 +166,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
             Padding(
               padding: const EdgeInsets.only(right: 40.0, left: 40.0),
               child: Form(
-                key: _formKey,
+                key: _formKey[randomNumber],
                 child: Column(
                   children: <Widget>[
                     SizedBox(
@@ -91,75 +178,45 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),
-                        labelText: 'First Name',
+                        labelText: 'Full Name (First + Last)',
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Invalid name!';
                         }
                       },
-                      onChanged: (value) => setState(() => firstName = value),
+                      onChanged: (value) => setState(() => name = value),
                       onSaved: (value) {
-                        firstName = value;
-                        print(firstName);
+                        name = value;
+                        print(name);
                       },
                     ),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    TextFormField(
-                      cursorColor: Theme.of(context).primaryColor,
+                   
+                   
+                    DropdownButtonFormField(
                       decoration: InputDecoration(
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),
-                        labelText: 'Last Name',
+                        labelText: 'Gendar',
                       ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Invalid name!';
-                        }
-                      },
-                      onChanged: (value) => setState(() => lastName = value),
+                      value: gendar ?? 'Male',
+                      items: gendarType.map((category) {
+                        return DropdownMenuItem(
+                          value: category,
+                          child: Text('$category'),
+                        );
+                      }).toList(),
+                      onChanged: (val) => setState(() => gendar= val),
                       onSaved: (value) {
-                        lastName = value;
-                        print(lastName);
-                      },
-                    ),
+                        if ((gendar != null)) {
+                          gendar = value;
+                        } else {
+                          gendar = 'Male';
+                        }
+                      }),
                     SizedBox(
-                      height: 5.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text('Male:'),
-                        Checkbox(
-                            value: male,
-                            onChanged: (bool response) {
-                              setState(() {
-                                male = response;
-                                if (male == true) {
-                                  print(male);
-                                  gendar = 'Male';
-                                }
-                              });
-                            }),
-                        Text('Female:'),
-                        Checkbox(
-                            tristate: false,
-                            value: female,
-                            onChanged: (bool response) {
-                              setState(() {
-                                female = response;
-                                print(female);
-                                if (female == true) {
-                                  gendar = 'Female';
-                                }
-                              });
-                            }),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5.0,
+                      height: 15.0,
                     ),
                     Material(
                       color: Colors.transparent,
@@ -192,7 +249,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),
-                        labelText: 'Weight in Kilograms',
+                        labelText: 'Weight In Kilograms',
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -215,7 +272,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,
                         ),
-                        labelText: 'Height in meters',
+                        labelText: 'Height In Centimeters',
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -233,28 +290,32 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       height: 5.0,
                     ),
                     TextFormField(
+                      
                       enabled: false,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        hintText: 'BMI = ' +
-                            calculateBMI(weight ?? 1, height ?? 1).toString(),
+                      decoration: InputDecoration( 
+                        // filled: true,
+                        // fillColor: (calculateBMI(weight == null ? 0 : weight, height == null ? 0 :  weight)) > 10 ? 
+                           //Colors.green : Colors.red,
+                        isDense: true,                        
+                        hintText: 'BMI = ' + calculateBMI(weight , height).toString(),
                         hintStyle: TextStyle(
-                          color: Color(0xFF7f70e7),
+                          color: Colors.black,                          
                         ),
-                        //contentPadding: EdgeInsets.all(widget.textfieldPadding),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(6.0),
                             borderSide: const BorderSide(
                                 color: CupertinoColors.inactiveGray,
-                                width: 0.0)),
+                                width: 2.0)),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(6.0),
                             borderSide: const BorderSide(
                                 color: CupertinoColors.inactiveGray,
                                 width: 0.0)),
                       ),
+                       onChanged: (value) =>
+                          setState(() => bmi = double.parse(value)),
                       onSaved: (value) {
-                        bmi = calculateBMI(weight ?? 1, height ?? 1);
+                        bmi = calculateBMI(weight, height);
                         print(bmi);
                       },
                     ),
@@ -265,33 +326,149 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           ),
                           labelText: 'Diabetes Type',
                         ),
-                        value: fullDiabetesTypeOption ?? '1',
+                        value: diabetesTypeOption ?? '1',
                         items: categorys.map((category) {
                           return DropdownMenuItem(
                             value: category,
                             child: Text('$category'),
                           );
-                        }).toList(),
-                        //onChanged: (val) => setState(() => fullDiabetesTypeOption = val),
+                        }).toList(),                        
                         onChanged: (String value) {
                           setState(() {
-                            fullDiabetesTypeOption = value;
-                            if (int.parse(fullDiabetesTypeOption) == 1) {
-                              diabetesType = 1;
-                              print(diabetesType.toString() + " Ths is type 1");
-                            } else {
-                              diabetesType = 2;
-                              print(diabetesType.toString() + " Ths is type 2");
-                            }
+                            diabetesTypeOption = value;                                                        
                           });
                         },
                         onSaved: (value) {
-                          if ((fullDiabetesTypeOption != null)) {
-                            fullDiabetesTypeOption = value;
+                          if ((diabetesTypeOption != null)) {
+                            diabetesTypeOption = value;
                           } else {
-                            fullDiabetesTypeOption = '1';
+                            diabetesTypeOption = '1';
                           }
-                        }),
+                          print(diabetesTypeOption);
+                        }
+                      ),
+
+                      SizedBox(
+                      height: 15.0,
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const Text(
+                            'Diabetes Diagnosis Date', 
+                            style: TextStyle(
+                              color: Color(0xFF7f70e7),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 5.0),
+
+                          ),
+                          CupertinoDateTextBox(
+                              initialValue: dateTime,
+                              onDateChange: onDiabetesDateChange,
+                              hintText: DateFormat.yMd().format(dateTime)),
+                        ],
+                      ),
+                    ),
+
+
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextFormField(
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: 'Medication',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Medication cant be empty';
+                        }
+                      },
+                      onChanged: (value) =>
+                          setState(() => medication = (value)),
+                      onSaved: (value) {
+                        medication = (value);
+                        print(medication);
+                      },
+                    ),
+
+
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextFormField(
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: 'Pump',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Pump cant be empty';
+                        }
+                      },
+                      onChanged: (value) =>
+                          setState(() => pump = (value)),
+                      onSaved: (value) {
+                        pump = (value);
+                        print(pump);
+                      },
+                    ),
+
+                    
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    TextFormField(
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: 'Sensor',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Sensor cant be empty';
+                        }
+                      },
+                      onChanged: (value) =>
+                          setState(() => sensor = (value)),
+                      onSaved: (value) {
+                        sensor = (value);
+                        print(sensor);
+                      },
+                    ),
+
+                   TextFormField(
+                    cursorColor: Theme.of(context).primaryColor,
+                    decoration: InputDecoration(
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      labelText: 'User E-Mail',
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    // ignore: missing_return
+                    validator: (value) {
+                      if (value.isEmpty || !value.contains('@')) {
+                        return 'Invalid email!';
+                      }
+                    },
+                    onSaved: (String value) {
+                      email = value;
+                    },
+                  ),
+
                     Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: RaisedButton(
@@ -310,44 +487,61 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           ],
                         ),
                         onPressed: () async {
-                          // try {
-                          if (_formKey.currentState.validate()) {
-                            print(formattedDate);
-                            //  print(birthdayChangeStore(birthday));
-                            //  final difference = dateTime.difference(birthday).inDays;
-                            //  print(difference);
+                           try {
+                          if (_formKey[randomNumber].currentState.validate()) {
+
+                             _formKey[randomNumber].currentState.save();
+
+
+                            print(formattedDate);                            
 
                             age = Age.dateDifference(
                                 fromDate: birthday,
                                 toDate: dateTime,
                                 includeToDate: false);
 
-                            print(age.years);
+                            print("This is birthday: " + birthday.toString());
+                            
+                            print("This is age: " + age.toString());
 
-                            //     _formKey.currentState.save();
 
-                            //     await _articleProvider.addNewArticle(
-                            //         uuid.v4(),
-                            //         title,
-                            //         subtitle,
-                            //         content,
-                            //         category,
-                            //         diabetesType,
-                            //         time,
-                            //         author,
-                            //         image,
-                            //         CreatedBy(
-                            //             name: _auth.user.name,
-                            //             type: _auth.user.type,
-                            //             userId: _auth.user.id),
-                            //         _isPopular);
+                            print("This is diabetes date: " + diabetesDiagnosisDate.toString());
+                            
+                                await _healthInfoProvider.addNewHealthInfo(
+                                      uuid.v4(),
+                                      name,
+                                      age.toString(),
+                                      age.years,
+                                      diabetesTypeOption,                                      
+                                      gendar,                                       
+                                      Timestamp.fromMicrosecondsSinceEpoch(birthday.microsecondsSinceEpoch).toDate(),
+                                      Timestamp.fromMicrosecondsSinceEpoch(diabetesDiagnosisDate.microsecondsSinceEpoch).toDate(), 
+                                      weight.toString(),
+                                      height.toString(),
+                                      bmi.toString(),
+                                      medication,
+                                      pump,
+                                      sensor,
+                                      
+                                      CreatedBy(
+                                          name: _auth.user.name,
+                                          type: _auth.user.type,
+                                          userId: _auth.user.id),
+                                      email,
+                                      );
+                                      
+                                
+                                
+                                await showAlertDialog(context);
 
-                            //     await Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) => HomeScreen()));
+                                // await Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => HomeScreen()));
                           }
-                          // } catch (e) {}
+                           } catch (e) {
+                             print("Error");
+                           }
                         },
                       ),
                     ),
@@ -361,18 +555,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     );
   }
 
-  void onBirthdayChange(DateTime chosen) {
-    setState(() {
-      birthday = chosen;
-    });
-  }
-
-  DateTime birthdayChangeStore(DateTime chosen) {
-    setState(() {
-      birthday = chosen;
-    });
-    return birthday;
-  }
+  
 }
 
 class CupertinoDateTextBox extends StatefulWidget {
@@ -466,7 +649,8 @@ class _CupertinoDateTextBoxState extends State<CupertinoDateTextBox> {
     String fieldText;
     Color textColor;
     if (_currentDate != null) {
-      final formatter = new DateFormat.yMd();
+      final formatter = new DateFormat('dd/MM/yyyy');
+      
       fieldText = formatter.format(_currentDate);
       textColor = widget.color;
     } else {

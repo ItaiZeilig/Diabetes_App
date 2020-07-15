@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/providers/article_provider.dart';
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:diabetes_app/models/article.dart';
 import 'package:flutter/services.dart';
@@ -29,9 +30,10 @@ class _AddNewArticleState extends State<AddNewArticle> {
   var uuid = Uuid();
 
   ArticleProvider _articleProvider = ArticleProvider();
+  
 
   final List<String> categorys = ['Sport', 'Nutrition', 'Medical'];
-  final List<int> diabetesTypes = [1, 2];
+  final List<String> diabetesTypes = ['1', '2', 'GDM', 'MODY', 'PREDIABETES', 'other'];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -39,7 +41,7 @@ class _AddNewArticleState extends State<AddNewArticle> {
   String subtitle;
   String content;
   String category;
-  int diabetesType;
+  String diabetesType;
   String author;
   //String _seen;
   //String _favorite;
@@ -156,20 +158,20 @@ class _AddNewArticleState extends State<AddNewArticle> {
                               ),
                               labelText: 'Article Diabetes Type',
                             ),
-                            value: diabetesType ?? 1,
+                            value: diabetesType ?? '1',
                             items: diabetesTypes.map((category) {
                               return DropdownMenuItem(
                                 value: category,
                                 child: Text('$category'),
                               );
                             }).toList(),
-                            onChanged: (value) =>
+                            onChanged: (String value) =>
                                 setState(() => diabetesType = value),
                             onSaved: (value) {
                               if ((diabetesType != null)) {
                                 diabetesType = value;
                               } else {
-                                diabetesType = 1;
+                                diabetesType = '1';
                               }
                             }),
                         DropdownButtonFormField(

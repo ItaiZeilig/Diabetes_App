@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabetes_app/models/healthInfo.dart';
 import 'package:diabetes_app/providers/article_provider.dart';
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
 import 'package:diabetes_app/screens/add_new_article_screen.dart';
 import 'package:diabetes_app/screens/read_article_screen.dart';
 import 'package:diabetes_app/widgets/latest_news_widget.dart';
@@ -32,7 +34,9 @@ class _HomeScreenState extends State<HomeScreen>
   var firstInit = true;
   GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
 
-  ArticleProvider _articleProvider;
+  ArticleProvider _articleProvider = ArticleProvider();
+  HealthInfoProvider _healthInfoProvider = HealthInfoProvider();
+
 
   final List<Tab> myTabs = <Tab>[
     Tab(text: 'Latest News'),
@@ -43,6 +47,8 @@ class _HomeScreenState extends State<HomeScreen>
   List<Article> allArticles = [];
 
   bool _islates = true;
+
+  String diabetesType;
 
   Future<List<Article>> loadArticles() async {
     return allArticles = await _articleProvider.reciveAllArticlesFromDBFuture();
@@ -231,9 +237,8 @@ class _HomeScreenState extends State<HomeScreen>
                     stream: Firestore.instance
                         .collection('articles')
                         .where("diabetesType",
-                            isEqualTo:
-                                2) // TODO - Need to change the isEqualTo - Users diabetes type
-                        .snapshots(),
+                            isEqualTo: 'MODY') // TODO - Need to change the isEqualTo - Users diabetes type
+                            .snapshots(),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData) {
                         return CircularProgressIndicator();

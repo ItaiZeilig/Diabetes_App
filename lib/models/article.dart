@@ -29,7 +29,7 @@ class Article {
     String subtitle;
     String content;
     String category;
-    int diabetesType;
+    String diabetesType;
     dynamic time;
     String author;
     String seen;

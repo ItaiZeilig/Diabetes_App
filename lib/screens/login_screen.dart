@@ -159,32 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _authData['email'] = value;
                                 },
                               ),
-                              // TextFormField(
-                              //   decoration: InputDecoration(
-                              //     fillColor: Colors.grey[350],
-                              //     hintText: 'Enter Email Add',
-                              //     filled: true,
-                              //     enabledBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(color: Colors.white, width: 2.0),
-                              //       borderRadius: BorderRadius.circular(10.0),
-                              //     ),
-                              //     focusedBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(color: Colors.pink, width: 2.0),
-                              //     ),
-                              //   ),
-                              //   validator: (val) {
-                              //     if (val.isEmpty) {
-                              //       return 'Add Challenge Name';
-                              //     }
-                              //     // else if (checkChallengeName(val[0].toUpperCase() + val.substring(1))){
-                              //     //   _sameNames = true;
-                              //     //   //checkChallengeName(val[0].toUpperCase() + val.substring(1))
-                              //     //   return 'This Name Exists';
-                              //     // }
-                              //     return null;
-                              //   },
-                              //   onChanged: (val) => setState(() => _challengeName = val),
-                              // ),
+                              
                               if (_authMode != AuthMode.ResetPassword)
                                 TextFormField(
                                   cursorColor: Theme.of(context).primaryColor,

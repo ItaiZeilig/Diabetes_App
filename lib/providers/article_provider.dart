@@ -45,7 +45,7 @@ class ArticleProvider with ChangeNotifier {
 
   Future addNewArticle(
       String id, String title, String subtitle, String content, String category,
-      int diabetesType,dynamic time,String author,String image,CreatedBy createdBy, bool isPopular) async {
+      String diabetesType,dynamic time,String author,String image,CreatedBy createdBy, bool isPopular) async {
     return await _articlesCollectionReference.document(id).setData({
         "id": id,
         "title": title,
