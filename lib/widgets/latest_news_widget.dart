@@ -70,16 +70,14 @@ class _LatesNewsState extends State<LatesNews> {
                       fontSize: 14.0,
                     ),
                   ),
-                  Spacer(),
-                  //SizedBox(height: 6.0),
+                  Spacer(),                  
                   Expanded(
                     child: Row(
                       children: <Widget>[
                         Text(
                          DateFormat('yyyy-MM-dd hh:mm')
                               .format(article.time.toDate()) != null ? DateFormat('yyyy-MM-dd hh:mm')
-                              .format(article.time.toDate()) : "",
-                          //article.author,
+                              .format(article.time.toDate()) : "",                          
                           style: TextStyle(
                             fontSize: 14.0,
                           ),

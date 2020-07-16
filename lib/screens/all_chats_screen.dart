@@ -105,8 +105,9 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                 return Container(                                  
                                   height: _deviceSize.height * 0.85 ,
                                   //height: double.infinity,
-                                  //width: double.infinity,
+                                  width: double.infinity,
                                   child: ListView.builder(
+                                    
                                     shrinkWrap: true,
                                       itemCount: snapshot.data.documents.length,                                      
                                       itemBuilder: (context, index) {
@@ -138,7 +139,7 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                             margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 65.0, bottom: 20.0),
                             decoration: BoxDecoration(
                                 color: Colors.grey[200],                                
-                                borderRadius: BorderRadius.circular(25.0)),
+                                borderRadius: BorderRadius.circular(15.0)),
                             child: TextFormField(
                               onChanged: (value) {
                                 setState(() {

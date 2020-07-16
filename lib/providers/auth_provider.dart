@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabetes_app/models/healthInfo.dart';
+
 import 'package:diabetes_app/screens/home_screen.dart';
 import 'package:diabetes_app/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +14,8 @@ class AuthProvider with ChangeNotifier {
 
   User user;
   User get asgetUser => user;
+
+  HealthInfo healthInfo;
 
   // Firebase user one-time fetch
   Future<FirebaseUser> get getFirebaseUser async =>
@@ -102,7 +106,7 @@ class AuthProvider with ChangeNotifier {
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return HomeScreen();
+          return HomeScreen(healthInfo: healthInfo);
         } else {
           return LoginScreen();
         }

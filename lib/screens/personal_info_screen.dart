@@ -116,18 +116,18 @@ class _PersonalInfoState extends State<PersonalInfo> {
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () {
-        //Navigator.of(context).pop();
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => HomeScreen())); // dismiss dialog
+        Navigator.of(context).pop();
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => HomeScreen())); // dismiss dialog
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Patient Added Successfully"),
-      content: Text("Email was sent to " + email), // need to add email
+      content: Text("Login with " + email), 
       actions: [
         okButton,
       ],
@@ -188,7 +188,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       onChanged: (value) => setState(() => name = value),
                       onSaved: (value) {
                         name = value;
-                        print(name);
+                        //print(name);
                       },
                     ),
                     DropdownButtonFormField(
@@ -258,7 +258,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           setState(() => weight = double.parse(value)),
                       onSaved: (value) {
                         weight = double.parse(value);
-                        print(weight);
+                        //print(weight);
                       },
                     ),
                     SizedBox(
@@ -282,7 +282,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           setState(() => height = double.parse(value)),
                       onSaved: (value) {
                         height = double.parse(value);
-                        print(height);
+                        //print(height);
                       },
                     ),
                     SizedBox(
@@ -315,7 +315,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           setState(() => bmi = double.parse(value)),
                       onSaved: (value) {
                         bmi = calculateBMI(weight, height);
-                        print(bmi);
+                        //print(bmi);
                       },
                     ),
                     DropdownButtonFormField(
@@ -343,7 +343,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           } else {
                             diabetesTypeOption = '1';
                           }
-                          print(diabetesTypeOption);
+                          //print(diabetesTypeOption);
                         }),
                     SizedBox(
                       height: 15.0,
@@ -389,7 +389,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           setState(() => medication = (value)),
                       onSaved: (value) {
                         medication = (value);
-                        print(medication);
+                        //print(medication);
                       },
                     ),
                     SizedBox(
@@ -411,7 +411,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       onChanged: (value) => setState(() => pump = (value)),
                       onSaved: (value) {
                         pump = (value);
-                        print(pump);
+                        //print(pump);
                       },
                     ),
                     SizedBox(
@@ -433,7 +433,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       onChanged: (value) => setState(() => sensor = (value)),
                       onSaved: (value) {
                         sensor = (value);
-                        print(sensor);
+                        //print(sensor);
                       },
                     ),
                     TextFormField(

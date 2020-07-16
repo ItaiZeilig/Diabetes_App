@@ -22,7 +22,7 @@ class User {
     String type;
     bool active;
     dynamic createTimestamp;
-    int diabetesType;
+    String diabetesType;
 
     factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],

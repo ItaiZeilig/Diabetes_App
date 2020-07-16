@@ -1,3 +1,9 @@
+
+
+import 'package:diabetes_app/models/healthInfo.dart';
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
+import 'package:provider/provider.dart';
+
 import '../models/chat.dart';
 import '../screens/single_chat_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,22 +14,33 @@ class SingleChatRoomBlock extends StatefulWidget {
     Key key,
     @required Size deviceSize,
     @required this.chat,
+    this.healthInfo,
   })  : _deviceSize = deviceSize,
         super(key: key);
 
   final Size _deviceSize;
   final Chat chat;
+  final HealthInfo healthInfo;
 
   @override
-  _SingleChatRoomBlockState createState() => _SingleChatRoomBlockState();
+  _SingleChatRoomBlockState createState() => _SingleChatRoomBlockState(deviceSize: _deviceSize, chat: chat, healthInfo:healthInfo);
+
 }
 
 class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
+  _SingleChatRoomBlockState({this.deviceSize, this.chat, this.healthInfo});
   var loading = true;
+
+  final Size deviceSize;
+  final Chat chat;
+  final HealthInfo healthInfo;
+
+  HealthInfoProvider _healthInfoProvider;
+  
 
   void initState() {
     if (widget.chat != null) {
-      setState(() {
+      setState(() {       
         loading = false;
       });
     }
@@ -31,6 +48,8 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
 
   @override
   Widget build(BuildContext context) {
+    _healthInfoProvider = Provider.of<HealthInfoProvider>(context);
+
     return loading
         ? CircularProgressIndicator()
         : InkWell(
@@ -65,9 +84,8 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
                             ),
                             Text(
                               DateFormat('MM/dd kk:mm').format(
-                                widget.chat.lastMessage.createTimestamp
-                                    .toDate()),
-                              
+                                chat.lastMessage.createTimestamp
+                                    .toDate()),                              
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black),
                             ),

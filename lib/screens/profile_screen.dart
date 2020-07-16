@@ -1,3 +1,4 @@
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   AuthProvider _auth;
+  HealthInfoProvider _healthInfoProvider;
   var firstInit = true;
   var _isLoading = false;
   final _formKey = GlobalKey<FormState>();
@@ -24,6 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.didChangeDependencies();
     if (firstInit) {
       _auth = Provider.of<AuthProvider>(context);
+      _healthInfoProvider = Provider.of<HealthInfoProvider>(context);
       if (_auth.user == null) {
         _auth.fetchAndSetUser().whenComplete(() {
           setState(() {
@@ -182,7 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(30))),
                       child: Center(
-                        child: Text("Todo Reports"),
+                        child: Text("HCP Reports"),
                       ),
                     ),
                   ),

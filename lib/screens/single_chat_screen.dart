@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabetes_app/models/healthInfo.dart';
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
 import '../models/chat.dart';
 import '../models/message.dart';
 import '../providers/auth_provider.dart';
@@ -10,16 +12,27 @@ import 'package:provider/provider.dart';
 class SingleChatScreen extends StatefulWidget {
   static const routeName = '/singleChat';
 
+  SingleChatScreen({this.healthInfo});
+
+  final HealthInfo healthInfo;
+
   @override
-  _SingleChatScreenState createState() => _SingleChatScreenState();
+  _SingleChatScreenState createState() => _SingleChatScreenState(healthInfo:healthInfo);
 }
 
 class _SingleChatScreenState extends State<SingleChatScreen> {
+  _SingleChatScreenState ({this.healthInfo});
+
+
   ChatProvider _chatProvider;
   AuthProvider _auth;
+  HealthInfoProvider _healthInfoProvider;
+
   var _firstInit = true;
   final _myController = TextEditingController();
   Chat _chat;
+
+  final HealthInfo healthInfo;
 
   @override
   didChangeDependencies() async {
@@ -27,7 +40,9 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
     if (_firstInit) {
       _auth = Provider.of<AuthProvider>(context);
       _chatProvider = Provider.of<ChatProvider>(context);
+      _healthInfoProvider = Provider.of<HealthInfoProvider>(context);
       _chat = ModalRoute.of(context).settings.arguments;
+      
       if (_chat == null) {
         _chatProvider.fetchAndSetChat(_auth.user.id).whenComplete(() => {
               setState(() {
@@ -61,10 +76,10 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                       Stack(
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.only(bottom: 30),
+                            padding: EdgeInsets.only(bottom: 50),
                             decoration: BoxDecoration(
                                 color: Theme.of(context).accentColor),
-                            height: _deviceSize.height * 0.15,
+                            height: _deviceSize.height * 0.2,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
@@ -76,14 +91,29 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                 ),
                                 Flexible(
                                   flex: 4,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    text: TextSpan(
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold),
-                                        text: _chat.name),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        RichText(
+                                        overflow: TextOverflow.ellipsis,
+                                        text: TextSpan(
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold),
+                                            text: _chat.name),
+                                        ),
+                                        SizedBox(height: 5.0,),
+                                        Row(
+                                          children: <Widget>[
+                                            //Text("Age: " + _healthInfoProvider.healthInfo.ageYears.toString() + "Years"),
+                                            Text("Age: 10 Years"),
+                                          ],
+                                        )
+                                      ],
+                                                                        
+                                    ),
                                   ),
                                 ),
                                 Spacer(
@@ -94,7 +124,7 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                           ),
                           Container(
                             margin:
-                                EdgeInsets.only(top: _deviceSize.height * 0.1),
+                                EdgeInsets.only(top: _deviceSize.height * 0.15), // change the perpule space
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -110,7 +140,7 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                   return Text("Loading...");
                                 }
                                 return Container(
-                                  height: _deviceSize.height * 0.8,
+                                  height: _deviceSize.height * 0.75, // change the white space of chat
                                   child: ListView.builder(
                                       reverse: true,
                                       itemCount: snapshot.data.documents.length,
@@ -120,7 +150,7 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                         return ChatBubble(
                                             messageData: msg,
                                             isSent:
-                                                _auth.user.id == msg.userId);
+                                                _auth.user.id.toString() == msg.userId.toString());
                                       }),
                                 );
                               },
