@@ -13,8 +13,16 @@ class EditChallengeScreen extends StatefulWidget {
 class _EditChallengeScreenState extends State<EditChallengeScreen> {
   ChallengesProvider challengesProvider;
   Challenge challenge;
+
   final List<String> categorys = ['Sport', 'Nutrition', 'Medical'];
-  final List<String> diabetesTypes = ['1', '2'];
+  final List<String> diabetesTypes = [
+    '1',
+    '2',
+    'GDM',
+    'MODY',
+    'PREDIABETES',
+    'other'
+  ];
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _submit() async {
@@ -23,6 +31,9 @@ class _EditChallengeScreenState extends State<EditChallengeScreen> {
       return;
     }
     _formKey.currentState.save();
+    challengesProvider.createChallenge(challenge).whenComplete(() {
+      Navigator.of(context).pop();
+    });
   }
 
   @override
@@ -153,6 +164,17 @@ class _EditChallengeScreenState extends State<EditChallengeScreen> {
                     },
                   ),
                 ],
+              ),
+            ),
+            RaisedButton(
+              color: Theme.of(context).accentColor,
+              onPressed: _submit,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Text(
+                'Save',
+                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
             ),
           ],
