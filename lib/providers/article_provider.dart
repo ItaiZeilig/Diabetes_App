@@ -12,9 +12,14 @@ class ArticleProvider with ChangeNotifier {
 
   List<Article> articles = [];
 
+  Stream<QuerySnapshot> getArticalsSnapshotByDiabetesType(String diabetesType) {
+    return _articlesCollectionReference
+        .where("diabetesType", isEqualTo: diabetesType)
+        .snapshots();
+  }
+
   getArticleId() {
-    var ref =
-        _articlesCollectionReference.getDocuments();
+    var ref = _articlesCollectionReference.getDocuments();
     ref.then((v) => (v.documents[0].documentID));
   }
 
@@ -29,41 +34,47 @@ class ArticleProvider with ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getAllArticlesByType(String id, int diabetesType) {
-  try {
-    return _articlesCollectionReference
-      .document(id)
-      .collection("articles")
-      .where("diabetesType", isEqualTo: diabetesType)
-      .snapshots();  
-  } catch (e) {
-    return e.message;
+    try {
+      return _articlesCollectionReference
+          .document(id)
+          .collection("articles")
+          .where("diabetesType", isEqualTo: diabetesType)
+          .snapshots();
+    } catch (e) {
+      return e.message;
+    }
   }
-    
-}
-
-
 
   Future addNewArticle(
-      String id, String title, String subtitle, String content, String category,
-      String diabetesType,dynamic time,String author,String image,CreatedBy createdBy, bool isPopular) async {
+      String id,
+      String title,
+      String subtitle,
+      String content,
+      String category,
+      String diabetesType,
+      dynamic time,
+      String author,
+      String image,
+      CreatedBy createdBy,
+      bool isPopular) async {
     return await _articlesCollectionReference.document(id).setData({
-        "id": id,
-        "title": title,
-        "subtitle": subtitle,
-        "content": content,
-        "category": category,
-        "diabetesType": diabetesType,
-        "time": time,
-        "author": author,
-        //"seen": seen,
-        //"favorite": favorite,
-        "image": image,
-        "createdBy": createdBy.toJson(),
-        "isPopular" : isPopular,
+      "id": id,
+      "title": title,
+      "subtitle": subtitle,
+      "content": content,
+      "category": category,
+      "diabetesType": diabetesType,
+      "time": time,
+      "author": author,
+      //"seen": seen,
+      //"favorite": favorite,
+      "image": image,
+      "createdBy": createdBy.toJson(),
+      "isPopular": isPopular,
     });
   }
 
-  List<Article> _articleListFromSpanshot(QuerySnapshot snapshot) {
+  List<Article> articleListFromSpanshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return Article(
         id: doc.data["id"] ?? '',
@@ -83,13 +94,14 @@ class ArticleProvider with ChangeNotifier {
   }
 
   Stream<List<Article>> get reciveAllArticlesFromDB {
-    return _articlesCollectionReference.snapshots().map(_articleListFromSpanshot);
+    return _articlesCollectionReference
+        .snapshots()
+        .map(articleListFromSpanshot);
   }
 
   Future<List<Article>> reciveAllArticlesFromDBFuture() async {
     var snapshot = await _articlesCollectionReference.getDocuments();
-    var answer = _articleListFromSpanshot(snapshot);
+    var answer = articleListFromSpanshot(snapshot);
     return answer.toList();
   }
-
 }

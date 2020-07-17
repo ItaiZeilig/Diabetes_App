@@ -224,28 +224,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             color:
                                                 Theme.of(context).primaryColor,
                                           ),
-                                          labelText: 'Display Name',
-                                        ),
-                                        keyboardType: TextInputType.text,
-                                        initialValue: _auth.user.name,
-                                        // ignore: missing_return
-                                        validator: (value) {
-                                          if (value.isEmpty) {
-                                            return 'Invalid name!';
-                                          }
-                                        },
-                                        onSaved: (value) {
-                                          _auth.user.name = value;
-                                        },
-                                      ),
-                                      TextFormField(
-                                        cursorColor:
-                                            Theme.of(context).primaryColor,
-                                        decoration: InputDecoration(
-                                          labelStyle: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ),
                                           labelText: 'New E-Mail',
                                         ),
                                         keyboardType:

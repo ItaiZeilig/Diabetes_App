@@ -166,9 +166,7 @@ class _HomeScreenState extends State<HomeScreen>
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          _auth.user.name.toString() != null
-                              ? _auth.user.name.toString()
-                              : "",
+                          _auth.user.name,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 30),
                         ),
@@ -245,12 +243,8 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   ),
                   StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance
-                        .collection('articles')
-                        .where("diabetesType",
-                            isEqualTo:
-                                "1") // _healthInfoProvider.healthInfo.diabetesType
-                        .snapshots(),
+                    stream: _articleProvider.getArticalsSnapshotByDiabetesType(
+                        _healthInfoProvider.healthInfo.diabetesType),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData) {
                         return CircularProgressIndicator();

@@ -38,9 +38,10 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
               Navigator.of(context).pushNamed(SingleChatScreen.routeName,
                   arguments: widget.chat);
             },
-            child: Container(             
-              padding: EdgeInsets.symmetric(vertical: 15.0 , horizontal: 25.0),              
-              margin: EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0, bottom: 1.0),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
+              margin: EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 10.0, bottom: 1.0),
               decoration: BoxDecoration(
                 //color: Colors.lightBlueAccent[100],
                 color: Colors.white,
@@ -56,18 +57,17 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(                              
-                              widget.chat.createdBy.name,                      
+                            Text(
+                              widget.chat.createdBy.name,
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black),
                             ),
                             Text(
-                              DateFormat('MM/dd kk:mm').format(
-                                widget.chat.lastMessage.createTimestamp
-                                    .toDate()),
-                              
+                              DateFormat('MM/dd kk:mm').format(widget
+                                  .chat.lastMessage.createTimestamp
+                                  .toDate()),
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black),
                             ),
@@ -80,10 +80,9 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
                       Row(
                         children: [
                           Text(
-
                             "${widget.chat.lastMessage.userName}: ",
                             style: TextStyle(
-                              color: Colors.black ,
+                              color: Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),

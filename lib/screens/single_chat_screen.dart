@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
 import '../models/chat.dart';
 import '../models/message.dart';
 import '../providers/auth_provider.dart';
@@ -17,6 +18,7 @@ class SingleChatScreen extends StatefulWidget {
 class _SingleChatScreenState extends State<SingleChatScreen> {
   ChatProvider _chatProvider;
   AuthProvider _auth;
+  HealthInfoProvider _healthInfoProvider;
   var _firstInit = true;
   final _myController = TextEditingController();
   Chat _chat;
@@ -27,6 +29,7 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
     if (_firstInit) {
       _auth = Provider.of<AuthProvider>(context);
       _chatProvider = Provider.of<ChatProvider>(context);
+      _healthInfoProvider = Provider.of<HealthInfoProvider>(context);
       _chat = ModalRoute.of(context).settings.arguments;
       if (_chat == null) {
         _chatProvider.fetchAndSetChat(_auth.user.id).whenComplete(() => {
@@ -65,30 +68,57 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                             decoration: BoxDecoration(
                                 color: Theme.of(context).accentColor),
                             height: _deviceSize.height * 0.15,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Container(
-                                  child: IconButton(
-                                    icon: Icon(Icons.arrow_back_ios),
-                                    onPressed: () => Navigator.pop(context),
-                                  ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Container(
+                                      child: IconButton(
+                                        icon: Icon(Icons.arrow_back_ios),
+                                        onPressed: () => Navigator.pop(context),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 4,
+                                      child: RichText(
+                                        overflow: TextOverflow.ellipsis,
+                                        text: TextSpan(
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold),
+                                            text: _chat.name),
+                                      ),
+                                    ),
+                                    Spacer(
+                                      flex: 1,
+                                    ),
+                                  ],
                                 ),
-                                Flexible(
-                                  flex: 4,
-                                  child: RichText(
-                                    overflow: TextOverflow.ellipsis,
-                                    text: TextSpan(
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "Age: ${_healthInfoProvider.healthInfo.ageYears}",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                        "BMI: ${_healthInfoProvider.healthInfo.bmi}",
                                         style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold),
-                                        text: _chat.name),
-                                  ),
-                                ),
-                                Spacer(
-                                  flex: 1,
-                                ),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                    Text(
+                                        "Diabetes Type: ${_healthInfoProvider.healthInfo.diabetesType}",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                )
                               ],
                             ),
                           ),

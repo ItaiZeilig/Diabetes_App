@@ -1,3 +1,5 @@
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
+
 import '../models/chat.dart';
 import '../providers/auth_provider.dart';
 import '../providers/chat_provider.dart';
@@ -54,7 +56,7 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                             padding: EdgeInsets.only(bottom: 80),
                             decoration: BoxDecoration(
                                 color: Theme.of(context).accentColor),
-                            height: _deviceSize.height * 0.23,                           
+                            height: _deviceSize.height * 0.23,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: <Widget>[
@@ -102,28 +104,27 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                 if (!snapshot.hasData) {
                                   return Text("Loading...");
                                 }
-                                return Container(                                  
-                                  height: _deviceSize.height * 0.85 ,
+                                return Container(
+                                  height: _deviceSize.height * 0.85,
                                   //height: double.infinity,
                                   //width: double.infinity,
                                   child: ListView.builder(
                                     shrinkWrap: true,
-                                      itemCount: snapshot.data.documents.length,                                      
-                                      itemBuilder: (context, index) {
-                                        Chat chat = Chat.fromSnapshot(
-                                            snapshot.data.documents[index]);
-                                        if (chat.name
-                                                .toLowerCase()
-                                                .contains(_searchText) ||
-                                            _searchText.isEmpty) {
-                                          return SingleChatRoomBlock(
-                                              deviceSize: _deviceSize,
-                                              chat: chat);
-                                        }
-                                      },
-                                      //decoration: InputDecorationTheme(hoverColor: Colors.red),
+                                    itemCount: snapshot.data.documents.length,
+                                    itemBuilder: (context, index) {
+                                      Chat chat = Chat.fromSnapshot(
+                                          snapshot.data.documents[index]);
+                                      if (chat.name
+                                              .toLowerCase()
+                                              .contains(_searchText) ||
+                                          _searchText.isEmpty) {
+                                        return SingleChatRoomBlock(
+                                            deviceSize: _deviceSize,
+                                            chat: chat);
+                                      }
+                                    },
+                                    //decoration: InputDecorationTheme(hoverColor: Colors.red),
                                   ),
-                                  
                                 );
                               },
                             ),
@@ -135,9 +136,13 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                             //     vertical: 72.5,
                             //     horizontal: _deviceSize.width / 8),
                             // height: _deviceSize.height * 0.1,
-                            margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 65.0, bottom: 20.0),
+                            margin: EdgeInsets.only(
+                                left: 20.0,
+                                right: 20.0,
+                                top: 65.0,
+                                bottom: 20.0),
                             decoration: BoxDecoration(
-                                color: Colors.grey[200],                                
+                                color: Colors.grey[200],
                                 borderRadius: BorderRadius.circular(25.0)),
                             child: TextFormField(
                               onChanged: (value) {
@@ -145,7 +150,6 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                   _searchText = value;
                                 });
                               },
-                              
                               controller: searchController,
                               decoration: InputDecoration(
                                 hintText: 'Search',

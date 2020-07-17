@@ -499,7 +499,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                     .toDate(),
                                 weight.toString(),
                                 height.toString(),
-                                bmi.toString(),
+                                bmi.toStringAsFixed(3).toString(),
                                 medication,
                                 pump,
                                 sensor,
