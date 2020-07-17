@@ -36,8 +36,6 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> logOut() async {
-    user = null;
-    notifyListeners();
     await _firebaseAuth.signOut();
   }
 
@@ -106,7 +104,7 @@ class AuthProvider with ChangeNotifier {
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return HomeScreen(healthInfo: healthInfo);
+          return HomeScreen();
         } else {
           return LoginScreen();
         }

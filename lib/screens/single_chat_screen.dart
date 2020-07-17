@@ -27,7 +27,6 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
   ChatProvider _chatProvider;
   AuthProvider _auth;
   HealthInfoProvider _healthInfoProvider;
-
   var _firstInit = true;
   final _myController = TextEditingController();
   Chat _chat;
@@ -79,23 +78,22 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                             padding: EdgeInsets.only(bottom: 50),
                             decoration: BoxDecoration(
                                 color: Theme.of(context).accentColor),
-                            height: _deviceSize.height * 0.2,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Container(
-                                  child: IconButton(
-                                    icon: Icon(Icons.arrow_back_ios),
-                                    onPressed: () => Navigator.pop(context),
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 4,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      children: <Widget>[
-                                        RichText(
+                            height: _deviceSize.height * 0.15,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    Container(
+                                      child: IconButton(
+                                        icon: Icon(Icons.arrow_back_ios),
+                                        onPressed: () => Navigator.pop(context),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 4,
+                                      child: RichText(
                                         overflow: TextOverflow.ellipsis,
                                         text: TextSpan(
                                             style: TextStyle(
@@ -103,22 +101,35 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                                 fontSize: 25,
                                                 fontWeight: FontWeight.bold),
                                             text: _chat.name),
-                                        ),
-                                        SizedBox(height: 5.0,),
-                                        Row(
-                                          children: <Widget>[
-                                            //Text("Age: " + _healthInfoProvider.healthInfo.ageYears.toString() + "Years"),
-                                            Text("Age: 10 Years"),
-                                          ],
-                                        )
-                                      ],
-                                                                        
+                                      ),
                                     ),
-                                  ),
+                                    Spacer(
+                                      flex: 1,
+                                    ),
+                                  ],
                                 ),
-                                Spacer(
-                                  flex: 1,
-                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "Age: ${_healthInfoProvider.healthInfo.ageYears}",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                        "BMI: ${_healthInfoProvider.healthInfo.bmi}",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                    Text(
+                                        "Diabetes Type: ${_healthInfoProvider.healthInfo.diabetesType}",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                )
                               ],
                             ),
                           ),

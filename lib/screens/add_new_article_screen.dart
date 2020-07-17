@@ -1,15 +1,11 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/providers/article_provider.dart';
-import 'package:diabetes_app/providers/healthInfo_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:diabetes_app/models/article.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-
 import '../models/createdBy.dart';
 import '../providers/auth_provider.dart';
 
@@ -30,10 +26,16 @@ class _AddNewArticleState extends State<AddNewArticle> {
   var uuid = Uuid();
 
   ArticleProvider _articleProvider = ArticleProvider();
-  
 
   final List<String> categorys = ['Sport', 'Nutrition', 'Medical'];
-  final List<String> diabetesTypes = ['1', '2', 'GDM', 'MODY', 'PREDIABETES', 'other'];
+  final List<String> diabetesTypes = [
+    '1',
+    '2',
+    'GDM',
+    'MODY',
+    'PREDIABETES',
+    'other'
+  ];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -43,11 +45,8 @@ class _AddNewArticleState extends State<AddNewArticle> {
   String category;
   String diabetesType;
   String author;
-  //String _seen;
-  //String _favorite;
   String image;
   dynamic time = FieldValue.serverTimestamp();
-  
 
   bool _isPopular = false;
 

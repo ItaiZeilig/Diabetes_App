@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/screens/edit_challenge_screen.dart';
 import '../models/challenge.dart';
 import '../models/createdBy.dart';
-import '../widgets/single_challenge_save_dialog_widget.dart';
 import '../widgets/all_challenges_list_widget.dart';
 import '../providers/auth_provider.dart';
 import '../providers/challenge_provider.dart';
