@@ -259,9 +259,9 @@ class _HomeScreenState extends State<HomeScreen>
                         .where("diabetesType",
                             isEqualTo:
                             "GDM"
-                                // _healthInfoProvider.healthInfo.diabetesType.toString() == null ? "1"
-                                //  : healthInfo.diabetesType.toString()
-                                 ) // TODO - _healthInfoProvider.healthInfo.diabetesType
+                                //_healthInfoProvider.healthInfo.diabetesType,
+                               
+                                 )
                         .snapshots(),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData) {
