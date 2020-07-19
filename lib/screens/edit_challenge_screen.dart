@@ -1,5 +1,5 @@
 import 'package:diabetes_app/widgets/single_challenge_widget.dart';
-
+import 'package:provider/provider.dart';
 import '../models/challenge.dart';
 import '../providers/challenge_provider.dart';
 import 'package:flutter/material.dart';
@@ -31,15 +31,20 @@ class _EditChallengeScreenState extends State<EditChallengeScreen> {
       return;
     }
     _formKey.currentState.save();
-    challengesProvider.createChallenge(challenge).whenComplete(() {
+    await challengesProvider.updateSingleChallenge(challenge).whenComplete(() {
       Navigator.of(context).pop();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    challengesProvider = Provider.of<ChallengesProvider>(context);
     List<Object> args = ModalRoute.of(context).settings.arguments;
-    challenge = args[0];
+    if (args.length > 0) {
+      challenge = args[0];
+    } else {
+      challenge = Challenge(numberOfItems: 1);
+    }
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -53,7 +58,13 @@ class _EditChallengeScreenState extends State<EditChallengeScreen> {
                   icon: Icon(Icons.arrow_back_ios),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    challengesProvider
+                        .deleteChallenge(challenge)
+                        .whenComplete(() {
+                      Navigator.of(context).pop();
+                    });
+                  },
                   icon: Icon(Icons.delete_outline),
                 ),
               ],
@@ -90,7 +101,7 @@ class _EditChallengeScreenState extends State<EditChallengeScreen> {
                   ),
                   TextFormField(
                     cursorColor: Theme.of(context).primaryColor,
-                    initialValue: challenge.numberOfItems.toString(),
+                    initialValue: "1",
                     decoration: InputDecoration(
                       labelStyle: TextStyle(
                         color: Theme.of(context).primaryColor,

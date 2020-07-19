@@ -27,16 +27,12 @@ class ChallengesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future createChallenge(Challenge challenge) async {
-    try {
-      await _challengesCollectionReference
-          .document("system_challenges")
-          .collection("all_challenges")
-          .document(challenge.id)
-          .setData(challenge.toJson());
-    } catch (e) {
-      return e.message;
-    }
+  Future deleteChallenge(Challenge challenge) async {
+    await _challengesCollectionReference
+        .document("system_challenges")
+        .collection("all_challenges")
+        .document(challenge.id)
+        .delete();
   }
 
   Future updateUserChallenge(Challenge challenge, String uid) async {

@@ -1,6 +1,6 @@
+import 'package:diabetes_app/screens/edit_challenge_screen.dart';
 import '../models/challenge.dart';
 import '../providers/challenge_provider.dart';
-import '../widgets/single_challenge_save_dialog_widget.dart';
 import '../widgets/single_challenge_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +9,12 @@ class DismissibleSingleChallenge extends StatelessWidget {
     Key key,
     @required ChallengesProvider challengesProvider,
     @required this.challenge,
+    this.mainContext,
     @required Size deviceSize,
   })  : _challengesProvider = challengesProvider,
         _deviceSize = deviceSize,
         super(key: key);
-
+  final BuildContext mainContext;
   final ChallengesProvider _challengesProvider;
   final Challenge challenge;
   final Size _deviceSize;
@@ -60,12 +61,10 @@ class DismissibleSingleChallenge extends StatelessWidget {
       },
       key: ValueKey(challenge.id),
       child: InkWell(
-        onTap: () => showDialog(
-            context: context,
-            builder: (BuildContext alertContext) {
-              return SingleChallengeSaveDialog(challenge, alertContext, context,
-                  _deviceSize, _challengesProvider, false);
-            }),
+        onTap: () {
+          Navigator.of(mainContext)
+              .pushNamed(EditChallengeScreen.routeName, arguments: [challenge]);
+        },
         child: SingleChallenge(
           challenge,
         ),

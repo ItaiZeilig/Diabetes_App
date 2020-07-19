@@ -5,6 +5,9 @@ import '../providers/challenge_provider.dart';
 import 'package:flutter/material.dart';
 
 class AllChallengesList extends StatefulWidget {
+  AllChallengesList({this.mainContext});
+  BuildContext mainContext;
+
   @override
   _AllChallengesListState createState() => _AllChallengesListState();
 }
@@ -49,6 +52,7 @@ class _AllChallengesListState extends State<AllChallengesList> {
                           .contains(_challengesProvider.searchText) ||
                       _challengesProvider.searchText.isEmpty) {
                     return DismissibleSingleChallenge(
+                        mainContext: widget.mainContext,
                         challengesProvider: _challengesProvider,
                         challenge: challenge,
                         deviceSize: _deviceSize);

@@ -124,8 +124,8 @@ class _AllChallengesScreenState extends State<AllChallengesScreen> {
                 flex: 1,
                 child: TabBarView(
                   children: [
-                    AllChallengesList(),
-                    AllChallengesList(),
+                    AllChallengesList(mainContext: context),
+                    AllChallengesList(mainContext: context),
                   ],
                 ),
               ),

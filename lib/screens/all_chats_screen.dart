@@ -85,12 +85,8 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                             ),
                           ),
                           Container(
-                            //height: _deviceSize.height,
-                            //height: double.infinity,
                             width: double.infinity,
-                            margin:
-                                //EdgeInsets.only(top: _deviceSize.height * 0.1,),
-                                EdgeInsets.only(top: 140.0),
+                            margin: EdgeInsets.only(top: 140.0),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               color: Colors.grey[200],
@@ -106,11 +102,9 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                 }
                                 return Container(
                                   height: _deviceSize.height * 0.85,
-                                  //height: double.infinity,
-                                  //width: double.infinity,
                                   child: ListView.builder(
-                                    shrinkWrap: true,
                                     itemCount: snapshot.data.documents.length,
+                                    // ignore: missing_return
                                     itemBuilder: (context, index) {
                                       Chat chat = Chat.fromSnapshot(
                                           snapshot.data.documents[index]);
@@ -123,7 +117,6 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                             chat: chat);
                                       }
                                     },
-                                    //decoration: InputDecorationTheme(hoverColor: Colors.red),
                                   ),
                                 );
                               },
@@ -131,11 +124,6 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                           ),
                           Container(
                             padding: EdgeInsets.all(8),
-                            // margin: EdgeInsets.symmetric(
-                            //     //vertical: _deviceSize.height * 0.12,
-                            //     vertical: 72.5,
-                            //     horizontal: _deviceSize.width / 8),
-                            // height: _deviceSize.height * 0.1,
                             margin: EdgeInsets.only(
                                 left: 20.0,
                                 right: 20.0,
