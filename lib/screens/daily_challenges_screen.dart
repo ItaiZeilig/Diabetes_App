@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabetes_app/providers/healthInfo_provider.dart';
 
 import '../models/challenge.dart';
 import '../providers/auth_provider.dart';
@@ -21,6 +22,7 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
   var firstInit = true;
 
   ChallengesProvider _challengesProvider;
+  HealthInfoProvider healthInfoProvider;
   AuthProvider _auth;
   @override
   void didChangeDependencies() {
@@ -29,11 +31,13 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
     if (firstInit) {
       _challengesProvider = Provider.of<ChallengesProvider>(context);
       _auth = Provider.of<AuthProvider>(context);
+      healthInfoProvider = Provider.of<HealthInfoProvider>(context);
       if (_auth.user == null) {
         _auth.fetchAndSetUser();
       }
       _challengesProvider
-          .addChallengeToUserByDay(_auth.user.id, 1)
+          .addChallengeToUserByDay(
+              _auth.user.id, healthInfoProvider.healthInfo.diabetesType)
           .whenComplete(() {
         setState(() {
           firstInit = false;

@@ -7,52 +7,50 @@ User userFromJson(String str) => User.fromJson(json.decode(str));
 String userToJson(User data) => json.encode(data.toJson());
 
 class User {
-    User({
-      @required this.id,
-      @required this.name,
-      @required this.email,
-      @required this.type,
-      @required this.active,
-      @required this.createTimestamp,
-      @required this.diabetesType,
-      // @required this.fullAge,
-      // @required this.ageYears,
-      // @required this.gendar,
-      // @required this.dateOfBirth,
-      // @required this.diabetesDiagnosisDate, 
-      // @required this.weight,
-      // @required this.height, 
-      // @required this.bmi,
-      // @required this.medication,
-      // @required this.pump, 
-      // @required this.sensor,
-      // @required this.createdBy,
-    });
+  User({
+    @required this.id,
+    @required this.name,
+    @required this.email,
+    @required this.type,
+    @required this.active,
+    @required this.createTimestamp,
+    this.diabetesType,
+    // @required this.fullAge,
+    // @required this.ageYears,
+    // @required this.gendar,
+    // @required this.dateOfBirth,
+    // @required this.diabetesDiagnosisDate,
+    // @required this.weight,
+    // @required this.height,
+    // @required this.bmi,
+    // @required this.medication,
+    // @required this.pump,
+    // @required this.sensor,
+    // @required this.createdBy,
+  });
 
-    String id;
-    String name;
-    String email;
-    String type;
-    bool active;
-    dynamic createTimestamp;
-    String diabetesType;
+  String id;
+  String name;
+  String email;
+  String type;
+  bool active;
+  dynamic createTimestamp;
+  String diabetesType;
 
-    // dynamic fullAge;
-    // int ageYears;
-    // String gendar;
-    // dynamic dateOfBirth;
-    // dynamic diabetesDiagnosisDate;
-    // String weight;
-    // String height;
-    // String bmi;
-    // String medication;
-    // String pump;
-    // String sensor;
-    // CreatedBy createdBy;
-    
-    
+  // dynamic fullAge;
+  // int ageYears;
+  // String gendar;
+  // dynamic dateOfBirth;
+  // dynamic diabetesDiagnosisDate;
+  // String weight;
+  // String height;
+  // String bmi;
+  // String medication;
+  // String pump;
+  // String sensor;
+  // CreatedBy createdBy;
 
-    factory User.fromJson(Map<String, dynamic> json) => User(
+  factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         name: json["name"],
         email: json["email"],
@@ -62,7 +60,7 @@ class User {
         diabetesType: json["diabetesType"],
 
         // fullAge: json["fullAge"],
-        // ageYears: json["ageYears"],        
+        // ageYears: json["ageYears"],
         // diabetesDiagnosisDate: json["diabetesDiagnosisDate"],
         // gendar: json["gender"],
         // dateOfBirth: json["dateOfBirth"],
@@ -72,11 +70,10 @@ class User {
         // medication: json["medication"],
         // pump: json["pump"],
         // sensor: json["sensor"],
-        // createdBy: CreatedBy.fromJson(json["createdBy"]),        
-        
-    );
+        // createdBy: CreatedBy.fromJson(json["createdBy"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "email": email,
@@ -86,7 +83,7 @@ class User {
         "diabetesType": diabetesType,
 
         // "fullAge": fullAge,
-        // "ageYears": ageYears,        
+        // "ageYears": ageYears,
         // "diabetesDiagnosisDate": diabetesDiagnosisDate,
         // "gender": gendar,
         // "dateOfBirth": dateOfBirth,
@@ -96,6 +93,6 @@ class User {
         // "medication": medication,
         // "pump": pump,
         // "sensor": sensor,
-        // "createdBy": createdBy.toJson(),        
-    };
+        // "createdBy": createdBy.toJson(),
+      };
 }

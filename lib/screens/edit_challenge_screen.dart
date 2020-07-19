@@ -103,7 +103,7 @@ class _EditChallengeScreenState extends State<EditChallengeScreen> {
                     ),
                     TextFormField(
                       cursorColor: Theme.of(context).primaryColor,
-                      initialValue: challenge.numberOfItems.toString(),
+                      initialValue: "1",
                       decoration: InputDecoration(
                         labelStyle: TextStyle(
                           color: Theme.of(context).primaryColor,

@@ -61,7 +61,7 @@ class ChallengesProvider with ChangeNotifier {
     }
   }
 
-  Future addChallengeToUserByDay(String uid, int diabetesType) async {
+  Future addChallengeToUserByDay(String uid, String diabetesType) async {
     try {
       List<Challenge> allChallengesList = List<Challenge>();
       List<Challenge> userChallengesList = List<Challenge>();
