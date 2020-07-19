@@ -59,111 +59,114 @@ class _EditChallengeScreenState extends State<EditChallengeScreen> {
               ],
             ),
             SingleChallenge(challenge),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    cursorColor: Theme.of(context).primaryColor,
-                    initialValue: challenge.name,
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
+            Padding(
+              padding: const EdgeInsets.only(right: 40.0, left: 40.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      cursorColor: Theme.of(context).primaryColor,
+                      initialValue: challenge.name,
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: 'Challenge name',
                       ),
-                      labelText: 'Challenge name',
-                    ),
-                    keyboardType: TextInputType.text,
-                    // ignore: missing_return
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Invalid name!';
-                      }
-                    },
-                    onChanged: (value) {
-                      setState(() {
+                      keyboardType: TextInputType.text,
+                      // ignore: missing_return
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Invalid name!';
+                        }
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          challenge.name = value;
+                        });
+                      },
+                      onSaved: (value) {
                         challenge.name = value;
-                      });
-                    },
-                    onSaved: (value) {
-                      challenge.name = value;
-                    },
-                  ),
-                  TextFormField(
-                    cursorColor: Theme.of(context).primaryColor,
-                    initialValue: challenge.numberOfItems.toString(),
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      labelText: 'Challenge number Of Items',
+                      },
                     ),
-                    keyboardType: TextInputType.number,
-                    // ignore: missing_return
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Invalid number Of Items!';
-                      }
-                    },
-                    onChanged: (value) {
-                      setState(() {
+                    TextFormField(
+                      cursorColor: Theme.of(context).primaryColor,
+                      initialValue: challenge.numberOfItems.toString(),
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: 'Challenge number Of Items',
+                      ),
+                      keyboardType: TextInputType.number,
+                      // ignore: missing_return
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Invalid number Of Items!';
+                        }
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          challenge.numberOfItems = int.parse(value);
+                        });
+                      },
+                      onSaved: (value) {
                         challenge.numberOfItems = int.parse(value);
-                      });
-                    },
-                    onSaved: (value) {
-                      challenge.numberOfItems = int.parse(value);
-                    },
-                  ),
-                  DropdownButtonFormField(
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      labelText: 'Challenge type',
+                      },
                     ),
-                    value: challenge.type,
-                    items: categorys.map((category) {
-                      return DropdownMenuItem(
-                        value: category,
-                        child: Text('$category'),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: 'Challenge type',
+                      ),
+                      value: challenge.type,
+                      items: categorys.map((category) {
+                        return DropdownMenuItem(
+                          value: category,
+                          child: Text('$category'),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          challenge.type = value;
+                        });
+                      },
+                      validator: (value) =>
+                          value.isEmpty ? 'Please choose type!' : null,
+                      onSaved: (value) {
                         challenge.type = value;
-                      });
-                    },
-                    validator: (value) =>
-                        value.isEmpty ? 'Please choose type!' : null,
-                    onSaved: (value) {
-                      challenge.type = value;
-                    },
-                  ),
-                  DropdownButtonFormField(
-                    decoration: InputDecoration(
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      labelText: 'Challenge diabetes type',
+                      },
                     ),
-                    value: challenge.diabetesType.toString(),
-                    items: diabetesTypes.map((category) {
-                      return DropdownMenuItem(
-                        value: category,
-                        child: Text('$category'),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        challenge.diabetesType = int.parse(value);
-                      });
-                    },
-                    validator: (value) =>
-                        value.isEmpty ? 'Please choose type!' : null,
-                    onSaved: (value) {
-                      challenge.diabetesType = int.parse(value);
-                    },
-                  ),
-                ],
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        labelText: 'Challenge diabetes type',
+                      ),
+                      value: challenge.diabetesType.toString(),
+                      items: diabetesTypes.map((category) {
+                        return DropdownMenuItem(
+                          value: category,
+                          child: Text('$category'),
+                        );
+                      }).toList(),
+                      onChanged: (String value) {
+                        setState(() {
+                          challenge.diabetesType = value;
+                        });
+                      },
+                      validator: (value) =>
+                          value.isEmpty ? 'Please choose type!' : null,
+                      onSaved: (value) {
+                        challenge.diabetesType = value;
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             RaisedButton(

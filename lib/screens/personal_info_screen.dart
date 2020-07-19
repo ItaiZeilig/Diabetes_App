@@ -1,9 +1,6 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diabetes_app/models/healthInfo.dart';
 import 'package:diabetes_app/providers/healthInfo_provider.dart';
-import 'package:diabetes_app/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +16,6 @@ class PersonalInfo extends StatefulWidget {
   _PersonalInfoState createState() => _PersonalInfoState();
 }
 
-//final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 List<GlobalKey<FormState>> _formKey = [];
 
@@ -37,6 +33,7 @@ final List<String> categorys = [
   'other'
 ];
 final List<String> gendarType = ['Male', 'Female'];
+final List<String> type = ['Doctor', 'Patient'];
 
 DateTime dateTime = DateTime.now();
 final String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
@@ -116,18 +113,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () {
-        Navigator.of(context).pop();
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => HomeScreen())); // dismiss dialog
+        Navigator.of(context).pop();        
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Patient Added Successfully"),
-      content: Text("Login with " + email), 
+      content: Text("Login with " + email),
       actions: [
         okButton,
       ],
@@ -188,7 +181,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       onChanged: (value) => setState(() => name = value),
                       onSaved: (value) {
                         name = value;
-                        //print(name);
                       },
                     ),
                     DropdownButtonFormField(
@@ -258,7 +250,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           setState(() => weight = double.parse(value)),
                       onSaved: (value) {
                         weight = double.parse(value);
-                        //print(weight);
                       },
                     ),
                     SizedBox(
@@ -282,7 +273,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           setState(() => height = double.parse(value)),
                       onSaved: (value) {
                         height = double.parse(value);
-                        //print(height);
                       },
                     ),
                     SizedBox(
@@ -315,7 +305,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           setState(() => bmi = double.parse(value)),
                       onSaved: (value) {
                         bmi = calculateBMI(weight, height);
-                        //print(bmi);
                       },
                     ),
                     DropdownButtonFormField(
@@ -343,7 +332,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           } else {
                             diabetesTypeOption = '1';
                           }
-                          //print(diabetesTypeOption);
                         }),
                     SizedBox(
                       height: 15.0,
@@ -389,7 +377,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           setState(() => medication = (value)),
                       onSaved: (value) {
                         medication = (value);
-                        //print(medication);
                       },
                     ),
                     SizedBox(
@@ -411,7 +398,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       onChanged: (value) => setState(() => pump = (value)),
                       onSaved: (value) {
                         pump = (value);
-                        //print(pump);
                       },
                     ),
                     SizedBox(
@@ -433,7 +419,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       onChanged: (value) => setState(() => sensor = (value)),
                       onSaved: (value) {
                         sensor = (value);
-                        //print(sensor);
                       },
                     ),
                     TextFormField(
@@ -467,7 +452,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               style: TextStyle(color: Colors.black),
                             ),
                             Icon(
-                              Icons.playlist_add_check,
+                              Icons.person_add,
                               color: Colors.green,
                             ),
                           ],
@@ -511,11 +496,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                               );
 
                               await showAlertDialog(context);
-
-                              // await Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => HomeScreen()));
                             }
                           } catch (e) {
                             print(e);

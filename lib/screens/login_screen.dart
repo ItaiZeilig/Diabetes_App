@@ -149,6 +149,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.center,
                     child: Column(
                       children: <Widget>[
+                        Container(
+                          child: Image.asset('assets/images/logo.png'),
+                          width: 120,
+                          height: 120,
+                        ),
                         Form(
                           key: _formKey,
                           child: Column(

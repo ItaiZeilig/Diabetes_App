@@ -140,14 +140,14 @@ class SingleChallengeSaveDialog extends StatelessWidget {
                           child: Text('$category'),
                         );
                       }).toList(),
-                      onChanged: (value) {
-                        challenge.diabetesType = int.parse(value);
+                      onChanged: (String value) {
+                        challenge.diabetesType = value;
                         valueNotifier.notifyListeners();
                       },
                       validator: (value) =>
                           value.isEmpty ? 'Please choose type!' : null,
                       onSaved: (value) {
-                        challenge.diabetesType = int.parse(value);
+                        challenge.diabetesType = value;
                       },
                     ),
                   ],

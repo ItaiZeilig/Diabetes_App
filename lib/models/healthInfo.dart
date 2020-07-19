@@ -53,7 +53,7 @@ class HealthInfo {
     if(json != null){
       return HealthInfo(   
    
-      name: json["name"],
+        name: json["name"],
         fullAge: json["fullAge"],
         ageYears: json["ageYears"],
         diabetesType: json["diabetesType"],

@@ -108,34 +108,34 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Text(
-                                      "Age: ${_healthInfoProvider.healthInfo.ageYears}",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                        "BMI: ${_healthInfoProvider.healthInfo.bmi}",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold)),
-                                    Text(
-                                        "Diabetes Type: ${_healthInfoProvider.healthInfo.diabetesType}",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                )
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceEvenly,
+                                //   children: [
+                                //     Text(
+                                //       "Age: ${_healthInfoProvider.healthInfo.ageYears}",
+                                //       style: TextStyle(
+                                //           fontSize: 16,
+                                //           fontWeight: FontWeight.bold),
+                                //     ),
+                                //     Text(
+                                //         "BMI: ${_healthInfoProvider.healthInfo.bmi}",
+                                //         style: TextStyle(
+                                //             fontSize: 16,
+                                //             fontWeight: FontWeight.bold)),
+                                //     Text(
+                                //         "Diabetes Type: ${_healthInfoProvider.healthInfo.diabetesType}",
+                                //         style: TextStyle(
+                                //             fontSize: 16,
+                                //             fontWeight: FontWeight.bold)),
+                                //   ],
+                                // )
                               ],
                             ),
                           ),
                           Container(
                             margin:
-                                EdgeInsets.only(top: _deviceSize.height * 0.15), // change the perpule space
+                                EdgeInsets.only(top: _deviceSize.height * 0.1), // change the perpule space
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -151,7 +151,7 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                   return Text("Loading...");
                                 }
                                 return Container(
-                                  height: _deviceSize.height * 0.75, // change the white space of chat
+                                  height: _deviceSize.height * 0.80, // change the white space of chat
                                   child: ListView.builder(
                                       reverse: true,
                                       itemCount: snapshot.data.documents.length,

@@ -84,7 +84,6 @@ class _AddNewArticleState extends State<AddNewArticle> {
                 ),
               ),
             ),
-            //SizedBox(height: 5.0),
             Column(
               children: <Widget>[
                 Padding(

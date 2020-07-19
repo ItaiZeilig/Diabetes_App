@@ -29,7 +29,7 @@ class _LatesNewsState extends State<LatesNews> {
         children: <Widget>[
           Container(
             width: 90.0,
-            height: 135.0,
+            height: 180.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.0),
               image: DecorationImage(
@@ -50,9 +50,9 @@ class _LatesNewsState extends State<LatesNews> {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
-                   SizedBox(height: 4.0),
+                   SizedBox(height: 3.0),
                   Text(
                     article.subtitle,
                     overflow: TextOverflow.ellipsis,
@@ -61,7 +61,7 @@ class _LatesNewsState extends State<LatesNews> {
                       fontSize: 14.0,
                     ),
                   ),
-                  SizedBox(height: 4.0),
+                  SizedBox(height: 3.0),
                   Text(
                     article.content,
                     overflow: TextOverflow.ellipsis,
@@ -76,8 +76,7 @@ class _LatesNewsState extends State<LatesNews> {
                       children: <Widget>[
                         Text(
                          DateFormat('yyyy-MM-dd hh:mm')
-                              .format(article.time.toDate()) != null ? DateFormat('yyyy-MM-dd hh:mm')
-                              .format(article.time.toDate()) : "",                          
+                              .format(article.time.toDate()),                          
                           style: TextStyle(
                             fontSize: 14.0,
                           ),

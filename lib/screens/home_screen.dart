@@ -24,19 +24,13 @@ import '../models/article.dart';
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
 
-  final HealthInfo healthInfo;
-
-  HomeScreen({this.healthInfo});
-
   @override
-  _HomeScreenState createState() => _HomeScreenState(healthInfo: healthInfo);
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-      _HomeScreenState({this.healthInfo});
-
-  final HealthInfo healthInfo;
+  _HomeScreenState();
 
   var _isLoading = true;
   var firstInit = true;
@@ -62,18 +56,18 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    
+
     _tabController = TabController(vsync: this, length: myTabs.length);
   }
 
   @override
-  void didChangeDependencies()  async{
+  void didChangeDependencies() async {
     super.didChangeDependencies();
     if (firstInit) {
       _auth = Provider.of<AuthProvider>(context);
       _articleProvider = Provider.of<ArticleProvider>(context);
       _healthInfoProvider = Provider.of<HealthInfoProvider>(context);
-      
+
       // If user in provider is null fetch it back from db
       if (_auth.user == null) {
         await _auth.fetchAndSetUser().whenComplete(() {
@@ -111,8 +105,8 @@ class _HomeScreenState extends State<HomeScreen>
             ListTile(
               title: Text("Logout"),
               onTap: () {
-                _auth.logOut();
                 Navigator.pop(context);
+                _auth.logOut();
               },
             ),
             ListTile(
@@ -169,10 +163,11 @@ class _HomeScreenState extends State<HomeScreen>
                   Center(
                     child: Column(
                       children: <Widget>[
-                        // Text(
-                        //   "title".tr(),
-                        //   style: TextStyle(fontSize: 20),
-                        // ),
+                        Text(
+                          //"title".tr(),
+                          "Hello",
+                          style: TextStyle(fontSize: 20),
+                        ),
                         Text(
                           _auth.user.name,
                           style: TextStyle(
@@ -181,60 +176,54 @@ class _HomeScreenState extends State<HomeScreen>
                       ],
                     ),
                   ),
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                                        child: Column(
-                      children: <Widget>[
-                        Text(
+                  Column(
+                    children: <Widget>[
+                      Center(
+                        child: Text(
                           "What would you like to do?",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Container(
-                          height: 180.0,
-                          width: double.infinity,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: <Widget>[
-                              if (_auth.user.type != 'Patient')
-                                _buildListItem(
-                                    'Personal Info',
-                                    'assets/images/app.png',
-                                    Color(0xFFFFDAD9),
-                                    Color(0xFFFF4C4C),
-                                    4),
-                              _buildListItem(
-                                  'Online Chat',
-                                  'assets/images/message.png',
-                                  Color(0xFFD7FADA),
-                                  Color(0xFF56CC7E),
-                                  1),
-                              _buildListItem(
-                                  'Daily Challenge',
-                                  'assets/images/challenge.png',
-                                  Color(0xFFC2E3FE),
-                                  Color(0xFF6A8CAA),
-                                  2),
-                              
-                              if (_auth.user.type != 'Patient')
-                                _buildListItem(
-                                    'News Article',
-                                    'assets/images/newspaper.png',
-                                    Color(0xFFFFE9C6),
-                                    Color(0xFFDA9551),
-                                    3),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 15.0,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                      height: 170.0,
+                      width: double.infinity,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          if (_auth.user.type != 'Patient')
+                            _buildListItem(
+                                'Personal Info',
+                                'assets/images/app.png',
+                                Color(0xFFFFDAD9),
+                                Color(0xFFFF4C4C),
+                                4),
+                          _buildListItem(
+                              'Online Chat',
+                              'assets/images/message.png',
+                              Color(0xFFD7FADA),
+                              Color(0xFF56CC7E),
+                              1),
+                          _buildListItem(
+                              'Daily Challenge',
+                              'assets/images/challenge.png',
+                              Color(0xFFC2E3FE),
+                              Color(0xFF6A8CAA),
+                              2),
+                          if (_auth.user.type != 'Patient')
+                            _buildListItem(
+                                'News Article',
+                                'assets/images/newspaper.png',
+                                Color(0xFFFFE9C6),
+                                Color(0xFFDA9551),
+                                3),
+                        ],
+                      ),
+                    ),
                   ),
                   Align(
                     alignment: Alignment.topLeft,
@@ -253,9 +242,9 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                   StreamBuilder<QuerySnapshot>(
                     stream: Firestore.instance
-                                  .collection('articles')
-                                  .where("diabetesType", isEqualTo: "GDM")
-                                  .snapshots(),
+                        .collection('articles')
+                        .where("diabetesType", isEqualTo: "GDM")
+                        .snapshots(),
                     //_articleProvider.getArticalsSnapshotByDiabetesType(_healthInfoProvider.healthInfo.diabetesType),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData) {
@@ -383,7 +372,9 @@ class _HomeScreenState extends State<HomeScreen>
   _buildListItem(String name, String imgPath, Color bgColor, Color textColor,
       int routhName) {
     return Padding(
-      padding: EdgeInsets.only(left: 15.0,),
+      padding: EdgeInsets.only(
+        left: 15.0,
+      ),
       child: InkWell(
         onTap: () {
           gotoSelectedPage(routhName);

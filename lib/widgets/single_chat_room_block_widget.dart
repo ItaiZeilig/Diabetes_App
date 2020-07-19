@@ -1,9 +1,4 @@
-
-
 import 'package:diabetes_app/models/healthInfo.dart';
-import 'package:diabetes_app/providers/healthInfo_provider.dart';
-import 'package:provider/provider.dart';
-
 import '../models/chat.dart';
 import '../screens/single_chat_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +18,8 @@ class SingleChatRoomBlock extends StatefulWidget {
   final HealthInfo healthInfo;
 
   @override
-  _SingleChatRoomBlockState createState() => _SingleChatRoomBlockState(deviceSize: _deviceSize, chat: chat, healthInfo:healthInfo);
-
+  _SingleChatRoomBlockState createState() => _SingleChatRoomBlockState(
+      deviceSize: _deviceSize, chat: chat, healthInfo: healthInfo);
 }
 
 class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
@@ -35,12 +30,9 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
   final Chat chat;
   final HealthInfo healthInfo;
 
-  HealthInfoProvider _healthInfoProvider;
-  
-
   void initState() {
     if (widget.chat != null) {
-      setState(() {       
+      setState(() {
         loading = false;
       });
     }
@@ -48,8 +40,6 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
 
   @override
   Widget build(BuildContext context) {
-    _healthInfoProvider = Provider.of<HealthInfoProvider>(context);
-
     return loading
         ? CircularProgressIndicator()
         : InkWell(
@@ -62,7 +52,6 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
               margin: EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 10.0, bottom: 1.0),
               decoration: BoxDecoration(
-                //color: Colors.lightBlueAccent[100],
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
               ),
@@ -84,9 +73,8 @@ class _SingleChatRoomBlockState extends State<SingleChatRoomBlock> {
                                   color: Colors.black),
                             ),
                             Text(
-                              DateFormat('MM/dd kk:mm').format(
-                                chat.lastMessage.createTimestamp
-                                    .toDate()),                              
+                              DateFormat('MM/dd  kk:mm').format(
+                                  chat.lastMessage.createTimestamp.toDate()),
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black),
                             ),

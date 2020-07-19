@@ -167,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Text(_auth.user.name,
                             style: TextStyle(
-                              fontSize: 30,
+                              fontSize: 35,
                               fontWeight: FontWeight.bold,
                             )),
                       ],
@@ -184,9 +184,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.white,
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(30))),
-                      child: Center(
-                        child: Text("HCP Reports"),
-                      ),
+                      
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            alignment: Alignment.topCenter,
+                            child: Column(
+                              children: <Widget>[
+                                Text("Profile Details",
+                                  style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              
+                              SizedBox(height: 25,),
+                              Data(attribute: "Age: ",info: "Insert Info", /*info: _healthInfoProvider.healthInfo.fullAge,*/),
+                              SizedBox(height: 15,),
+                              Data(attribute: "BMI: ",info: "Insert Info", /*info: _healthInfoProvider.healthInfo.bmi,*/),
+                              SizedBox(height: 15,),
+                              Data(attribute: "Diabetes Type: ",info: "Insert Info", /*info: _healthInfoProvider.healthInfo.diabetesType,*/),
+                              SizedBox(height: 15,),
+                              Data(attribute: "Medication: ",info: "Insert Info", /*info: _healthInfoProvider.healthInfo.medication,*/),
+                              SizedBox(height: 15,),
+                              Data(attribute: "Pump: ",info: "Insert Info", /*info: _healthInfoProvider.healthInfo.pump,*/),
+                              SizedBox(height: 15,),
+                              Data(attribute: "Sensor: ",info: "Insert Info", /*info: _healthInfoProvider.healthInfo.sensor,*/),
+                              ],
+                                
+                            ),
+                            
+                          ),
+                        ),
+                      
                     ),
                   ),
                   AnimatedPositioned(
@@ -294,6 +322,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
+    );
+  }
+}
+
+class Data extends StatelessWidget {
+
+  //final IconData icon;
+  final String attribute;
+  final String info;
+
+  Data({this.attribute, this.info});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: Row(
+        children: <Widget>[
+          //Icon(icon, color:Colors.grey[400]),
+          Text(attribute, style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold) ),
+          SizedBox(width: 5.0),
+          Text(info, style: TextStyle(fontSize: 20.0)),
+          SizedBox(height: 15,),
+        ],
+      ),
     );
   }
 }
