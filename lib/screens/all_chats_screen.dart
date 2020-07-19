@@ -1,5 +1,3 @@
-import 'package:diabetes_app/providers/healthInfo_provider.dart';
-
 import '../models/chat.dart';
 import '../providers/auth_provider.dart';
 import '../providers/chat_provider.dart';
@@ -131,7 +129,7 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
                                 bottom: 20.0),
                             decoration: BoxDecoration(
                                 color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(25.0)),
+                                borderRadius: BorderRadius.circular(15.0)),
                             child: TextFormField(
                               onChanged: (value) {
                                 setState(() {

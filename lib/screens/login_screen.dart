@@ -1,4 +1,5 @@
 import 'package:diabetes_app/providers/healthInfo_provider.dart';
+import 'package:diabetes_app/widgets/bottom_wave_widget.dart';
 
 import '../providers/auth_provider.dart';
 import '../providers/chat_provider.dart';
@@ -20,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   AuthProvider _auth;
   ChatProvider _chatProvider;
   HealthInfoProvider _healthInfoProvider;
+
   final _formKey = GlobalKey<FormState>();
   var _isLoading = false;
   var _firstInit = true;
@@ -147,29 +149,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.center,
                     child: Column(
                       children: <Widget>[
+                        Container(
+                          child: Image.asset('assets/images/logo.png'),
+                          width: 120,
+                          height: 120,
+                        ),
                         Form(
                           key: _formKey,
                           child: Column(
                             children: <Widget>[
-                              TextFormField(
-                                cursorColor: Theme.of(context).primaryColor,
-                                decoration: InputDecoration(
-                                  labelStyle: TextStyle(
-                                    color: Theme.of(context).primaryColor,
+                              //Row(
+                                //children: <Widget>[
+                                  TextFormField(
+                                  cursorColor: Theme.of(context).primaryColor,
+                                  decoration: InputDecoration(
+                                    labelStyle: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    labelText: 'email'.tr(),
                                   ),
-                                  labelText: 'email'.tr(),
+                                  keyboardType: TextInputType.emailAddress,
+                                  // ignore: missing_return
+                                  validator: (value) {
+                                    if (value.isEmpty || !value.contains('@')) {
+                                      return 'email_error'.tr();
+                                    }
+                                  },
+                                  onSaved: (value) {
+                                    _authData['email'] = value;
+                                  },
                                 ),
-                                keyboardType: TextInputType.emailAddress,
-                                // ignore: missing_return
-                                validator: (value) {
-                                  if (value.isEmpty || !value.contains('@')) {
-                                    return 'email_error'.tr();
-                                  }
-                                },
-                                onSaved: (value) {
-                                  _authData['email'] = value;
-                                },
-                              ),
+                               // ],
+                                                              
+                              //),
                               if (_authMode != AuthMode.ResetPassword)
                                 TextFormField(
                                   cursorColor: Theme.of(context).primaryColor,
@@ -299,6 +311,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
+                  ),
+                  Container(
+                    alignment: Alignment.bottomCenter,
+                    child: BottomWaveWidget(),
                   ),
                 ],
               ),

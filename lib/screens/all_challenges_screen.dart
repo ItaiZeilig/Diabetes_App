@@ -59,7 +59,7 @@ class _AllChallengesScreenState extends State<AllChallengesScreen> {
                     onPressed: () {
                       Challenge challenge = Challenge(
                           active: true,
-                          diabetesType: 1,
+                          diabetesType: "1",
                           done: false,
                           doneItems: 0,
                           name: "This is header",

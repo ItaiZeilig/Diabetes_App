@@ -1,5 +1,6 @@
 import 'package:diabetes_app/models/article.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ReadFullArticle extends StatelessWidget {
   
@@ -55,7 +56,7 @@ class ReadFullArticle extends StatelessWidget {
                     ),
                     Spacer(),
                     Status(
-                      icon: Icons.remove_red_eye,
+                      icon: Icons.person,
                       total: article.author,
                     ),
                     SizedBox(width: 15.0),
@@ -72,8 +73,8 @@ class ReadFullArticle extends StatelessWidget {
                 ),
                 SizedBox(height: 15.0),
                 Row(
-                  children: <Widget>[
-                    Text(article.time.toDate().toString(), style: TextStyle(fontSize: 14.0)),
+                  children: <Widget>[                    
+                    Text("Date", style: TextStyle(fontSize: 14.0)),                    
                     SizedBox(width: 5.0),
                     SizedBox(
                     width: 10.0,
@@ -83,7 +84,12 @@ class ReadFullArticle extends StatelessWidget {
                     ),
                     ),
                     SizedBox(width: 5.0),
-                    Text(article.author, style: TextStyle(fontSize: 14.0)),                    
+                    Text(                          
+                      DateFormat('yyyy-MM-dd hh:mm').format(article.time.toDate()),                                                   
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 15.0),

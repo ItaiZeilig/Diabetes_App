@@ -47,8 +47,12 @@ class HealthInfo {
   CreatedBy createdBy;
   String email;
 
-  factory HealthInfo.fromJson(Map<String, dynamic> json) => HealthInfo(
-        id: json["id"],
+  
+  // ignore: missing_return
+  factory HealthInfo.fromJson(Map<String, dynamic> json) {
+    if(json != null){
+      return HealthInfo(   
+   
         name: json["name"],
         fullAge: json["fullAge"],
         ageYears: json["ageYears"],
@@ -64,7 +68,12 @@ class HealthInfo {
         sensor: json["sensor"],
         createdBy: CreatedBy.fromJson(json["createdBy"]),
         email: json["email"],
+        
+        
       );
+    }
+    
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,

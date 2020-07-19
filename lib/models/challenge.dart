@@ -26,7 +26,7 @@ class Challenge {
   String type;
   int doneItems;
   int numberOfItems;
-  int diabetesType;
+  String diabetesType;
   bool done;
   CreatedBy createdBy;
   String id;

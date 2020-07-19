@@ -63,7 +63,7 @@ class ChatBubble extends StatelessWidget {
             Text(
               messageData.type,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 15,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -75,7 +75,7 @@ class ChatBubble extends StatelessWidget {
               messageData.message,
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.white70,
+                color: Colors.white,
               ),
             ),
           ],
