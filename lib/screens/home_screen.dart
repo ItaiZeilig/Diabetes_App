@@ -66,21 +66,15 @@ class _HomeScreenState extends State<HomeScreen>
       _healthInfoProvider = Provider.of<HealthInfoProvider>(context);
 
       // If user in provider is null fetch it back from db
-      if (_auth.user == null) {
-        await _auth.fetchAndSetUser().whenComplete(() {
-          _healthInfoProvider
-              .fetchHealthInfoByEmail(_auth.user.email)
-              .whenComplete(() {
-            setState(() {
-              _isLoading = false;
-            });
+      await _auth.fetchAndSetUser().whenComplete(() {
+        _healthInfoProvider
+            .fetchHealthInfoByEmail(_auth.user.email)
+            .whenComplete(() {
+          setState(() {
+            _isLoading = false;
           });
         });
-      } else {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+      });
       firstInit = false;
     }
   }
