@@ -17,12 +17,12 @@ class SingleChatScreen extends StatefulWidget {
   final HealthInfo healthInfo;
 
   @override
-  _SingleChatScreenState createState() => _SingleChatScreenState(healthInfo:healthInfo);
+  _SingleChatScreenState createState() =>
+      _SingleChatScreenState(healthInfo: healthInfo);
 }
 
 class _SingleChatScreenState extends State<SingleChatScreen> {
-  _SingleChatScreenState ({this.healthInfo});
-
+  _SingleChatScreenState({this.healthInfo});
 
   ChatProvider _chatProvider;
   AuthProvider _auth;
@@ -41,7 +41,7 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
       _chatProvider = Provider.of<ChatProvider>(context);
       _healthInfoProvider = Provider.of<HealthInfoProvider>(context);
       _chat = ModalRoute.of(context).settings.arguments;
-      
+
       if (_chat == null) {
         _chatProvider.fetchAndSetChat(_auth.user.id).whenComplete(() => {
               setState(() {
@@ -108,34 +108,13 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                     ),
                                   ],
                                 ),
-                                // Row(
-                                //   mainAxisAlignment:
-                                //       MainAxisAlignment.spaceEvenly,
-                                //   children: [
-                                //     Text(
-                                //       "Age: ${_healthInfoProvider.healthInfo.ageYears}",
-                                //       style: TextStyle(
-                                //           fontSize: 16,
-                                //           fontWeight: FontWeight.bold),
-                                //     ),
-                                //     Text(
-                                //         "BMI: ${_healthInfoProvider.healthInfo.bmi}",
-                                //         style: TextStyle(
-                                //             fontSize: 16,
-                                //             fontWeight: FontWeight.bold)),
-                                //     Text(
-                                //         "Diabetes Type: ${_healthInfoProvider.healthInfo.diabetesType}",
-                                //         style: TextStyle(
-                                //             fontSize: 16,
-                                //             fontWeight: FontWeight.bold)),
-                                //   ],
-                                // )
                               ],
                             ),
                           ),
                           Container(
-                            margin:
-                                EdgeInsets.only(top: _deviceSize.height * 0.1), // change the perpule space
+                            margin: EdgeInsets.only(
+                                top: _deviceSize.height *
+                                    0.1), 
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -151,7 +130,8 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                   return Text("Loading...");
                                 }
                                 return Container(
-                                  height: _deviceSize.height * 0.80, // change the white space of chat
+                                  height: _deviceSize.height *
+                                      0.80, 
                                   child: ListView.builder(
                                       reverse: true,
                                       itemCount: snapshot.data.documents.length,
@@ -160,8 +140,8 @@ class _SingleChatScreenState extends State<SingleChatScreen> {
                                             snapshot.data.documents[index]);
                                         return ChatBubble(
                                             messageData: msg,
-                                            isSent:
-                                                _auth.user.id.toString() == msg.userId.toString());
+                                            isSent: _auth.user.id.toString() ==
+                                                msg.userId.toString());
                                       }),
                                 );
                               },

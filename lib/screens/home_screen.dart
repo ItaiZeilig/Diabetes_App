@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diabetes_app/models/healthInfo.dart';
 import 'package:diabetes_app/providers/article_provider.dart';
 import 'package:diabetes_app/providers/healthInfo_provider.dart';
 import 'package:diabetes_app/screens/add_new_article_screen.dart';
@@ -10,7 +8,6 @@ import 'package:diabetes_app/widgets/latest_news_widget.dart';
 import 'package:diabetes_app/widgets/popular_news_widget.dart';
 import 'package:diabetes_app/screens/personal_info_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 import '../screens/profile_screen.dart';
 import '../screens/all_challenges_screen.dart';
 import '../screens/all_chats_screen.dart';
@@ -241,11 +238,12 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   ),
                   StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance
-                        .collection('articles')
-                        .where("diabetesType", isEqualTo: "GDM")
-                        .snapshots(),
-                    //_articleProvider.getArticalsSnapshotByDiabetesType(_healthInfoProvider.healthInfo.diabetesType),
+                    stream:
+                    //  Firestore.instance
+                    //     .collection('articles')
+                    //     .where("diabetesType", isEqualTo: "GDM")
+                    //     .snapshots(),
+                    _articleProvider.getArticalsSnapshotByDiabetesType(_healthInfoProvider.healthInfo.diabetesType),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData) {
                         return CircularProgressIndicator();

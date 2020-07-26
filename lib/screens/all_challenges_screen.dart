@@ -20,7 +20,6 @@ class _AllChallengesScreenState extends State<AllChallengesScreen> {
   ChallengesProvider _challengesProvider;
   AuthProvider _auth;
 
-  String _searchText;
   var uuid = Uuid();
 
   var firstInit = true;
