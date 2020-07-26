@@ -20,6 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   bool showReports = true;
   String _password;
+  String _email;
 
   @override
   void didChangeDependencies() {
@@ -70,14 +71,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
     bool pass = true;
     String message = 'Successfully changed';
+    FirebaseUser user = await _auth.getFirebaseUser;
+
     try {
-      FirebaseUser user = await _auth.getFirebaseUser;
       if (user != null) {
         // Update Email
-        await user
-            .updateEmail(_auth.user.email)
-            .then((_) {})
-            .catchError((error) {
+        await user.updateEmail(_email).then((_) {}).catchError((error) {
           pass = false;
           switch (error.code) {
             case 'ERROR_REQUIRES_RECENT_LOGIN':
@@ -108,6 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print(e.message);
     }
     if (!pass) {
+      _healthInfoProvider.updateHealthInfoEmail(_email, user.email);
       _showAlertDialog(message);
     } else {
       _auth
@@ -298,7 +298,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           }
                                         },
                                         onSaved: (value) {
-                                          _auth.user.email = value;
+                                          setState(() {
+                                            _email = value;
+                                          });
                                         },
                                       ),
                                       TextFormField(

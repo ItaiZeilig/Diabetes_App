@@ -13,7 +13,6 @@ class User {
     @required this.type,
     @required this.active,
     @required this.createTimestamp,
-    @required this.diabetesType,
   });
 
   String id;
@@ -22,7 +21,6 @@ class User {
   String type;
   bool active;
   dynamic createTimestamp;
-  String diabetesType;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
@@ -31,7 +29,6 @@ class User {
         type: json["type"],
         active: json["active"],
         createTimestamp: json["createTimestamp"],
-        diabetesType: json["diabetesType"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -41,6 +38,5 @@ class User {
         "type": type,
         "active": active,
         "createTimestamp": createTimestamp,
-        "diabetesType": diabetesType,
       };
 }

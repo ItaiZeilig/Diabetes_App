@@ -15,6 +15,18 @@ class HealthInfoProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future updateHealthInfoEmail(String email, String oldEmail) async {
+    fetchHealthInfoByEmail(oldEmail).whenComplete(() {
+      healthInfo.email = email;
+      _healthInfoReference
+          .document(email)
+          .setData(healthInfo.toJson())
+          .whenComplete(() {
+        _healthInfoReference.document(oldEmail).delete();
+      });
+    });
+  }
+
   Future addNewHealthInfo(
       String id,
       String name,

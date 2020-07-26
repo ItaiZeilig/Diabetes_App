@@ -72,7 +72,6 @@ class AuthProvider with ChangeNotifier {
         active: true,
         createTimestamp: FieldValue.serverTimestamp(),
         type: "Doctor",
-        diabetesType: null,
       ));
     } catch (e) {
       return e.message;
