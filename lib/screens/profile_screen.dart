@@ -202,16 +202,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               Data(
                                 attribute: "Age: ",
-                                info:
-                                    "Insert Info", /*info: _healthInfoProvider.healthInfo.fullAge,*/
+                                info: _healthInfoProvider.healthInfo.ageYears
+                                    .toString(),
                               ),
                               SizedBox(
                                 height: 15,
                               ),
                               Data(
                                 attribute: "BMI: ",
-                                info:
-                                    "Insert Info", /*info: _healthInfoProvider.healthInfo.bmi,*/
+                                info: _healthInfoProvider.healthInfo.bmi,
                               ),
                               SizedBox(
                                 height: 15,
@@ -219,31 +218,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Data(
                                 attribute: "Diabetes Type: ",
                                 info:
-                                    "Insert Info", /*info: _healthInfoProvider.healthInfo.diabetesType,*/
+                                    _healthInfoProvider.healthInfo.diabetesType,
                               ),
                               SizedBox(
                                 height: 15,
                               ),
                               Data(
                                 attribute: "Medication: ",
-                                info:
-                                    "Insert Info", /*info: _healthInfoProvider.healthInfo.medication,*/
+                                info: _healthInfoProvider.healthInfo.medication,
                               ),
                               SizedBox(
                                 height: 15,
                               ),
                               Data(
                                 attribute: "Pump: ",
-                                info:
-                                    "Insert Info", /*info: _healthInfoProvider.healthInfo.pump,*/
+                                info: _healthInfoProvider.healthInfo.pump,
                               ),
                               SizedBox(
                                 height: 15,
                               ),
                               Data(
                                 attribute: "Sensor: ",
-                                info:
-                                    "Insert Info", /*info: _healthInfoProvider.healthInfo.sensor,*/
+                                info: _healthInfoProvider.healthInfo.sensor,
                               ),
                             ],
                           ),

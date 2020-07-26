@@ -241,11 +241,8 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   ),
                   StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance
-                        .collection('articles')
-                        .where("diabetesType", isEqualTo: "GDM")
-                        .snapshots(),
-                    //_articleProvider.getArticalsSnapshotByDiabetesType(_healthInfoProvider.healthInfo.diabetesType),
+                    stream: _articleProvider.getArticalsSnapshotByDiabetesType(
+                        _healthInfoProvider.healthInfo.diabetesType),
                     builder: (BuildContext context, snapshot) {
                       if (!snapshot.hasData) {
                         return CircularProgressIndicator();

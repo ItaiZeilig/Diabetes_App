@@ -17,7 +17,7 @@ class DailyChallengesScreen extends StatefulWidget {
 }
 
 class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
-  int dayNumber = DateTime.now().weekday;
+  int dayNumber = DateTime.now().toUtc().weekday;
 
   var firstInit = true;
 
