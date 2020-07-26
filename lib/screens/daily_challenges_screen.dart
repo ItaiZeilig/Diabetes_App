@@ -21,8 +21,9 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
   var firstInit = true;
 
   ChallengesProvider _challengesProvider;
-  AuthProvider _auth;
   HealthInfoProvider healthInfoProvider;
+  AuthProvider _auth;
+  
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

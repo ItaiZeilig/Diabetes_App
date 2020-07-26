@@ -12,7 +12,7 @@ class AuthProvider with ChangeNotifier {
       Firestore.instance.collection('users');
 
   User user;
-  User get asgetUser => user;
+  User get getUser => user;
 
   HealthInfo healthInfo;
 
