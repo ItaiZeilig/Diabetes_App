@@ -100,6 +100,7 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             ),
                             labelText: 'Article Title',
                           ),
+                          // ignore: missing_return
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Invalid name!';
@@ -118,6 +119,7 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             ),
                             labelText: 'Article Sub - Title',
                           ),
+                          // ignore: missing_return
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Article Title cant be empty';
@@ -137,6 +139,7 @@ class _AddNewArticleState extends State<AddNewArticle> {
                             ),
                             labelText: 'Article Author',
                           ),
+                          // ignore: missing_return
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Article Author cant be empty';

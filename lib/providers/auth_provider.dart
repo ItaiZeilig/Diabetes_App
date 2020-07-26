@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/models/healthInfo.dart';
-
 import 'package:diabetes_app/screens/home_screen.dart';
 import 'package:diabetes_app/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,7 +71,8 @@ class AuthProvider with ChangeNotifier {
         name: name,
         active: true,
         createTimestamp: FieldValue.serverTimestamp(),
-        type: "Patient",
+        type: "Doctor",
+        diabetesType: null,
       ));
     } catch (e) {
       return e.message;

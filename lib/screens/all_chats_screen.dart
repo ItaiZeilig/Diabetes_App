@@ -1,5 +1,4 @@
 import '../models/chat.dart';
-import '../providers/auth_provider.dart';
 import '../providers/chat_provider.dart';
 import '../widgets/single_chat_room_block_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ class AllChatsScreen extends StatefulWidget {
 
 class _AllChatsScreenState extends State<AllChatsScreen> {
   ChatProvider _chatProvider;
-  AuthProvider _auth;
+
   TextEditingController searchController = TextEditingController();
   var firstInit = true;
   final myController = TextEditingController();
@@ -24,7 +23,6 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
   didChangeDependencies() async {
     super.didChangeDependencies();
     if (firstInit) {
-      _auth = Provider.of<AuthProvider>(context);
       _chatProvider = Provider.of<ChatProvider>(context);
       firstInit = false;
     }

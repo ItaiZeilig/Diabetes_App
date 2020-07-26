@@ -49,18 +49,6 @@ class ChallengesProvider with ChangeNotifier {
     }
   }
 
-  Future updateSingleChallenge(Challenge challenge) async {
-    try {
-      await _challengesCollectionReference
-          .document("system_challenges")
-          .collection("all_challenges")
-          .document(challenge.id)
-          .setData(challenge.toJson());
-    } catch (e) {
-      return e.message;
-    }
-  }
-
   Future addChallengeToUserByDay(String uid, String diabetesType) async {
     try {
       List<Challenge> allChallengesList = List<Challenge>();
@@ -95,6 +83,19 @@ class ChallengesProvider with ChangeNotifier {
     }
   }
 
+  Future updateSingleChallenge(Challenge challenge) async {
+    try {
+      await _challengesCollectionReference
+          .document("system_challenges")
+          .collection("all_challenges")
+          .document(challenge.id)
+          .setData(challenge.toJson());
+    } catch (e) {
+      return e.message;
+    }
+  }
+
+  
   Stream<QuerySnapshot> getUserDailyChallengesSnapshot(String uid) {
     try {
       return _challengesCollectionReference

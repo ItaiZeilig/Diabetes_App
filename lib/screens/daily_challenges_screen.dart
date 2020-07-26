@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diabetes_app/providers/healthInfo_provider.dart';
 
 import '../models/challenge.dart';
@@ -24,6 +23,7 @@ class _DailyChallengesScreenState extends State<DailyChallengesScreen> {
   ChallengesProvider _challengesProvider;
   HealthInfoProvider healthInfoProvider;
   AuthProvider _auth;
+  
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

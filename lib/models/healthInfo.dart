@@ -1,14 +1,10 @@
 import 'dart:convert';
-
-import 'package:age/age.dart';
 import 'package:diabetes_app/models/createdBy.dart';
 
 HealthInfo healthInfoFromJson(String str) =>
     HealthInfo.fromJson(json.decode(str));
 
 String healthInfoToJson(HealthInfo data) => json.encode(data.toJson());
-
-//TODO - Add user email attribute
 
 class HealthInfo {
   HealthInfo({
@@ -47,12 +43,10 @@ class HealthInfo {
   CreatedBy createdBy;
   String email;
 
-  
   // ignore: missing_return
   factory HealthInfo.fromJson(Map<String, dynamic> json) {
-    if(json != null){
-      return HealthInfo(   
-   
+    if (json != null) {
+      return HealthInfo(
         name: json["name"],
         fullAge: json["fullAge"],
         ageYears: json["ageYears"],
@@ -68,11 +62,8 @@ class HealthInfo {
         sensor: json["sensor"],
         createdBy: CreatedBy.fromJson(json["createdBy"]),
         email: json["email"],
-        
-        
       );
     }
-    
   }
 
   Map<String, dynamic> toJson() => {

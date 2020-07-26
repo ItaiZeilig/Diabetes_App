@@ -16,7 +16,6 @@ class PersonalInfo extends StatefulWidget {
   _PersonalInfoState createState() => _PersonalInfoState();
 }
 
-
 List<GlobalKey<FormState>> _formKey = [];
 
 AuthProvider _auth;
@@ -113,7 +112,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () {
-        Navigator.of(context).pop();        
+        Navigator.of(context).pop();
       },
     );
 
@@ -173,6 +172,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         ),
                         labelText: 'Full Name (First + Last)',
                       ),
+                      // ignore: missing_return
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Invalid name!';
@@ -241,6 +241,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         ),
                         labelText: 'Weight In Kilograms',
                       ),
+                      // ignore: missing_return
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Weight cant be empty';
@@ -264,6 +265,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         ),
                         labelText: 'Height In Centimeters',
                       ),
+                      // ignore: missing_return
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Height cant be empty';
@@ -368,6 +370,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         ),
                         labelText: 'Medication',
                       ),
+                      // ignore: missing_return
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Medication cant be empty';
@@ -390,6 +393,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         ),
                         labelText: 'Pump',
                       ),
+                      // ignore: missing_return
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Pump cant be empty';
@@ -411,6 +415,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                         ),
                         labelText: 'Sensor',
                       ),
+                      // ignore: missing_return
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Sensor cant be empty';
@@ -515,12 +520,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
 }
 
 class CupertinoDateTextBox extends StatefulWidget {
-  /// A text box widget which displays a cupertino picker to select a date if clicked
   CupertinoDateTextBox(
       {@required this.initialValue,
       @required this.onDateChange,
       @required this.hintText,
-      //this.color = CupertinoColors.label,
       this.color,
       this.hintColor = CupertinoColors.inactiveGray,
       this.pickerBackgroundColor = CupertinoColors.systemBackground,
@@ -528,31 +531,14 @@ class CupertinoDateTextBox extends StatefulWidget {
       this.textfieldPadding = 15.0,
       this.enabled = true});
 
-  /// The initial value which shall be displayed in the text box
   final DateTime initialValue;
-
-  /// The function to be called if the selected date changes
   final Function onDateChange;
-
-  /// The text to be displayed if no initial value is given
   final String hintText;
-
-  /// The color of the text within the text box
   final Color color;
-
-  /// The color of the hint text within the text box
   final Color hintColor;
-
-  /// The background color of the cupertino picker
   final Color pickerBackgroundColor;
-
-  /// The size of the font within the text box
   final double fontSize;
-
-  /// The inner padding within the text box
   final double textfieldPadding;
-
-  /// Specifies if the text box can be modified
   final bool enabled;
 
   @override
